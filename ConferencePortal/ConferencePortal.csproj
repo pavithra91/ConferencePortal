@@ -43,6 +43,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -76,6 +84,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -117,17 +127,105 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Conferencedb.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Conferencedb.edmx</DependentUpon>
+      <LastGenOutput>Conferencedb.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Conferencedb.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Conferencedb.edmx</DependentUpon>
+      <LastGenOutput>Conferencedb.cs</LastGenOutput>
+    </Content>
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\font-awesome.min.css" />
+    <Content Include="css\icofont.css" />
+    <Content Include="css\main.css" />
+    <Content Include="css\owl.carousel.css" />
+    <Content Include="css\presets\preset1.css" />
+    <Content Include="css\presets\preset2.css" />
+    <Content Include="css\presets\preset3.css" />
+    <Content Include="css\presets\preset4.css" />
+    <Content Include="css\responsive.css" />
+    <Content Include="css\slidr.css" />
     <Content Include="Global.asax" />
+    <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\custom.js" />
+    <Content Include="js\gmaps.min.js" />
+    <Content Include="js\goMap.js" />
+    <Content Include="js\jquery.countdown.js" />
+    <Content Include="js\jquery.min.js" />
+    <Content Include="js\magnific-popup.min.js" />
+    <Content Include="js\map.js" />
+    <Content Include="js\modernizr.min.js" />
+    <Content Include="js\owl.carousel.min.js" />
+    <Content Include="js\price-range.js" />
+    <Content Include="js\scrollup.min.js" />
+    <Content Include="js\smoothscroll.min.js" />
+    <Content Include="js\switcher.js" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
+    <Content Include="scripts\bootstrap.js" />
+    <Content Include="scripts\bootstrap.min.js" />
+    <None Include="scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="scripts\jquery-1.10.2.js" />
+    <Content Include="scripts\jquery-1.10.2.min.js" />
+    <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Allotment.cs">
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Client.cs">
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Conference.cs">
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Conferencedb.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Conferencedb.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Conferencedb.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Conferencedb.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Conferencedb.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ReservationController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hotel.cs">
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Payment.cs">
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Registration.cs">
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Reservation.cs">
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Room.cs">
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Transport.cs">
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -135,6 +233,17 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EntityDeploy Include="Conferencedb.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Conferencedb.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Conferencedb.edmx.diagram">
+      <DependentUpon>Conferencedb.edmx</DependentUpon>
+    </Content>
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Reservation\Index.cshtml" />
+    <Content Include="scripts\jquery-1.10.2.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -144,8 +253,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
+    <Folder Include="fonts\" />
+    <Folder Include="images\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Account\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,0 +1,749 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="conferencedbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Allotments">
+          <Key>
+            <PropertyRef Name="AllotmentID" />
+          </Key>
+          <Property Name="AllotmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AllocatedRooms" Type="int" />
+          <Property Name="ReservedRooms" Type="int" />
+          <Property Name="AvailableRooms" Type="int" />
+          <Property Name="ConferenceID" Type="int" />
+        </EntityType>
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="ClientID" />
+          </Key>
+          <Property Name="ClientID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ConferenceID" Type="int" />
+          <Property Name="title" Type="varchar" MaxLength="100" />
+          <Property Name="firstName" Type="varchar" MaxLength="100" />
+          <Property Name="lastName" Type="varchar" MaxLength="100" />
+          <Property Name="nationality" Type="varchar" MaxLength="50" />
+          <Property Name="country" Type="varchar" MaxLength="50" />
+          <Property Name="BookingID" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Conference">
+          <Key>
+            <PropertyRef Name="ConferenceID" />
+          </Key>
+          <Property Name="ConferenceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ConferenceName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ConferenceURL" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Hotel">
+          <Key>
+            <PropertyRef Name="HotelID" />
+          </Key>
+          <Property Name="HotelID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HotelName" Type="varchar" MaxLength="200" />
+          <Property Name="ConferenceID" Type="int" />
+          <Property Name="HotelCode" Type="varchar" MaxLength="20" />
+          <Property Name="ShortDescription" Type="varchar" MaxLength="500" />
+          <Property Name="LongDescription" Type="varchar" MaxLength="500" />
+          <Property Name="Image" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="AUTOID" />
+          </Key>
+          <Property Name="AUTOID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BookingID" Type="varchar" MaxLength="20" />
+          <Property Name="TotalCost" Type="float" />
+          <Property Name="PartialPayment" Type="varchar" MaxLength="1" />
+          <Property Name="PartialPaymentAmount" Type="float" />
+          <Property Name="PayLater" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="Registrations">
+          <Key>
+            <PropertyRef Name="AUTOID" />
+          </Key>
+          <Property Name="BookingID" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="20" />
+          <Property Name="firstName" Type="varchar" MaxLength="50" />
+          <Property Name="lastName" Type="varchar" MaxLength="50" />
+          <Property Name="passportNo" Type="varchar" MaxLength="20" />
+          <Property Name="nationality" Type="varchar" MaxLength="20" />
+          <Property Name="country" Type="varchar" MaxLength="50" />
+          <Property Name="arrivalDate" Type="date" />
+          <Property Name="arrivalFlightNo" Type="varchar" MaxLength="20" />
+          <Property Name="depatureDate" Type="date" />
+          <Property Name="depatureFlightNo" Type="varchar" MaxLength="20" />
+          <Property Name="AUTOID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'conferencedb.dbo.Reservation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="BookingID" />
+            <PropertyRef Name="AUTOID" />
+          </Key>
+          <Property Name="BookingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HotelID" Type="int" />
+          <Property Name="RoomID" Type="int" />
+          <Property Name="BookingDate" Type="date" />
+          <Property Name="ClientID" Type="int" />
+          <Property Name="AUTOID" Type="int" Nullable="false" />
+          <Property Name="TransportRequired" Type="varchar" MaxLength="1" />
+          <Property Name="TransportID" Type="int" />
+        </EntityType>
+        <EntityType Name="Rooms">
+          <Key>
+            <PropertyRef Name="RoomID" />
+          </Key>
+          <Property Name="RoomID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HotelID" Type="int" Nullable="false" />
+          <Property Name="RoomName" Type="varchar" MaxLength="100" />
+          <Property Name="ShortDescription" Type="varchar" MaxLength="500" />
+          <Property Name="LongDescription" Type="varchar" MaxLength="500" />
+          <Property Name="Image" Type="varchar" MaxLength="100" />
+          <Property Name="ConferenceID" Type="int" />
+          <Property Name="Price" Type="float" />
+          <Property Name="AllotmentID" Type="int" />
+        </EntityType>
+        <EntityType Name="Transport">
+          <Key>
+            <PropertyRef Name="TransportID" />
+          </Key>
+          <Property Name="TransportID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ConferenceID" Type="int" />
+          <Property Name="DisplayName" Type="varchar" MaxLength="100" />
+          <Property Name="Price" Type="float" />
+        </EntityType>
+        <Association Name="AllotmentID_fk_Rooms">
+          <End Role="Allotments" Type="Self.Allotments" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Allotments">
+              <PropertyRef Name="AllotmentID" />
+            </Principal>
+            <Dependent Role="Rooms">
+              <PropertyRef Name="AllotmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'BookingID_fk_Payment' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="BookingID_fk_Payment" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'BookingID_fk_Registration' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="BookingID_fk_Registration" />-->
+        <Association Name="conference_fk_Conference">
+          <End Role="Conference" Type="Self.Conference" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Clients" Type="Self.Clients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conference">
+              <PropertyRef Name="ConferenceID" />
+            </Principal>
+            <Dependent Role="Clients">
+              <PropertyRef Name="ConferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ConferenceID_fk_Allotment">
+          <End Role="Conference" Type="Self.Conference" Multiplicity="0..1" />
+          <End Role="Allotments" Type="Self.Allotments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conference">
+              <PropertyRef Name="ConferenceID" />
+            </Principal>
+            <Dependent Role="Allotments">
+              <PropertyRef Name="ConferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ConferenceID_fk_Conference">
+          <End Role="Conference" Type="Self.Conference" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Transport" Type="Self.Transport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conference">
+              <PropertyRef Name="ConferenceID" />
+            </Principal>
+            <Dependent Role="Transport">
+              <PropertyRef Name="ConferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ConferenceID_fk_Rooms">
+          <End Role="Conference" Type="Self.Conference" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conference">
+              <PropertyRef Name="ConferenceID" />
+            </Principal>
+            <Dependent Role="Rooms">
+              <PropertyRef Name="ConferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="HotelID_fk_Hotel">
+          <End Role="Hotel" Type="Self.Hotel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotel">
+              <PropertyRef Name="HotelID" />
+            </Principal>
+            <Dependent Role="Rooms">
+              <PropertyRef Name="HotelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="HotelID_fk_Reservation">
+          <End Role="Hotel" Type="Self.Hotel" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotel">
+              <PropertyRef Name="HotelID" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="HotelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RoomID_fk_Reservation">
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="0..1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="RoomID" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="RoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TransportID_fk_Reservation">
+          <End Role="Transport" Type="Self.Transport" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transport">
+              <PropertyRef Name="TransportID" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="TransportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="conferencedbModelStoreContainer">
+          <EntitySet Name="Allotments" EntityType="Self.Allotments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Conference" EntityType="Self.Conference" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hotel" EntityType="Self.Hotel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Registrations" EntityType="Self.Registrations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rooms" EntityType="Self.Rooms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transport" EntityType="Self.Transport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reservation" EntityType="Self.Reservation" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Reservation].[BookingID] AS [BookingID], 
+    [Reservation].[HotelID] AS [HotelID], 
+    [Reservation].[RoomID] AS [RoomID], 
+    [Reservation].[BookingDate] AS [BookingDate], 
+    [Reservation].[ClientID] AS [ClientID], 
+    [Reservation].[AUTOID] AS [AUTOID], 
+    [Reservation].[TransportRequired] AS [TransportRequired], 
+    [Reservation].[TransportID] AS [TransportID]
+    FROM [dbo].[Reservation] AS [Reservation]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="AllotmentID_fk_Rooms" Association="Self.AllotmentID_fk_Rooms">
+            <End Role="Allotments" EntitySet="Allotments" />
+            <End Role="Rooms" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="conference_fk_Conference" Association="Self.conference_fk_Conference">
+            <End Role="Conference" EntitySet="Conference" />
+            <End Role="Clients" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="ConferenceID_fk_Allotment" Association="Self.ConferenceID_fk_Allotment">
+            <End Role="Conference" EntitySet="Conference" />
+            <End Role="Allotments" EntitySet="Allotments" />
+          </AssociationSet>
+          <AssociationSet Name="ConferenceID_fk_Conference" Association="Self.ConferenceID_fk_Conference">
+            <End Role="Conference" EntitySet="Conference" />
+            <End Role="Transport" EntitySet="Transport" />
+          </AssociationSet>
+          <AssociationSet Name="ConferenceID_fk_Rooms" Association="Self.ConferenceID_fk_Rooms">
+            <End Role="Conference" EntitySet="Conference" />
+            <End Role="Rooms" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="HotelID_fk_Hotel" Association="Self.HotelID_fk_Hotel">
+            <End Role="Hotel" EntitySet="Hotel" />
+            <End Role="Rooms" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="HotelID_fk_Reservation" Association="Self.HotelID_fk_Reservation">
+            <End Role="Hotel" EntitySet="Hotel" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="RoomID_fk_Reservation" Association="Self.RoomID_fk_Reservation">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="TransportID_fk_Reservation" Association="Self.TransportID_fk_Reservation">
+            <End Role="Transport" EntitySet="Transport" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="conferencedbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Allotment">
+          <Key>
+            <PropertyRef Name="AllotmentID" />
+          </Key>
+          <Property Name="AllotmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AllocatedRooms" Type="Int32" />
+          <Property Name="ReservedRooms" Type="Int32" />
+          <Property Name="AvailableRooms" Type="Int32" />
+          <Property Name="ConferenceID" Type="Int32" />
+          <NavigationProperty Name="Rooms" Relationship="Self.AllotmentID_fk_Rooms" FromRole="Allotments" ToRole="Rooms" />
+          <NavigationProperty Name="Conference" Relationship="Self.ConferenceID_fk_Allotment" FromRole="Allotments" ToRole="Conference" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="ClientID" />
+          </Key>
+          <Property Name="ClientID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConferenceID" Type="Int32" />
+          <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="firstName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="lastName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="nationality" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BookingID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Conference" Relationship="Self.conference_fk_Conference" FromRole="Clients" ToRole="Conference" />
+        </EntityType>
+        <EntityType Name="Conference">
+          <Key>
+            <PropertyRef Name="ConferenceID" />
+          </Key>
+          <Property Name="ConferenceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConferenceName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ConferenceURL" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Allotments" Relationship="Self.ConferenceID_fk_Allotment" FromRole="Conference" ToRole="Allotments" />
+          <NavigationProperty Name="Clients" Relationship="Self.conference_fk_Conference" FromRole="Conference" ToRole="Clients" />
+          <NavigationProperty Name="Transports" Relationship="Self.ConferenceID_fk_Conference" FromRole="Conference" ToRole="Transport" />
+          <NavigationProperty Name="Rooms" Relationship="Self.ConferenceID_fk_Rooms" FromRole="Conference" ToRole="Rooms" />
+        </EntityType>
+        <EntityType Name="Hotel">
+          <Key>
+            <PropertyRef Name="HotelID" />
+          </Key>
+          <Property Name="HotelID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HotelName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ConferenceID" Type="Int32" />
+          <Property Name="HotelCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ShortDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="LongDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Rooms" Relationship="Self.HotelID_fk_Hotel" FromRole="Hotel" ToRole="Rooms" />
+          <NavigationProperty Name="Reservations" Relationship="Self.HotelID_fk_Reservation" FromRole="Hotel" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="AUTOID" />
+          </Key>
+          <Property Name="AUTOID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookingID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TotalCost" Type="Double" />
+          <Property Name="PartialPayment" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PartialPaymentAmount" Type="Double" />
+          <Property Name="PayLater" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Registration">
+          <Key>
+            <PropertyRef Name="AUTOID" />
+          </Key>
+          <Property Name="BookingID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="passportNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="nationality" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="arrivalDate" Type="DateTime" Precision="0" />
+          <Property Name="arrivalFlightNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="depatureDate" Type="DateTime" Precision="0" />
+          <Property Name="depatureFlightNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="AUTOID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="RoomID" />
+          </Key>
+          <Property Name="RoomID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HotelID" Type="Int32" Nullable="false" />
+          <Property Name="RoomName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ShortDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="LongDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ConferenceID" Type="Int32" />
+          <Property Name="Price" Type="Double" />
+          <Property Name="AllotmentID" Type="Int32" />
+          <NavigationProperty Name="Allotment" Relationship="Self.AllotmentID_fk_Rooms" FromRole="Rooms" ToRole="Allotments" />
+          <NavigationProperty Name="Conference" Relationship="Self.ConferenceID_fk_Rooms" FromRole="Rooms" ToRole="Conference" />
+          <NavigationProperty Name="Hotel" Relationship="Self.HotelID_fk_Hotel" FromRole="Rooms" ToRole="Hotel" />
+          <NavigationProperty Name="Reservations" Relationship="Self.RoomID_fk_Reservation" FromRole="Rooms" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="Transport">
+          <Key>
+            <PropertyRef Name="TransportID" />
+          </Key>
+          <Property Name="TransportID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConferenceID" Type="Int32" />
+          <Property Name="DisplayName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Double" />
+          <NavigationProperty Name="Conference" Relationship="Self.ConferenceID_fk_Conference" FromRole="Transport" ToRole="Conference" />
+          <NavigationProperty Name="Reservations" Relationship="Self.TransportID_fk_Reservation" FromRole="Transport" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="BookingID" />
+            <PropertyRef Name="AUTOID" />
+          </Key>
+          <Property Name="BookingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HotelID" Type="Int32" />
+          <Property Name="RoomID" Type="Int32" />
+          <Property Name="BookingDate" Type="DateTime" Precision="0" />
+          <Property Name="ClientID" Type="Int32" />
+          <Property Name="AUTOID" Type="Int32" Nullable="false" />
+          <Property Name="TransportRequired" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="TransportID" Type="Int32" />
+          <NavigationProperty Name="Hotel" Relationship="Self.HotelID_fk_Reservation" FromRole="Reservation" ToRole="Hotel" />
+          <NavigationProperty Name="Room" Relationship="Self.RoomID_fk_Reservation" FromRole="Reservation" ToRole="Rooms" />
+          <NavigationProperty Name="Transport" Relationship="Self.TransportID_fk_Reservation" FromRole="Reservation" ToRole="Transport" />
+        </EntityType>
+        <Association Name="AllotmentID_fk_Rooms">
+          <End Role="Allotments" Type="Self.Allotment" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Rooms" Type="Self.Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Allotments">
+              <PropertyRef Name="AllotmentID" />
+            </Principal>
+            <Dependent Role="Rooms">
+              <PropertyRef Name="AllotmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ConferenceID_fk_Allotment">
+          <End Role="Conference" Type="Self.Conference" Multiplicity="0..1" />
+          <End Role="Allotments" Type="Self.Allotment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conference">
+              <PropertyRef Name="ConferenceID" />
+            </Principal>
+            <Dependent Role="Allotments">
+              <PropertyRef Name="ConferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="conference_fk_Conference">
+          <End Role="Conference" Type="Self.Conference" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Clients" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conference">
+              <PropertyRef Name="ConferenceID" />
+            </Principal>
+            <Dependent Role="Clients">
+              <PropertyRef Name="ConferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ConferenceID_fk_Conference">
+          <End Role="Conference" Type="Self.Conference" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Transport" Type="Self.Transport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conference">
+              <PropertyRef Name="ConferenceID" />
+            </Principal>
+            <Dependent Role="Transport">
+              <PropertyRef Name="ConferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ConferenceID_fk_Rooms">
+          <End Role="Conference" Type="Self.Conference" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Rooms" Type="Self.Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Conference">
+              <PropertyRef Name="ConferenceID" />
+            </Principal>
+            <Dependent Role="Rooms">
+              <PropertyRef Name="ConferenceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="HotelID_fk_Hotel">
+          <End Role="Hotel" Type="Self.Hotel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Rooms" Type="Self.Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotel">
+              <PropertyRef Name="HotelID" />
+            </Principal>
+            <Dependent Role="Rooms">
+              <PropertyRef Name="HotelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="HotelID_fk_Reservation">
+          <End Role="Hotel" Type="Self.Hotel" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotel">
+              <PropertyRef Name="HotelID" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="HotelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RoomID_fk_Reservation">
+          <End Role="Rooms" Type="Self.Room" Multiplicity="0..1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="RoomID" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="RoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TransportID_fk_Reservation">
+          <End Role="Transport" Type="Self.Transport" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transport">
+              <PropertyRef Name="TransportID" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="TransportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="conferencedbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Allotments" EntityType="Self.Allotment" />
+          <EntitySet Name="Clients" EntityType="Self.Client" />
+          <EntitySet Name="Conferences" EntityType="Self.Conference" />
+          <EntitySet Name="Hotels" EntityType="Self.Hotel" />
+          <EntitySet Name="Payments" EntityType="Self.Payment" />
+          <EntitySet Name="Registrations" EntityType="Self.Registration" />
+          <EntitySet Name="Rooms" EntityType="Self.Room" />
+          <EntitySet Name="Transports" EntityType="Self.Transport" />
+          <EntitySet Name="Reservations" EntityType="Self.Reservation" />
+          <AssociationSet Name="AllotmentID_fk_Rooms" Association="Self.AllotmentID_fk_Rooms">
+            <End Role="Allotments" EntitySet="Allotments" />
+            <End Role="Rooms" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="ConferenceID_fk_Allotment" Association="Self.ConferenceID_fk_Allotment">
+            <End Role="Conference" EntitySet="Conferences" />
+            <End Role="Allotments" EntitySet="Allotments" />
+          </AssociationSet>
+          <AssociationSet Name="conference_fk_Conference" Association="Self.conference_fk_Conference">
+            <End Role="Conference" EntitySet="Conferences" />
+            <End Role="Clients" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="ConferenceID_fk_Conference" Association="Self.ConferenceID_fk_Conference">
+            <End Role="Conference" EntitySet="Conferences" />
+            <End Role="Transport" EntitySet="Transports" />
+          </AssociationSet>
+          <AssociationSet Name="ConferenceID_fk_Rooms" Association="Self.ConferenceID_fk_Rooms">
+            <End Role="Conference" EntitySet="Conferences" />
+            <End Role="Rooms" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="HotelID_fk_Hotel" Association="Self.HotelID_fk_Hotel">
+            <End Role="Hotel" EntitySet="Hotels" />
+            <End Role="Rooms" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="HotelID_fk_Reservation" Association="Self.HotelID_fk_Reservation">
+            <End Role="Hotel" EntitySet="Hotels" />
+            <End Role="Reservation" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="RoomID_fk_Reservation" Association="Self.RoomID_fk_Reservation">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="Reservation" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="TransportID_fk_Reservation" Association="Self.TransportID_fk_Reservation">
+            <End Role="Transport" EntitySet="Transports" />
+            <End Role="Reservation" EntitySet="Reservations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="conferencedbModelStoreContainer" CdmEntityContainer="conferencedbEntities">
+          <EntitySetMapping Name="Allotments">
+            <EntityTypeMapping TypeName="conferencedbModel.Allotment">
+              <MappingFragment StoreEntitySet="Allotments">
+                <ScalarProperty Name="AllotmentID" ColumnName="AllotmentID" />
+                <ScalarProperty Name="AllocatedRooms" ColumnName="AllocatedRooms" />
+                <ScalarProperty Name="ReservedRooms" ColumnName="ReservedRooms" />
+                <ScalarProperty Name="AvailableRooms" ColumnName="AvailableRooms" />
+                <ScalarProperty Name="ConferenceID" ColumnName="ConferenceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="conferencedbModel.Client">
+              <MappingFragment StoreEntitySet="Clients">
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="ConferenceID" ColumnName="ConferenceID" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="nationality" ColumnName="nationality" />
+                <ScalarProperty Name="country" ColumnName="country" />
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Conferences">
+            <EntityTypeMapping TypeName="conferencedbModel.Conference">
+              <MappingFragment StoreEntitySet="Conference">
+                <ScalarProperty Name="ConferenceID" ColumnName="ConferenceID" />
+                <ScalarProperty Name="ConferenceName" ColumnName="ConferenceName" />
+                <ScalarProperty Name="ConferenceURL" ColumnName="ConferenceURL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hotels">
+            <EntityTypeMapping TypeName="conferencedbModel.Hotel">
+              <MappingFragment StoreEntitySet="Hotel">
+                <ScalarProperty Name="HotelID" ColumnName="HotelID" />
+                <ScalarProperty Name="HotelName" ColumnName="HotelName" />
+                <ScalarProperty Name="ConferenceID" ColumnName="ConferenceID" />
+                <ScalarProperty Name="HotelCode" ColumnName="HotelCode" />
+                <ScalarProperty Name="ShortDescription" ColumnName="ShortDescription" />
+                <ScalarProperty Name="LongDescription" ColumnName="LongDescription" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="conferencedbModel.Payment">
+              <MappingFragment StoreEntitySet="Payment">
+                <ScalarProperty Name="AUTOID" ColumnName="AUTOID" />
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
+                <ScalarProperty Name="PartialPayment" ColumnName="PartialPayment" />
+                <ScalarProperty Name="PartialPaymentAmount" ColumnName="PartialPaymentAmount" />
+                <ScalarProperty Name="PayLater" ColumnName="PayLater" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Registrations">
+            <EntityTypeMapping TypeName="conferencedbModel.Registration">
+              <MappingFragment StoreEntitySet="Registrations">
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="passportNo" ColumnName="passportNo" />
+                <ScalarProperty Name="nationality" ColumnName="nationality" />
+                <ScalarProperty Name="country" ColumnName="country" />
+                <ScalarProperty Name="arrivalDate" ColumnName="arrivalDate" />
+                <ScalarProperty Name="arrivalFlightNo" ColumnName="arrivalFlightNo" />
+                <ScalarProperty Name="depatureDate" ColumnName="depatureDate" />
+                <ScalarProperty Name="depatureFlightNo" ColumnName="depatureFlightNo" />
+                <ScalarProperty Name="AUTOID" ColumnName="AUTOID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rooms">
+            <EntityTypeMapping TypeName="conferencedbModel.Room">
+              <MappingFragment StoreEntitySet="Rooms">
+                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
+                <ScalarProperty Name="HotelID" ColumnName="HotelID" />
+                <ScalarProperty Name="RoomName" ColumnName="RoomName" />
+                <ScalarProperty Name="ShortDescription" ColumnName="ShortDescription" />
+                <ScalarProperty Name="LongDescription" ColumnName="LongDescription" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="ConferenceID" ColumnName="ConferenceID" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="AllotmentID" ColumnName="AllotmentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transports">
+            <EntityTypeMapping TypeName="conferencedbModel.Transport">
+              <MappingFragment StoreEntitySet="Transport">
+                <ScalarProperty Name="TransportID" ColumnName="TransportID" />
+                <ScalarProperty Name="ConferenceID" ColumnName="ConferenceID" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reservations">
+            <EntityTypeMapping TypeName="conferencedbModel.Reservation">
+              <MappingFragment StoreEntitySet="Reservation">
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="HotelID" ColumnName="HotelID" />
+                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
+                <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="AUTOID" ColumnName="AUTOID" />
+                <ScalarProperty Name="TransportRequired" ColumnName="TransportRequired" />
+                <ScalarProperty Name="TransportID" ColumnName="TransportID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
