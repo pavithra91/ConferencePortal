@@ -1,66 +1,176 @@
 ﻿
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-	<!-- main -->
-<section id="main" class="clearfix ad-details-page">
-    <div class="container">
+@model Client
 
-        <div class="adpost-details">
-            <div class="row">
-                <div class="col-md-8">
-                    <form action="#">
-                        <fieldset>
-                            <div class="section seller-info">
-                                <h4>Seller Information</h4>
-                                <div class="row form-group">
-                                    <label class="col-sm-3 label-title">First Name<span class="required">*</span></label>
-                                    <div class="col-sm-9">
-                                        <input type="text" name="firstname" class="form-control" placeholder="ex, Jhon">
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <label class="col-sm-3 label-title">Last Name<span class="required">*</span></label>
-                                    <div class="col-sm-9">
-                                        <input type="text" name="lastname" class="form-control" placeholder="ex, Doe">
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <label class="col-sm-3 label-title">Email<span class="required">*</span></label>
-                                    <div class="col-sm-9">
-                                        <input type="email" name="email" class="form-control" placeholder="ex, example@mail.com">
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <label class="col-sm-3 label-title">Mobile Number<span class="required">*</span></label>
-                                    <div class="col-sm-9">
-                                        <input type="text" name="mobileNumber" class="form-control" placeholder="ex, +912457895">
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <label class="col-sm-3 label-title">Address</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" name="address" class="form-control" placeholder="ex, alekdera House, coprotec, usa">
-                                    </div>
-                                </div>
-                            </div><!-- section -->
+<div class="top-area show-onload">
+    <div class="bg-holder full">
+        <div class="bg-front bg-front-mob-rel">
+            <div class="container">
+                <div class="search-tabs search-tabs-bg search-tabs-abs mt50">
+                    <h1>Find Your Perfect Trip</h1>
+                    <div class="tabbable">
+                        @*<ul class="nav nav-tabs" id="myTab">
+                                <li class="active">
+                                    <a href="#tab-4" data-toggle="tab"><i class="fa fa-car"></i> <span>Cars</span></a>
+                                </li>
+                            </ul>*@
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="tab-4">
+
+                                @using (Html.BeginForm("RegisterClient", "Account", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @*<form>*@
+                                    <div class="row">
+                                        <div class="col-md-6">
+
+                                            <div class="input-daterange" data-date-format="M d, D">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group form-group-select-plus">
+                                                            <label>Title</label>
+
+                                                            @Html.DropDownListFor(m => m.title, new List<SelectListItem>
+                   { new SelectListItem{Text="Mr.", Value="Mr."},
+                     new SelectListItem{Text="Mrs.", Value="Mrs."},
+                     new SelectListItem{Text="Ms.", Value="Ms."},
+                     new SelectListItem{Text="Dr.", Value="Dr."},
+                     new SelectListItem{Text="Mr.", Value="Mr."},
+                     new SelectListItem{Text="Prof.", Value="Prof."},
+                     new SelectListItem{Text="Rev.", Value="Rev."}}, "Please select", new { @class = "form-control" })
+
+                                                            @*<select class="form-control">
+                                                                    <option>Mr.</option>
+                                                                    <option>Mrs.</option>
+                                                                    <option>Ms.</option>
+                                                                    <option>Dr.</option>
+                                                                    <option>Prof.</option>
+                                                                    <option>Rev</option>
+                                                                </select>*@
+                                                        </div>
+                                                    </div>
+
+                                                    @*<div class="col-md-3">
+                                                            <div class="form-group form-group-icon-left">
+                                                                <i class="fa fa-calendar input-icon input-icon-highlight"></i>
+                                                                <label>Pick-up Date</label>
+                                                                <input class="form-control" name="start" type="text" />
+                                                            </div>
+                                                        </div>*@
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group form-group-icon-left">
+                                                <i class="fa fa-user input-icon"></i>
+                                                <label>Last Name : </label>
+                                                @Html.TextBoxFor(m => m.lastName, new { @class = "typeahead form-control", @placeholder = "ex -: White", @required = "required" })
+                                                @*<input class="typeahead form-control" placeholder="ex -: White" type="text" />*@
+                                            </div>
+
+                                            <div class="form-group form-group-icon-left">
+                                                <i class="fa fa-map-marker input-icon"></i>
+                                                <label>City : </label>
+                                                @Html.TextBoxFor(m => m.City, new { @class = "typeahead form-control", @placeholder = "ex -: London", @required = "required" })
+                                                @*<input class="typeahead form-control" placeholder="ex -: London" type="text" />*@
+                                            </div>
+                                            <div class="form-group form-group-icon-left">
+                                                <i class="fa fa-phone input-icon"></i>
+                                                <label>Contact Number : </label>
+                                                @Html.TextBoxFor(m => m.ContactNumber, new { @class = "typeahead form-control", @placeholder = "ex -: xxxxxxxxx", @required = "required" })
+                                                @*<input class="typeahead form-control" placeholder="ex -: xxxxxxxxx" type="text" />*@
+                                            </div>
 
 
-                            <!--<div class="checkbox section agreement">
-                                <label for="send">
-                                    <input type="checkbox" name="send" id="send">
-                                    Send me Trade Email/SMS Alerts for people looking to buy mobile handsets in www By clicking "Post", you agree to our <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a> and acknowledge that you are the rightful owner of this item and using Trade to find a genuine buyer.
-                                </label>
-                                <button type="submit" class="btn btn-primary">Post Your Ad</button>
-                            </div>--><!-- section -->
+                                            <div class="form-group form-group-icon-left">
+                                                <i class="fa fa-map-marker input-icon"></i>
+                                                <label>Reservation for No of Deligate : </label>
 
-                        </fieldset>
-                    </form><!-- form -->
+                                                <select class="form-control" name="noOfDeligate">
+                                                    <option>1</option>
+                                                    <option>2</option>
+                                                    <option>3</option>
+                                                    <option>4</option>
+                                                    <option>5</option>
+                                                    <option>6</option>
+                                                </select>
+
+                                                @*<input class="typeahead form-control" name="noOfDeligate" placeholder="ex -: 1" type="text" />*@
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group form-group-icon-left">
+                                                <i class="fa fa-user input-icon"></i>
+                                                <label>First Name : </label>
+                                                @Html.TextBoxFor(m => m.firstName, new { @class = "typeahead form-control", @placeholder = "ex -: Joe" })
+                                                @*<input class="typeahead form-control" placeholder="ex -: Joe" type="text" />*@
+                                            </div>
+                                            <div class="form-group form-group-icon-left">
+                                                <i class="fa fa-location-arrow input-icon"></i>
+                                                <label>Address : </label>
+                                                @Html.TextBoxFor(m => m.Address, new { @class = "typeahead form-control", @placeholder = "ex -: Street, City, Zip, Country" })
+                                                @*<input class="typeahead form-control" placeholder="ex -: Street, City, Zip, Country" type="text" />*@
+                                            </div>
+                                            <div class="form-group form-group-icon-left">
+                                                <i class="fa fa-globe input-icon"></i>
+                                                <label>Country : </label>
+
+                                                <input class="typeahead form-control" placeholder="ex -: United States" type="text" />
+                                            </div>
+                                            <div class="form-group form-group-icon-left">
+                                                <i class="fa fa-envelope-o input-icon"></i>
+                                                <label>Email : </label>
+                                                @Html.TextBoxFor(m => m.email, new { @class = "typeahead form-control", @placeholder = "ex -: someone@example.com", @required = "required" })
+                                                @*<input class="typeahead form-control" placeholder="ex -: someone@example.com" type="text" />*@
+                                            </div>
+
+                                            <div class="form-group form-group-icon-left">
+                                                <i class="fa fa-map-marker input-icon"></i>
+                                                <label>Email : </label>
+                                                <input class="typeahead form-control" hidden="hidden" placeholder="City, Airport, U.S. Zip" type="text" />
+                                            </div>
+
+                                            <div class="checkbox checkbox-stroke">
+                                                <label>
+                                                    <input class="i-check" type="checkbox" />I am also a deligate for this Convention
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+
+                                    <button class="btn btn-primary" type="submit">Register</button>
+                                    @*</form>*@
+
+                                }
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-            </div><!-- photos-ad -->
+            </div>
         </div>
-    </div><!-- container -->
-</section><!-- main -->
-
+        <div class="owl-carousel owl-slider owl-carousel-area visible-lg" id="owl-carousel-slider">
+            <div class="bg-holder full">
+                <div class="bg-blur" style="background-image:url(../../img/2048x2048.png);"></div>
+            </div>
+            <div class="bg-holder full">
+                <div class="bg-mask"></div>
+                <div class="bg-blur" style="background-image:url(img/2048x2048.png);"></div>
+            </div>
+            <div class="bg-holder full">
+                <div class="bg-mask"></div>
+                <div class="bg-blur" style="background-image:url(img/2048x1365.png);"></div>
+            </div>
+        </div>
+        <div class="bg-img hidden-lg" style="background-image:url(img/2048x1365.png);"></div>
+        <div class="bg-mask hidden-lg"></div>
+    </div>
+</div>
+<!-- END TOP AREA  -->

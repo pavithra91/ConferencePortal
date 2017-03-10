@@ -19,9 +19,13 @@ namespace ConferencePortal
         public string title { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
-        public string nationality { get; set; }
+        public string Address { get; set; }
         public string country { get; set; }
         public string BookingID { get; set; }
+        public string City { get; set; }
+        public string Deligate { get; set; }
+        public string ContactNumber { get; set; }
+        public string email { get; set; }
     
         public virtual Conference Conference { get; set; }
     }

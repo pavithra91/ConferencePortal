@@ -11,7 +11,17 @@ namespace ConferencePortal.Controllers
         // GET: Account
         public ActionResult Index()
         {
+            ViewBag.ConventionID = "001";
+            
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegisterClient(Client cl, string noOfDeligate)
+        {
+            
+            return null;
         }
     }
 }

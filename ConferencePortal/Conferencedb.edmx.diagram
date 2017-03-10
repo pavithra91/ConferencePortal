@@ -5,24 +5,24 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="3a8b7f335d7d42b39507cdcee92f4356" Name="Diagram1">
-        <EntityTypeShape EntityType="conferencedbModel.Allotment" Width="1.5" PointX="3" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="conferencedbModel.Client" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="conferencedbModel.Conference" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="conferencedbModel.Hotel" Width="1.5" PointX="3" PointY="12.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="conferencedbModel.Payment" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="conferencedbModel.Registration" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="conferencedbModel.Room" Width="1.5" PointX="5.25" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="conferencedbModel.Transport" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="conferencedbModel.Reservation" Width="1.5" PointX="7.5" PointY="5.25" IsExpanded="true" />
-        <AssociationConnector Association="conferencedbModel.AllotmentID_fk_Rooms" ManuallyRouted="false" />
-        <AssociationConnector Association="conferencedbModel.ConferenceID_fk_Allotment" ManuallyRouted="false" />
-        <AssociationConnector Association="conferencedbModel.conference_fk_Conference" ManuallyRouted="false" />
-        <AssociationConnector Association="conferencedbModel.ConferenceID_fk_Conference" ManuallyRouted="false" />
-        <AssociationConnector Association="conferencedbModel.ConferenceID_fk_Rooms" ManuallyRouted="false" />
-        <AssociationConnector Association="conferencedbModel.HotelID_fk_Hotel" ManuallyRouted="false" />
-        <AssociationConnector Association="conferencedbModel.HotelID_fk_Reservation" ManuallyRouted="false" />
-        <AssociationConnector Association="conferencedbModel.RoomID_fk_Reservation" ManuallyRouted="false" />
-        <AssociationConnector Association="conferencedbModel.TransportID_fk_Reservation" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="conferencedbModel.Allotment" Width="1.5" PointX="3" PointY="9.125" />
+        <EntityTypeShape EntityType="conferencedbModel.Client" Width="1.5" PointX="3" PointY="1.875" />
+        <EntityTypeShape EntityType="conferencedbModel.Conference" Width="1.5" PointX="0.75" PointY="5.5" />
+        <EntityTypeShape EntityType="conferencedbModel.Hotel" Width="1.5" PointX="3" PointY="13.125" />
+        <EntityTypeShape EntityType="conferencedbModel.Payment" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="conferencedbModel.Registration" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="conferencedbModel.Room" Width="1.5" PointX="5.25" PointY="6.75" />
+        <EntityTypeShape EntityType="conferencedbModel.Transport" Width="1.5" PointX="3" PointY="6.25" />
+        <EntityTypeShape EntityType="conferencedbModel.Reservation" Width="1.5" PointX="7.5" PointY="6.625" />
+        <AssociationConnector Association="conferencedbModel.AllotmentID_fk_Rooms" />
+        <AssociationConnector Association="conferencedbModel.ConferenceID_fk_Allotment" />
+        <AssociationConnector Association="conferencedbModel.conference_fk_Conference" />
+        <AssociationConnector Association="conferencedbModel.ConferenceID_fk_Conference" />
+        <AssociationConnector Association="conferencedbModel.ConferenceID_fk_Rooms" />
+        <AssociationConnector Association="conferencedbModel.HotelID_fk_Hotel" />
+        <AssociationConnector Association="conferencedbModel.HotelID_fk_Reservation" />
+        <AssociationConnector Association="conferencedbModel.RoomID_fk_Reservation" />
+        <AssociationConnector Association="conferencedbModel.TransportID_fk_Reservation" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
