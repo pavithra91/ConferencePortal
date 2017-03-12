@@ -1727,6 +1727,8 @@
     <Content Include="img\payment\western-union-straight-64px.png" />
     <Content Include="img\paypal.png" />
     <Content Include="img\Porsche-Cayenne-Turbo-S.png" />
+    <Content Include="img\rooms\DeluxeDouble.jpg" />
+    <Content Include="img\rooms\DeluxeRoom.jpg" />
     <Content Include="img\Toyota-Prius-Plus.png" />
     <Content Include="img\Volkswagen-Polo-BlueGT.png" />
     <Content Include="img\Volkswagen-Touareg-Edition-X.png" />
@@ -1802,6 +1804,9 @@
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ReservationController.cs" />
+    <Compile Include="Currency.cs">
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1819,6 +1824,9 @@
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
     <Compile Include="Room.cs">
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoomOccupancy.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
     <Compile Include="Transport.cs">
@@ -1843,6 +1851,7 @@
     <Content Include="Views\Reservation\Index.cshtml" />
     <Content Include="scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Account\DeligateRegistration.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,7 +1,305 @@
 ﻿
 @{
     ViewBag.Title = "Index";
+
+    List<Room> rm = ViewBag.Rooms;
+
+    IEnumerable<Room> rooms = rm;
 }
 
-<h2>Index</h2>
 
+<div class="container">
+    <div class="booking-item-details">
+
+        <div class="gap"></div>
+        <h3>Available Rooms</h3>
+
+        <div class="row">
+            <div class="col-md-9">
+                <div class="booking-item-dates-change">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-daterange" data-date-format="MM d, D">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group form-group-icon-left">
+                                                <i class="fa fa-calendar input-icon input-icon-hightlight"></i>
+                                                <label>Check in</label>
+                                                <input class="form-control" name="start" id="start" type="text" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group form-group-icon-left">
+                                                <i class="fa fa-calendar input-icon input-icon-hightlight"></i>
+                                                <label>Check out</label>
+                                                <input class="form-control" name="end" id="end" type="text" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group form-group-select-plus">
+                                    <label>Adults</label>
+                                    <div class="btn-group btn-group-select-num" data-toggle="buttons">
+                                        
+
+                                        <label class="btn btn-primary active">
+                                            <input type="radio" name="options" />1
+                                        </label>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" />2
+                                        </label>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" />3
+                                        </label>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" />3+
+                                        </label>
+                                    </div>
+                                    <select class="form-control hidden">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option selected="selected">4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                        <option>7</option>
+                                        <option>8</option>
+                                        <option>9</option>
+                                        <option>10</option>
+                                        <option>11</option>
+                                        <option>12</option>
+                                        <option>13</option>
+                                        <option>14</option>
+                                    </select>
+                                </div>
+                            </div>
+                            @*<div class="col-md-2">
+                                <div class="form-group form-group-select-plus">
+                                    <label>Children</label>
+                                    <div class="btn-group btn-group-select-num" data-toggle="buttons">
+                                        <label class="btn btn-primary active">
+                                            <input type="radio" name="options" />0
+                                        </label>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" />1
+                                        </label>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" />2
+                                        </label>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" />2+
+                                        </label>
+                                    </div>
+                                    <select class="form-control hidden">
+                                        <option>0</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option selected="selected">3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                        <option>7</option>
+                                        <option>8</option>
+                                        <option>9</option>
+                                        <option>10</option>
+                                        <option>11</option>
+                                        <option>12</option>
+                                        <option>13</option>
+                                        <option>14</option>
+                                    </select>
+                                </div>
+                            </div>*@
+                            <div class="col-md-2">
+                                <div class="form-group form-group-select-plus">
+                                    <label>Rooms</label>
+                                    <div class="btn-group btn-group-select-num" data-toggle="buttons">
+                                        <label class="btn btn-primary active">
+                                            <input type="radio" name="options" />1
+                                        </label>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" />2
+                                        </label>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" />3
+                                        </label>
+                                        <label class="btn btn-primary">
+                                            <input type="radio" name="options" />3+
+                                        </label>
+                                    </div>
+                                    <select class="form-control hidden">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option selected="selected">4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                        <option>7</option>
+                                        <option>8</option>
+                                        <option>9</option>
+                                        <option>10</option>
+                                        <option>11</option>
+                                        <option>12</option>
+                                        <option>13</option>
+                                        <option>14</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="gap gap-small"></div>
+
+                @foreach (var items in rooms)
+                {
+                    <ul class="booking-list">
+                        <li>
+                            <a class="booking-item">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        
+                                        <img src="@items.RoomImage" alt="Image Alternative text" title="hotel PORTO BAY RIO INTERNACIONAL rooftop pool" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 class="booking-item-title">@items.RoomName</h5>
+                                        <p class="text-small">Platea fringilla cursus aliquam euismod integer viverra dis facilisi in augue vehicula sed</p>
+                                        <ul class="booking-item-features booking-item-features-sign clearfix">
+                                            <li rel="tooltip" data-placement="top" title="Adults Occupancy">
+                                                <i class="fa fa-male"></i><span class="booking-item-feature-sign">x 1</span>
+                                            </li>
+                                            <li rel="tooltip" data-placement="top" title="Children Occupancy">
+                                                <i class="im im-children"></i><span class="booking-item-feature-sign">x 1</span>
+                                            </li>
+                                            <li rel="tooltip" data-placement="top" title="Beds">
+                                                <i class="im im-bed"></i><span class="booking-item-feature-sign"> x 1</span>
+                                            </li>
+                                            <li rel="tooltip" data-placement="top" title="Room footage (square feet)">
+                                                <i class="im im-width"></i><span class="booking-item-feature-sign">320</span>
+                                            </li>
+                                        </ul>
+                                        <ul class="booking-item-features booking-item-features-small clearfix">
+                                            <li rel="tooltip" data-placement="top" title="Air Conditioning">
+                                                <i class="im im-air"></i>
+                                            </li>
+                                            <li rel="tooltip" data-placement="top" title="Flat Screen TV">
+                                                <i class="im im-tv"></i>
+                                            </li>
+                                            <li rel="tooltip" data-placement="top" title="Mini Bar">
+                                                <i class="im im-bar"></i>
+                                            </li>
+                                            <li rel="tooltip" data-placement="top" title="Bathtub">
+                                                <i class="im im-bathtub"></i>
+                                            </li>
+                                            <li rel="tooltip" data-placement="top" title="Kitchen">
+                                                <i class="im im-kitchen"></i>
+                                            </li>
+                                            <li rel="tooltip" data-placement="top" title="Patio">
+                                                <i class="im im-patio"></i>
+                                            </li>
+                                            <li rel="tooltip" data-placement="top" title="Washing Machine">
+                                                <i class="im im-washing-machine"></i>
+                                            </li>
+                                            <li rel="tooltip" data-placement="top" title="Pool">
+                                                <i class="im im-pool"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span class="booking-item-price">@items.Currency.Currency1 @items.Price</span><span>/night</span> <button class="btn btn-primary" id="btnbook" onclick="myFunction()">Book</button> 
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                }
+
+            </div>
+            <div class="col-md-3">
+                <h4>About the Hotel</h4>
+                <p class="mb30">Torquent egestas pharetra est cum tellus ultrices aliquam nam gravida hendrerit primis class egestas primis porta egestas non eleifend risus</p>
+                <h4>Hotel Facilities</h4>
+                <ul class="booking-item-features booking-item-features-expand mb30 clearfix">
+                    <li>
+                        <i class="im im-wi-fi"></i><span class="booking-item-feature-title">Wi-Fi Internet</span>
+                    </li>
+                    <li>
+                        <i class="im im-parking"></i><span class="booking-item-feature-title">Parking</span>
+                    </li>
+                    <li>
+                        <i class="im im-plane"></i><span class="booking-item-feature-title">Airport Transport</span>
+                    </li>
+                    <li>
+                        <i class="im im-bus"></i><span class="booking-item-feature-title">Shuttle Bus Service</span>
+                    </li>
+                    <li>
+                        <i class="im im-fitness"></i><span class="booking-item-feature-title">Fitness Center</span>
+                    </li>
+                    <li>
+                        <i class="im im-pool"></i><span class="booking-item-feature-title">Pool</span>
+                    </li>
+                    <li>
+                        <i class="im im-spa"></i><span class="booking-item-feature-title">SPA</span>
+                    </li>
+                    <li>
+                        <i class="im im-restaurant"></i><span class="booking-item-feature-title">Restaurant</span>
+                    </li>
+                    <li>
+                        <i class="im im-wheel-chair"></i><span class="booking-item-feature-title">Wheelchair Access</span>
+                    </li>
+                    <li>
+                        <i class="im im-business-person"></i><span class="booking-item-feature-title">Business Center</span>
+                    </li>
+                    <li>
+                        <i class="im im-children"></i><span class="booking-item-feature-title">Children Activites</span>
+                    </li>
+                    <li>
+                        <i class="im im-casino"></i><span class="booking-item-feature-title">Casino & Gambling</span>
+                    </li>
+                    <li>
+                        <i class="im im-bar"></i><span class="booking-item-feature-title">Bar/Lounge</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scriptLocation{
+    <script>
+
+        $("#start").change(function () {
+            var curDate = new Date();
+            var myDAte = $('#start').datepicker("getDate");
+            if (Date.parse(curDate) > Date.parse(myDAte))
+            {
+                alert('You have to Select Future Date');
+                $("#start").datepicker().datepicker("setDate", new Date());
+                return;
+            }
+            else
+            {
+                var bla2 = $('#start').val();
+                $("#end").datepicker().datepicker("setDate", bla2);
+            }
+        });
+
+        function myFunction() {
+            $("#btnbook").on("click", function () {
+                $.ajax(
+                {
+                    type: "POST",
+                    url: "http://localhost:55185/Reservation/Test",
+                    dataType: "json",
+                    success: function (result) {
+                        window.location.href = result;
+                    },
+                    error: function (x, e) {
+                        alert("Error" + e.error);
+                    }
+                });
+            });
+        }
+</script>
+}

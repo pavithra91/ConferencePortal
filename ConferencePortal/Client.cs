@@ -26,6 +26,7 @@ namespace ConferencePortal
         public string Deligate { get; set; }
         public string ContactNumber { get; set; }
         public string email { get; set; }
+        public string verified { get; set; }
     
         public virtual Conference Conference { get; set; }
     }

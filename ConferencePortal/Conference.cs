@@ -24,8 +24,10 @@ namespace ConferencePortal
         }
     
         public int ConferenceID { get; set; }
-        public string ConferenceName { get; set; }
-        public string ConferenceURL { get; set; }
+        public string ConventionName { get; set; }
+        public string ConventionURL { get; set; }
+        public string ShowConventionLogo { get; set; }
+        public string ConventionLogo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Allotment> Allotments { get; set; }

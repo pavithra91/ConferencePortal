@@ -16,6 +16,12 @@ namespace ConferencePortal.Controllers
             return View();
         }
 
+        public ActionResult DeligateRegistration()
+        {
+            ViewBag.NoOfDeligates = 5;
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult RegisterClient(Client cl, string noOfDeligate)
