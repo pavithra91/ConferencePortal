@@ -1163,6 +1163,7 @@
     <Content Include="img\flags\32\by.png" />
     <Content Include="img\flags\32\bz.png" />
     <Content Include="img\flags\32\ca.png" />
+    <Content Include="img\flags\32\cart-icon.png" />
     <Content Include="img\flags\32\cd.png" />
     <Content Include="img\flags\32\cf.png" />
     <Content Include="img\flags\32\cg.png" />
@@ -1780,6 +1781,7 @@
     <Compile Include="Allotment.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_Code\ShoppingCart.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Client.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
@@ -1852,6 +1854,7 @@
     <Content Include="scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\DeligateRegistration.cshtml" />
+    <Content Include="Views\Reservation\_RoomView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1860,7 +1863,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
   </ItemGroup>

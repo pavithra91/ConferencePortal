@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConferencePortal.App_Code;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -24,10 +25,15 @@ namespace ConferencePortal.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RegisterClient(Client cl, string noOfDeligate)
+        public ActionResult RegisterClient(Client cl, int noOfDeligate)
         {
-            
-            return null;
+            ShoppingCart cart = new ShoppingCart();
+            cart.ClientId = cl.ClientID;
+            cart.NoofDelegates = noOfDeligate;
+
+            TempData["ShoppingCart"] = cart;
+
+            return RedirectToAction("Index", "Reservation", new { ConventionID = 1, HotelId = 0 });
         }
     }
 }

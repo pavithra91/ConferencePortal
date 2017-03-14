@@ -1,0 +1,89 @@
+﻿@{ 
+    List<Room> rm = ViewBag.Rooms;
+
+    IEnumerable<Room> rooms = rm;
+}
+
+
+@*@using (Html.BeginForm("AddtoCart", "Reservation", FormMethod.Post))
+{*@
+
+@foreach (var items in rooms)
+{
+
+
+    <ul class="booking-list">
+        <li>
+            <a class="booking-item">
+                <div class="row">
+                    <div class="col-md-3">
+                        <img src="@items.RoomImage" alt="Image Alternative text" title="hotel 1" />
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="booking-item-title">@items.RoomName</h5>
+                        <p class="text-small">Pretium consequat odio ultrices nisi elementum imperdiet sem nulla feugiat mauris dui nunc</p>
+                        <ul class="booking-item-features booking-item-features-sign clearfix">
+                            <li rel="tooltip" data-placement="top" title="Adults Occupancy">
+                                <i class="fa fa-male"></i><span class="booking-item-feature-sign">x 2</span>
+                            </li>
+                            <li rel="tooltip" data-placement="top" title="Beds">
+                                <i class="im im-bed"></i><span class="booking-item-feature-sign">x 2</span>
+                            </li>
+                            <li rel="tooltip" data-placement="top" title="Room footage (square feet)">
+                                <i class="im im-width"></i><span class="booking-item-feature-sign">330</span>
+                            </li>
+                        </ul>
+                        <ul class="booking-item-features booking-item-features-small clearfix">
+                            <li rel="tooltip" data-placement="top" title="Bathtub">
+                                <i class="im im-bathtub"></i>
+                            </li>
+                            <li rel="tooltip" data-placement="top" title="Kitchen">
+                                <i class="im im-kitchen"></i>
+                            </li>
+                            <li rel="tooltip" data-placement="top" title="Soundproof">
+                                <i class="im im-soundproof"></i>
+                            </li>
+                            <li rel="tooltip" data-placement="top" title="Terrace">
+                                <i class="im im-terrace"></i>
+                            </li>
+                            <li rel="tooltip" data-placement="top" title="Washing Machine">
+                                <i class="im im-washing-machine"></i>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="booking-item-price">@items.Currency.Currency1 @items.Price</span><span>/night</span> 
+                        
+                        @*<input type="button" name="addtocart" value="Add to Cart" class="btn btn-primary" onclick="OnChangeCategory(@items.RoomID);"/>*@
+                       
+                         <a href="@Url.Action("AddtoCart", "Reservation", new { RoomId = items.RoomID }, null)" aria-controls="@items.RoomID">
+                            <input type="button" value="Add to Cart" /> </a>
+                            @*<a href="#@items.RoomID" aria-controls="@items.RoomID" onclick="OnChangeCategory(@items.RoomID);">  Add to Cart </a>*@
+</div>
+                </div>
+            </a>
+        </li>
+    </ul>
+
+}
+@*}*@
+
+<input type="hidden" id="cat" name="category" value="10" />
+
+@section scriptLocation{
+    <script>
+        function OnChangeCategory(id) {
+            var element = document.getElementById("cat");
+            if (!isNaN(id)) {
+                element.value = id;
+                alert("tttt");
+            }
+            else {
+                element.value = -1;
+                alert("Else");
+            }
+        };
+    </script>
+}
+
+
