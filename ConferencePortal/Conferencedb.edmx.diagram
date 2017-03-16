@@ -5,22 +5,24 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="3a8b7f335d7d42b39507cdcee92f4356" Name="Diagram1">
-        <EntityTypeShape EntityType="conferencedbModel.Allotment" Width="1.5" PointX="3" PointY="11" />
-        <EntityTypeShape EntityType="conferencedbModel.Client" Width="1.5" PointX="3" PointY="6.625" />
-        <EntityTypeShape EntityType="conferencedbModel.Conference" Width="1.5" PointX="0.75" PointY="7.125" />
-        <EntityTypeShape EntityType="conferencedbModel.Currency" Width="1.5" PointX="3" PointY="0.75" />
-        <EntityTypeShape EntityType="conferencedbModel.Hotel" Width="1.5" PointX="3" PointY="15.125" />
-        <EntityTypeShape EntityType="conferencedbModel.Payment" Width="1.5" PointX="5.75" PointY="2" />
-        <EntityTypeShape EntityType="conferencedbModel.Registration" Width="1.5" PointX="7.75" PointY="2" />
-        <EntityTypeShape EntityType="conferencedbModel.RoomOccupancy" Width="1.5" PointX="9.75" PointY="2" />
-        <EntityTypeShape EntityType="conferencedbModel.Room" Width="1.5" PointX="5.25" PointY="8.125" />
-        <EntityTypeShape EntityType="conferencedbModel.Transport" Width="1.5" PointX="3" PointY="3.625" />
-        <EntityTypeShape EntityType="conferencedbModel.Reservation" Width="1.5" PointX="7.5" PointY="6.5" />
+        <EntityTypeShape EntityType="conferencedbModel.Allotment" Width="1.5" PointX="3" PointY="10.25" />
+        <EntityTypeShape EntityType="conferencedbModel.Client" Width="1.5" PointX="3" PointY="2.5" />
+        <EntityTypeShape EntityType="conferencedbModel.Conference" Width="1.5" PointX="0.75" PointY="7.625" />
+        <EntityTypeShape EntityType="conferencedbModel.Currency" Width="1.5" PointX="3" PointY="21.125" />
+        <EntityTypeShape EntityType="conferencedbModel.Excursion" Width="1.5" PointX="3" PointY="7" />
+        <EntityTypeShape EntityType="conferencedbModel.Hotel" Width="1.5" PointX="3" PointY="17.625" />
+        <EntityTypeShape EntityType="conferencedbModel.Payment" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="conferencedbModel.Registration" Width="1.5" PointX="5.75" PointY="3.75" />
+        <EntityTypeShape EntityType="conferencedbModel.RoomOccupancy" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="conferencedbModel.Room" Width="1.5" PointX="5.25" PointY="8" />
+        <EntityTypeShape EntityType="conferencedbModel.Transport" Width="1.5" PointX="3" PointY="13.375" />
+        <EntityTypeShape EntityType="conferencedbModel.Reservation" Width="1.5" PointX="7.5" PointY="10.25" />
         <AssociationConnector Association="conferencedbModel.AllotmentID_fk_Rooms" />
         <AssociationConnector Association="conferencedbModel.ConferenceID_fk_Allotment" />
         <AssociationConnector Association="conferencedbModel.conference_fk_Conference" />
         <AssociationConnector Association="conferencedbModel.ConferenceID_fk_Conference" />
         <AssociationConnector Association="conferencedbModel.ConferenceID_fk_Rooms" />
+        <AssociationConnector Association="conferencedbModel.ConventionID_fk_Convention" />
         <AssociationConnector Association="conferencedbModel.CurID_fk_Currency" />
         <AssociationConnector Association="conferencedbModel.HotelID_fk_Hotel" />
         <AssociationConnector Association="conferencedbModel.HotelID_fk_Reservation" />

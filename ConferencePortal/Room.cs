@@ -26,7 +26,7 @@ namespace ConferencePortal
         public string ShortDescription { get; set; }
         public string LongDescription { get; set; }
         public string Image { get; set; }
-        public Nullable<int> ConferenceID { get; set; }
+        public Nullable<int> ConventionID { get; set; }
         public Nullable<double> Price { get; set; }
         public Nullable<int> AllotmentID { get; set; }
         public Nullable<int> CurCode { get; set; }

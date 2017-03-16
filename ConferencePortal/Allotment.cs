@@ -24,7 +24,7 @@ namespace ConferencePortal
         public Nullable<int> AllocatedRooms { get; set; }
         public Nullable<int> ReservedRooms { get; set; }
         public Nullable<int> AvailableRooms { get; set; }
-        public Nullable<int> ConferenceID { get; set; }
+        public Nullable<int> ConventionID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Room> Rooms { get; set; }

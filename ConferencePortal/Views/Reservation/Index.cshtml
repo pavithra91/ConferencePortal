@@ -21,6 +21,8 @@
         <div class="gap"></div>
         <h3>Available Rooms</h3>
 
+@using (Html.BeginForm("SearchHotel", "Reservation", FormMethod.Post))
+{
         <div class="row">
             <div class="col-md-11">
                 <div class="booking-item-dates-change">
@@ -97,46 +99,14 @@
                             </div>
 
                             <div class="col-md-2">
-                                <div class="form-group form-group-select-plus">
-                                    <label>Rooms</label>
-                                    <div class="btn-group btn-group-select-num" data-toggle="buttons">
-                                        <label class="btn btn-primary active">
-                                            <input type="radio" name="options" />1
-                                        </label>
-                                        <label class="btn btn-primary">
-                                            <input type="radio" name="options" />2
-                                        </label>
-                                        <label class="btn btn-primary">
-                                            <input type="radio" name="options" />3
-                                        </label>
-                                        <label class="btn btn-primary">
-                                            <input type="radio" name="options" />3+
-                                        </label>
-                                    </div>
-                                    <select class="form-control hidden">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option selected="selected">4</option>
-                                        <option>5</option>
-                                        <option>6</option>
-                                        <option>7</option>
-                                        <option>8</option>
-                                        <option>9</option>
-                                        <option>10</option>
-                                        <option>11</option>
-                                        <option>12</option>
-                                        <option>13</option>
-                                        <option>14</option>
-                                    </select>
-                                </div>
+                                <input type="submit" class="btn btn-primary" value="Search" name="Search" />
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-
+}
         <div class="row">
 
             <div class="col-md-8">

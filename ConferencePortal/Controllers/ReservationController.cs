@@ -24,7 +24,7 @@ namespace ConferencePortal.Controllers
             if (HotelId != 0)
             {
                 var roomResult = from st in en.Rooms
-                                 where st.ConferenceID == Convention && st.HotelID == HotelId
+                                 where st.ConventionID == Convention && st.HotelID == HotelId
                                  select st;
 
                 ViewBag.Rooms = roomResult.ToList();
@@ -44,6 +44,19 @@ namespace ConferencePortal.Controllers
             cart.Rooms.Add(room);
 
             return RedirectToAction("Index", "Reservation", new { ConventionID = 1, HotelId = 0 });
+        }
+
+        [HttpPost]
+        public ActionResult SearchHotel(string HotelList)
+        {
+            string hot = HotelList;
+
+            return RedirectToAction("Index", "Reservation", new { ConventionID = 1, HotelId = Convert.ToInt32(HotelList) });
+        }
+
+        public ActionResult Cart()
+        {
+            return View();
         }
 
         public ActionResult Test()

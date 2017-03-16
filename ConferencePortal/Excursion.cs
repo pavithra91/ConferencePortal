@@ -12,21 +12,15 @@ namespace ConferencePortal
     using System;
     using System.Collections.Generic;
     
-    public partial class Client
+    public partial class Excursion
     {
-        public int ClientID { get; set; }
+        public int ExcursionsID { get; set; }
         public Nullable<int> ConventionID { get; set; }
-        public string title { get; set; }
-        public string firstName { get; set; }
-        public string lastName { get; set; }
-        public string Address { get; set; }
-        public string country { get; set; }
-        public string BookingID { get; set; }
-        public string City { get; set; }
-        public string Deligate { get; set; }
-        public string ContactNumber { get; set; }
-        public string email { get; set; }
-        public string verified { get; set; }
+        public string ExcursionName { get; set; }
+        public string ShortDescription { get; set; }
+        public string LongDescription { get; set; }
+        public string ExcursionImage { get; set; }
+        public Nullable<double> Price { get; set; }
     
         public virtual Conference Conference { get; set; }
     }

@@ -1809,6 +1809,9 @@
     <Compile Include="Currency.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
+    <Compile Include="Excursion.cs">
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
