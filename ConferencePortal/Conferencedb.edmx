@@ -73,6 +73,8 @@
           <Property Name="ShortDescription" Type="varchar" MaxLength="500" />
           <Property Name="LongDescription" Type="varchar" MaxLength="500" />
           <Property Name="Image" Type="varchar" MaxLength="100" />
+          <Property Name="Address" Type="varchar" MaxLength="500" />
+          <Property Name="StarRaing" Type="float" />
         </EntityType>
         <EntityType Name="Payment">
           <Key>
@@ -150,6 +152,8 @@ warning 6002: The table/view 'conferencedb.dbo.Reservation' does not have a prim
           <Property Name="ConventionID" Type="int" />
           <Property Name="DisplayName" Type="varchar" MaxLength="100" />
           <Property Name="Price" Type="float" />
+          <Property Name="Image" Type="varchar" MaxLength="200" />
+          <Property Name="CurCode" Type="int" />
         </EntityType>
         <Association Name="AllotmentID_fk_Rooms">
           <End Role="Allotments" Type="Self.Allotments" Multiplicity="0..1">
@@ -234,6 +238,20 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             </Principal>
             <Dependent Role="Excursions">
               <PropertyRef Name="ConventionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CurCode_fk_Currency">
+          <End Role="Currency" Type="Self.Currency" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Transport" Type="Self.Transport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="CurID" />
+            </Principal>
+            <Dependent Role="Transport">
+              <PropertyRef Name="CurCode" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -351,6 +369,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             <End Role="Conference" EntitySet="Conference" />
             <End Role="Excursions" EntitySet="Excursions" />
           </AssociationSet>
+          <AssociationSet Name="CurCode_fk_Currency" Association="Self.CurCode_fk_Currency">
+            <End Role="Currency" EntitySet="Currency" />
+            <End Role="Transport" EntitySet="Transport" />
+          </AssociationSet>
           <AssociationSet Name="CurID_fk_Currency" Association="Self.CurID_fk_Currency">
             <End Role="Currency" EntitySet="Currency" />
             <End Role="Rooms" EntitySet="Rooms" />
@@ -412,6 +434,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <AssociationSet Name="ConventionID_fk_Convention" Association="conferencedbModel.ConventionID_fk_Convention">
             <End Role="Conference" EntitySet="Conferences" />
             <End Role="Excursion" EntitySet="Excursions" />
+          </AssociationSet>
+          <AssociationSet Name="CurCode_fk_Currency" Association="conferencedbModel.CurCode_fk_Currency">
+            <End Role="Currency" EntitySet="Currencies" />
+            <End Role="Transport" EntitySet="Transports" />
           </AssociationSet>
           <AssociationSet Name="CurID_fk_Currency" Association="conferencedbModel.CurID_fk_Currency">
             <End Role="Currency" EntitySet="Currencies" />
@@ -486,6 +512,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           </Key>
           <Property Name="CurID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Currency1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Transports" Relationship="conferencedbModel.CurCode_fk_Currency" FromRole="Currency" ToRole="Transport" />
           <NavigationProperty Name="Rooms" Relationship="conferencedbModel.CurID_fk_Currency" FromRole="Currency" ToRole="Room" />
         </EntityType>
         <EntityType Name="Excursion">
@@ -512,6 +539,8 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="ShortDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="LongDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="StarRaing" Type="Double" />
           <NavigationProperty Name="Rooms" Relationship="conferencedbModel.HotelID_fk_Hotel" FromRole="Hotel" ToRole="Room" />
           <NavigationProperty Name="Reservations" Relationship="conferencedbModel.HotelID_fk_Reservation" FromRole="Hotel" ToRole="Reservation" />
         </EntityType>
@@ -580,7 +609,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="ConventionID" Type="Int32" />
           <Property Name="DisplayName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Price" Type="Double" />
+          <Property Name="Image" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CurCode" Type="Int32" />
           <NavigationProperty Name="Conference" Relationship="conferencedbModel.ConferenceID_fk_Conference" FromRole="Transport" ToRole="Conference" />
+          <NavigationProperty Name="Currency" Relationship="conferencedbModel.CurCode_fk_Currency" FromRole="Transport" ToRole="Currency" />
           <NavigationProperty Name="Reservations" Relationship="conferencedbModel.TransportID_fk_Reservation" FromRole="Transport" ToRole="Reservation" />
         </EntityType>
         <EntityType Name="Reservation">
@@ -677,6 +709,20 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             </Principal>
             <Dependent Role="Excursion">
               <PropertyRef Name="ConventionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CurCode_fk_Currency">
+          <End Type="conferencedbModel.Currency" Role="Currency" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="conferencedbModel.Transport" Role="Transport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="CurID" />
+            </Principal>
+            <Dependent Role="Transport">
+              <PropertyRef Name="CurCode" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -817,6 +863,8 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySetMapping Name="Hotels">
             <EntityTypeMapping TypeName="conferencedbModel.Hotel">
               <MappingFragment StoreEntitySet="Hotel">
+                <ScalarProperty Name="StarRaing" ColumnName="StarRaing" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="LongDescription" ColumnName="LongDescription" />
                 <ScalarProperty Name="ShortDescription" ColumnName="ShortDescription" />
@@ -886,6 +934,8 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySetMapping Name="Transports">
             <EntityTypeMapping TypeName="conferencedbModel.Transport">
               <MappingFragment StoreEntitySet="Transport">
+                <ScalarProperty Name="CurCode" ColumnName="CurCode" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
                 <ScalarProperty Name="ConventionID" ColumnName="ConventionID" />

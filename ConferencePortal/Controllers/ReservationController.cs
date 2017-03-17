@@ -54,8 +54,13 @@ namespace ConferencePortal.Controllers
             return RedirectToAction("Index", "Reservation", new { ConventionID = 1, HotelId = Convert.ToInt32(HotelList) });
         }
 
-        public ActionResult Cart()
+        public ActionResult ViewCart()
         {
+            ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
+
+            ViewBag.Rooms = cart.Rooms;
+            ViewBag.Transport = cart.Transport;
+
             return View();
         }
 

@@ -24,8 +24,11 @@ namespace ConferencePortal
         public Nullable<int> ConventionID { get; set; }
         public string DisplayName { get; set; }
         public Nullable<double> Price { get; set; }
+        public string Image { get; set; }
+        public Nullable<int> CurCode { get; set; }
     
         public virtual Conference Conference { get; set; }
+        public virtual Currency Currency { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reservation> Reservations { get; set; }
     }

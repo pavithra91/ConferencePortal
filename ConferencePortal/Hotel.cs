@@ -28,6 +28,8 @@ namespace ConferencePortal
         public string ShortDescription { get; set; }
         public string LongDescription { get; set; }
         public string Image { get; set; }
+        public string Address { get; set; }
+        public Nullable<double> StarRaing { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Room> Rooms { get; set; }

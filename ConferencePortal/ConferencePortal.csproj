@@ -1858,6 +1858,7 @@
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\DeligateRegistration.cshtml" />
     <Content Include="Views\Reservation\_RoomView.cshtml" />
+    <Content Include="Views\Reservation\ViewCart.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
