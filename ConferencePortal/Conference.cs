@@ -21,9 +21,10 @@ namespace ConferencePortal
             this.Clients = new HashSet<Client>();
             this.Transports = new HashSet<Transport>();
             this.Rooms = new HashSet<Room>();
+            this.Excursions = new HashSet<Excursion>();
         }
     
-        public int ConferenceID { get; set; }
+        public int ConventionID { get; set; }
         public string ConventionName { get; set; }
         public string ConventionURL { get; set; }
         public string ShowConventionLogo { get; set; }
@@ -37,5 +38,7 @@ namespace ConferencePortal
         public virtual ICollection<Transport> Transports { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Room> Rooms { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Excursion> Excursions { get; set; }
     }
 }

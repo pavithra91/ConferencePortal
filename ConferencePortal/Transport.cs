@@ -21,7 +21,7 @@ namespace ConferencePortal
         }
     
         public int TransportID { get; set; }
-        public Nullable<int> ConferenceID { get; set; }
+        public Nullable<int> ConventionID { get; set; }
         public string DisplayName { get; set; }
         public Nullable<double> Price { get; set; }
     

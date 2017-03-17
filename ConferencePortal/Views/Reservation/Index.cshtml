@@ -2,65 +2,61 @@
 @{
     ViewBag.Title = "Index";
 
+    List<Room> rm = null;
     IEnumerable<Room> rooms = null;
-    List<Hotel> hotel = null;
 
     if (ViewBag.Rooms != null)
     {
-        List<Room> rm = ViewBag.Rooms;
-
-        hotel = ViewBag.Hotels;
-
+        rm = ViewBag.Rooms;
         rooms = rm;
     }
+
+    List<Hotel> hotels = ViewBag.Hotels;
+
 }
 
 
 <div class="container">
     <div class="booking-item-details">
-
         <div class="gap"></div>
         <h3>Available Rooms</h3>
 
+@using (Html.BeginForm("SearchHotel", "Reservation", FormMethod.Post))
+{
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-11">
                 <div class="booking-item-dates-change">
                     <form>
                         <div class="row">
+                            <div class="col-sm-3">
 
-                            <div class="col-sm-2">
-
-                                <div class="form-group form-group-icon-left">
-                                    <i class="fa fa-calendar input-icon input-icon-hightlight"></i>
+                                <div class="form-group form-group-select-plus">
                                     <label>Hotel</label>
-
-                                    
-
-                                    <select id="drpHotels">
-                                        @foreach (var item in hotel)
+                                    <select name="HotelList" id="HotelList" class="form-control">
+                                        @foreach (var hotel in hotels)
                                         {
-                                        <option value="@item.HotelID">@item.HotelName.Trim()</option>
+                                            <option value="@hotel.HotelID">@hotel.HotelName</option>
+
                                         }
                                     </select>
                                 </div>
-
                             </div>
 
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                                 <div class="input-daterange" data-date-format="MM d, D">
                                     <div class="row">
-                                        <div class="col-md-5">
+                                        <div class="col-md-6">
                                             <div class="form-group form-group-icon-left">
                                                 <i class="fa fa-calendar input-icon input-icon-hightlight"></i>
                                                 <label>Check in</label>
-                                                <input class="form-control" name="start" id="start" type="text" />
+                                                <input class="form-control" name="start" type="text" />
                                             </div>
                                         </div>
-                                        <div class="col-md-5">
+                                        <div class="col-md-6">
                                             <div class="form-group form-group-icon-left">
                                                 <i class="fa fa-calendar input-icon input-icon-hightlight"></i>
                                                 <label>Check out</label>
-                                                <input class="form-control" name="end" id="end" type="text" />
+                                                <input class="form-control" name="end" type="text" />
                                             </div>
                                         </div>
                                     </div>
@@ -70,8 +66,6 @@
                                 <div class="form-group form-group-select-plus">
                                     <label>Adults</label>
                                     <div class="btn-group btn-group-select-num" data-toggle="buttons">
-
-
                                         <label class="btn btn-primary active">
                                             <input type="radio" name="options" />1
                                         </label>
@@ -103,152 +97,32 @@
                                     </select>
                                 </div>
                             </div>
-                            @*<div class="col-md-2">
-                                    <div class="form-group form-group-select-plus">
-                                        <label>Children</label>
-                                        <div class="btn-group btn-group-select-num" data-toggle="buttons">
-                                            <label class="btn btn-primary active">
-                                                <input type="radio" name="options" />0
-                                            </label>
-                                            <label class="btn btn-primary">
-                                                <input type="radio" name="options" />1
-                                            </label>
-                                            <label class="btn btn-primary">
-                                                <input type="radio" name="options" />2
-                                            </label>
-                                            <label class="btn btn-primary">
-                                                <input type="radio" name="options" />2+
-                                            </label>
-                                        </div>
-                                        <select class="form-control hidden">
-                                            <option>0</option>
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option selected="selected">3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                            <option>6</option>
-                                            <option>7</option>
-                                            <option>8</option>
-                                            <option>9</option>
-                                            <option>10</option>
-                                            <option>11</option>
-                                            <option>12</option>
-                                            <option>13</option>
-                                            <option>14</option>
-                                        </select>
-                                    </div>
-                                </div>*@
+
                             <div class="col-md-2">
-                                <div class="form-group form-group-select-plus">
-                                    <label>Rooms</label>
-                                    <div class="btn-group btn-group-select-num" data-toggle="buttons">
-                                        <label class="btn btn-primary active">
-                                            <input type="radio" name="options" />1
-                                        </label>
-                                        <label class="btn btn-primary">
-                                            <input type="radio" name="options" />2
-                                        </label>
-                                        <label class="btn btn-primary">
-                                            <input type="radio" name="options" />3
-                                        </label>
-                                        <label class="btn btn-primary">
-                                            <input type="radio" name="options" />3+
-                                        </label>
-                                    </div>
-                                    <select class="form-control hidden">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option selected="selected">4</option>
-                                        <option>5</option>
-                                        <option>6</option>
-                                        <option>7</option>
-                                        <option>8</option>
-                                        <option>9</option>
-                                        <option>10</option>
-                                        <option>11</option>
-                                        <option>12</option>
-                                        <option>13</option>
-                                        <option>14</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-1">
-                                <input type="button" value="Search" />
+                                <input type="submit" class="btn btn-primary" value="Search" name="Search" />
                             </div>
                         </div>
                     </form>
                 </div>
+            </div>
+        </div>
+}
+        <div class="row">
+
+            <div class="col-md-8">
                 <div class="gap gap-small"></div>
 
-                    @foreach (var items in rooms)
+                @{
+                    if (rooms != null)
                     {
-                        <ul class="booking-list">
-                            <li>
-                                <a class="booking-item">
-                                    <div class="row">
-                                        <div class="col-md-3">
-
-                                            <img src="@items.RoomImage" alt="Image Alternative text" title="hotel PORTO BAY RIO INTERNACIONAL rooftop pool" />
-                                        </div>
-                                        <div class="col-md-6">
-                                            <h5 class="booking-item-title">@items.RoomName</h5>
-                                            <p class="text-small">Platea fringilla cursus aliquam euismod integer viverra dis facilisi in augue vehicula sed</p>
-                                            <ul class="booking-item-features booking-item-features-sign clearfix">
-                                                <li rel="tooltip" data-placement="top" title="Adults Occupancy">
-                                                    <i class="fa fa-male"></i><span class="booking-item-feature-sign">x 1</span>
-                                                </li>
-                                                <li rel="tooltip" data-placement="top" title="Children Occupancy">
-                                                    <i class="im im-children"></i><span class="booking-item-feature-sign">x 1</span>
-                                                </li>
-                                                <li rel="tooltip" data-placement="top" title="Beds">
-                                                    <i class="im im-bed"></i><span class="booking-item-feature-sign"> x 1</span>
-                                                </li>
-                                                <li rel="tooltip" data-placement="top" title="Room footage (square feet)">
-                                                    <i class="im im-width"></i><span class="booking-item-feature-sign">320</span>
-                                                </li>
-                                            </ul>
-                                            <ul class="booking-item-features booking-item-features-small clearfix">
-                                                <li rel="tooltip" data-placement="top" title="Air Conditioning">
-                                                    <i class="im im-air"></i>
-                                                </li>
-                                                <li rel="tooltip" data-placement="top" title="Flat Screen TV">
-                                                    <i class="im im-tv"></i>
-                                                </li>
-                                                <li rel="tooltip" data-placement="top" title="Mini Bar">
-                                                    <i class="im im-bar"></i>
-                                                </li>
-                                                <li rel="tooltip" data-placement="top" title="Bathtub">
-                                                    <i class="im im-bathtub"></i>
-                                                </li>
-                                                <li rel="tooltip" data-placement="top" title="Kitchen">
-                                                    <i class="im im-kitchen"></i>
-                                                </li>
-                                                <li rel="tooltip" data-placement="top" title="Patio">
-                                                    <i class="im im-patio"></i>
-                                                </li>
-                                                <li rel="tooltip" data-placement="top" title="Washing Machine">
-                                                    <i class="im im-washing-machine"></i>
-                                                </li>
-                                                <li rel="tooltip" data-placement="top" title="Pool">
-                                                    <i class="im im-pool"></i>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <span class="booking-item-price">@items.Currency.Currency1 @items.Price</span><span>/night</span> <button class="btn btn-primary" id="btnbook" onclick="myFunction()">Book</button>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
+                        @Html.Partial("_RoomView", rm);
                     }
+                }
+
             </div>
-            <div class="col-md-3">
-                <h4>About the Hotel</h4>
-                <p class="mb30">Torquent egestas pharetra est cum tellus ultrices aliquam nam gravida hendrerit primis class egestas primis porta egestas non eleifend risus</p>
+
+            <div class="col-md-4">
+                <div class="gap gap-small"></div>
                 <h4>Hotel Facilities</h4>
                 <ul class="booking-item-features booking-item-features-expand mb30 clearfix">
                     <li>
@@ -292,9 +166,20 @@
                     </li>
                 </ul>
             </div>
+
         </div>
+        <h3 class="mb20">Hotel Reviews</h3>
+
     </div>
+    <div class="gap gap-small"></div>
 </div>
+
+
+
+
+
+
+
 
 @section scriptLocation{
     <script>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConferencePortal.App_Code;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,21 +11,51 @@ namespace ConferencePortal.Controllers
     {
         conferencedbEntities en = new conferencedbEntities();
         // GET: Reservation
-        public ActionResult Index(int Hotel)
+        public ActionResult Index(string ConventionID, int HotelId)
         {
-            int ConventionID = 1;
+            ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
 
-            var Hotels = from st in en.Hotels
-                         where st.ConferenceID == ConventionID
-                         select st;
+            int Convention = Convert.ToInt32(ConventionID);
 
-            var result = from st in en.Rooms
-                           where st.ConferenceID == ConventionID && st.HotelID == Hotel
-                           select st;
+            var hotelResult = from st in en.Hotels
+                              where st.ConferenceID == Convention
+                              select st;
 
-            ViewBag.Hotels = Hotels.ToList();
-            ViewBag.Rooms = result.ToList();
+            if (HotelId != 0)
+            {
+                var roomResult = from st in en.Rooms
+                                 where st.ConventionID == Convention && st.HotelID == HotelId
+                                 select st;
 
+                ViewBag.Rooms = roomResult.ToList();
+            }
+
+            ViewBag.Hotels = hotelResult.ToList();
+            TempData["ShoppingCart"] = cart;
+
+            return View();
+        }
+
+        public ActionResult AddtoCart(string RoomId)
+        {
+            ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
+    
+            Room room = en.Rooms.Find(Convert.ToInt32(RoomId));
+            cart.Rooms.Add(room);
+
+            return RedirectToAction("Index", "Reservation", new { ConventionID = 1, HotelId = 0 });
+        }
+
+        [HttpPost]
+        public ActionResult SearchHotel(string HotelList)
+        {
+            string hot = HotelList;
+
+            return RedirectToAction("Index", "Reservation", new { ConventionID = 1, HotelId = Convert.ToInt32(HotelList) });
+        }
+
+        public ActionResult Cart()
+        {
             return View();
         }
 
