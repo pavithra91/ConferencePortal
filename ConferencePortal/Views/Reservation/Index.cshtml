@@ -2,9 +2,17 @@
 @{
     ViewBag.Title = "Index";
 
-    List<Room> rm = ViewBag.Rooms;
+    IEnumerable<Room> rooms = null;
+    List<Hotel> hotel = null;
 
-    IEnumerable<Room> rooms = rm;
+    if (ViewBag.Rooms != null)
+    {
+        List<Room> rm = ViewBag.Rooms;
+
+        hotel = ViewBag.Hotels;
+
+        rooms = rm;
+    }
 }
 
 
@@ -19,17 +27,36 @@
                 <div class="booking-item-dates-change">
                     <form>
                         <div class="row">
-                            <div class="col-md-6">
+
+                            <div class="col-sm-2">
+
+                                <div class="form-group form-group-icon-left">
+                                    <i class="fa fa-calendar input-icon input-icon-hightlight"></i>
+                                    <label>Hotel</label>
+
+                                    
+
+                                    <select id="drpHotels">
+                                        @foreach (var item in hotel)
+                                        {
+                                        <option value="@item.HotelID">@item.HotelName.Trim()</option>
+                                        }
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-5">
                                 <div class="input-daterange" data-date-format="MM d, D">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-5">
                                             <div class="form-group form-group-icon-left">
                                                 <i class="fa fa-calendar input-icon input-icon-hightlight"></i>
                                                 <label>Check in</label>
                                                 <input class="form-control" name="start" id="start" type="text" />
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-5">
                                             <div class="form-group form-group-icon-left">
                                                 <i class="fa fa-calendar input-icon input-icon-hightlight"></i>
                                                 <label>Check out</label>
@@ -43,7 +70,7 @@
                                 <div class="form-group form-group-select-plus">
                                     <label>Adults</label>
                                     <div class="btn-group btn-group-select-num" data-toggle="buttons">
-                                        
+
 
                                         <label class="btn btn-primary active">
                                             <input type="radio" name="options" />1
@@ -77,41 +104,41 @@
                                 </div>
                             </div>
                             @*<div class="col-md-2">
-                                <div class="form-group form-group-select-plus">
-                                    <label>Children</label>
-                                    <div class="btn-group btn-group-select-num" data-toggle="buttons">
-                                        <label class="btn btn-primary active">
-                                            <input type="radio" name="options" />0
-                                        </label>
-                                        <label class="btn btn-primary">
-                                            <input type="radio" name="options" />1
-                                        </label>
-                                        <label class="btn btn-primary">
-                                            <input type="radio" name="options" />2
-                                        </label>
-                                        <label class="btn btn-primary">
-                                            <input type="radio" name="options" />2+
-                                        </label>
+                                    <div class="form-group form-group-select-plus">
+                                        <label>Children</label>
+                                        <div class="btn-group btn-group-select-num" data-toggle="buttons">
+                                            <label class="btn btn-primary active">
+                                                <input type="radio" name="options" />0
+                                            </label>
+                                            <label class="btn btn-primary">
+                                                <input type="radio" name="options" />1
+                                            </label>
+                                            <label class="btn btn-primary">
+                                                <input type="radio" name="options" />2
+                                            </label>
+                                            <label class="btn btn-primary">
+                                                <input type="radio" name="options" />2+
+                                            </label>
+                                        </div>
+                                        <select class="form-control hidden">
+                                            <option>0</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option selected="selected">3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                            <option>6</option>
+                                            <option>7</option>
+                                            <option>8</option>
+                                            <option>9</option>
+                                            <option>10</option>
+                                            <option>11</option>
+                                            <option>12</option>
+                                            <option>13</option>
+                                            <option>14</option>
+                                        </select>
                                     </div>
-                                    <select class="form-control hidden">
-                                        <option>0</option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option selected="selected">3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                        <option>6</option>
-                                        <option>7</option>
-                                        <option>8</option>
-                                        <option>9</option>
-                                        <option>10</option>
-                                        <option>11</option>
-                                        <option>12</option>
-                                        <option>13</option>
-                                        <option>14</option>
-                                    </select>
-                                </div>
-                            </div>*@
+                                </div>*@
                             <div class="col-md-2">
                                 <div class="form-group form-group-select-plus">
                                     <label>Rooms</label>
@@ -147,74 +174,77 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="col-md-1">
+                                <input type="button" value="Search" />
+                            </div>
                         </div>
                     </form>
                 </div>
                 <div class="gap gap-small"></div>
 
-                @foreach (var items in rooms)
-                {
-                    <ul class="booking-list">
-                        <li>
-                            <a class="booking-item">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        
-                                        <img src="@items.RoomImage" alt="Image Alternative text" title="hotel PORTO BAY RIO INTERNACIONAL rooftop pool" />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h5 class="booking-item-title">@items.RoomName</h5>
-                                        <p class="text-small">Platea fringilla cursus aliquam euismod integer viverra dis facilisi in augue vehicula sed</p>
-                                        <ul class="booking-item-features booking-item-features-sign clearfix">
-                                            <li rel="tooltip" data-placement="top" title="Adults Occupancy">
-                                                <i class="fa fa-male"></i><span class="booking-item-feature-sign">x 1</span>
-                                            </li>
-                                            <li rel="tooltip" data-placement="top" title="Children Occupancy">
-                                                <i class="im im-children"></i><span class="booking-item-feature-sign">x 1</span>
-                                            </li>
-                                            <li rel="tooltip" data-placement="top" title="Beds">
-                                                <i class="im im-bed"></i><span class="booking-item-feature-sign"> x 1</span>
-                                            </li>
-                                            <li rel="tooltip" data-placement="top" title="Room footage (square feet)">
-                                                <i class="im im-width"></i><span class="booking-item-feature-sign">320</span>
-                                            </li>
-                                        </ul>
-                                        <ul class="booking-item-features booking-item-features-small clearfix">
-                                            <li rel="tooltip" data-placement="top" title="Air Conditioning">
-                                                <i class="im im-air"></i>
-                                            </li>
-                                            <li rel="tooltip" data-placement="top" title="Flat Screen TV">
-                                                <i class="im im-tv"></i>
-                                            </li>
-                                            <li rel="tooltip" data-placement="top" title="Mini Bar">
-                                                <i class="im im-bar"></i>
-                                            </li>
-                                            <li rel="tooltip" data-placement="top" title="Bathtub">
-                                                <i class="im im-bathtub"></i>
-                                            </li>
-                                            <li rel="tooltip" data-placement="top" title="Kitchen">
-                                                <i class="im im-kitchen"></i>
-                                            </li>
-                                            <li rel="tooltip" data-placement="top" title="Patio">
-                                                <i class="im im-patio"></i>
-                                            </li>
-                                            <li rel="tooltip" data-placement="top" title="Washing Machine">
-                                                <i class="im im-washing-machine"></i>
-                                            </li>
-                                            <li rel="tooltip" data-placement="top" title="Pool">
-                                                <i class="im im-pool"></i>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <span class="booking-item-price">@items.Currency.Currency1 @items.Price</span><span>/night</span> <button class="btn btn-primary" id="btnbook" onclick="myFunction()">Book</button> 
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                }
+                    @foreach (var items in rooms)
+                    {
+                        <ul class="booking-list">
+                            <li>
+                                <a class="booking-item">
+                                    <div class="row">
+                                        <div class="col-md-3">
 
+                                            <img src="@items.RoomImage" alt="Image Alternative text" title="hotel PORTO BAY RIO INTERNACIONAL rooftop pool" />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5 class="booking-item-title">@items.RoomName</h5>
+                                            <p class="text-small">Platea fringilla cursus aliquam euismod integer viverra dis facilisi in augue vehicula sed</p>
+                                            <ul class="booking-item-features booking-item-features-sign clearfix">
+                                                <li rel="tooltip" data-placement="top" title="Adults Occupancy">
+                                                    <i class="fa fa-male"></i><span class="booking-item-feature-sign">x 1</span>
+                                                </li>
+                                                <li rel="tooltip" data-placement="top" title="Children Occupancy">
+                                                    <i class="im im-children"></i><span class="booking-item-feature-sign">x 1</span>
+                                                </li>
+                                                <li rel="tooltip" data-placement="top" title="Beds">
+                                                    <i class="im im-bed"></i><span class="booking-item-feature-sign"> x 1</span>
+                                                </li>
+                                                <li rel="tooltip" data-placement="top" title="Room footage (square feet)">
+                                                    <i class="im im-width"></i><span class="booking-item-feature-sign">320</span>
+                                                </li>
+                                            </ul>
+                                            <ul class="booking-item-features booking-item-features-small clearfix">
+                                                <li rel="tooltip" data-placement="top" title="Air Conditioning">
+                                                    <i class="im im-air"></i>
+                                                </li>
+                                                <li rel="tooltip" data-placement="top" title="Flat Screen TV">
+                                                    <i class="im im-tv"></i>
+                                                </li>
+                                                <li rel="tooltip" data-placement="top" title="Mini Bar">
+                                                    <i class="im im-bar"></i>
+                                                </li>
+                                                <li rel="tooltip" data-placement="top" title="Bathtub">
+                                                    <i class="im im-bathtub"></i>
+                                                </li>
+                                                <li rel="tooltip" data-placement="top" title="Kitchen">
+                                                    <i class="im im-kitchen"></i>
+                                                </li>
+                                                <li rel="tooltip" data-placement="top" title="Patio">
+                                                    <i class="im im-patio"></i>
+                                                </li>
+                                                <li rel="tooltip" data-placement="top" title="Washing Machine">
+                                                    <i class="im im-washing-machine"></i>
+                                                </li>
+                                                <li rel="tooltip" data-placement="top" title="Pool">
+                                                    <i class="im im-pool"></i>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <span class="booking-item-price">@items.Currency.Currency1 @items.Price</span><span>/night</span> <button class="btn btn-primary" id="btnbook" onclick="myFunction()">Book</button>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    }
             </div>
             <div class="col-md-3">
                 <h4>About the Hotel</h4>
@@ -272,14 +302,12 @@
         $("#start").change(function () {
             var curDate = new Date();
             var myDAte = $('#start').datepicker("getDate");
-            if (Date.parse(curDate) > Date.parse(myDAte))
-            {
+            if (Date.parse(curDate) > Date.parse(myDAte)) {
                 alert('You have to Select Future Date');
                 $("#start").datepicker().datepicker("setDate", new Date());
                 return;
             }
-            else
-            {
+            else {
                 var bla2 = $('#start').val();
                 $("#end").datepicker().datepicker("setDate", bla2);
             }
@@ -301,5 +329,5 @@
                 });
             });
         }
-</script>
+    </script>
 }

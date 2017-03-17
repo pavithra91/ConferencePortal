@@ -18,7 +18,7 @@ namespace ConferencePortal.Controllers
 
         public ActionResult DeligateRegistration()
         {
-            ViewBag.NoOfDeligates = 5;
+            ViewBag.NoOfDeligates = 10;
             return View();
         }
 

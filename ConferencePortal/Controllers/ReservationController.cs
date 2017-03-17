@@ -10,14 +10,19 @@ namespace ConferencePortal.Controllers
     {
         conferencedbEntities en = new conferencedbEntities();
         // GET: Reservation
-        public ActionResult Index()
+        public ActionResult Index(int Hotel)
         {
             int ConventionID = 1;
 
+            var Hotels = from st in en.Hotels
+                         where st.ConferenceID == ConventionID
+                         select st;
+
             var result = from st in en.Rooms
-                           where st.ConferenceID == ConventionID
+                           where st.ConferenceID == ConventionID && st.HotelID == Hotel
                            select st;
 
+            ViewBag.Hotels = Hotels.ToList();
             ViewBag.Rooms = result.ToList();
 
             return View();
