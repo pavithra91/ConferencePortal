@@ -1804,6 +1804,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Conferencedb.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Configuration.cs">
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ReservationController.cs" />
     <Compile Include="Currency.cs">
@@ -1818,6 +1821,7 @@
     <Compile Include="Hotel.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LoginDataModel.cs" />
     <Compile Include="Payment.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
@@ -1859,6 +1863,11 @@
     <Content Include="Views\Account\DeligateRegistration.cshtml" />
     <Content Include="Views\Reservation\_RoomView.cshtml" />
     <Content Include="Views\Reservation\ViewCart.cshtml" />
+    <Content Include="Views\Reservation\_TransportView.cshtml" />
+    <Content Include="Views\Reservation\_RoomSearchView.cshtml" />
+    <Content Include="Views\Reservation\_TransportSearchView.cshtml" />
+    <Content Include="Views\Reservation\_ExcursionSearchView.cshtml" />
+    <Content Include="Views\Account\SignIn.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1868,7 +1877,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

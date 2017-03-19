@@ -3,19 +3,29 @@
     ViewBag.Title = "ViewCart";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    
-    List<Room> rooms = ViewBag.Rooms;
-    List<Transport> transport = ViewBag.Transport;
+    List<Room> rooms = null;
+    List<Transport> transport = null;
+    IEnumerable<Client> client = null;
+
+    if (ViewBag.Rooms != null && ViewBag.Transport != null)
+    {
+        rooms = ViewBag.Rooms;
+        transport = ViewBag.Transport;
+        client = ViewBag.Client;
+    }
 }
 
 <div class="container">
     <div class="row">
         <div class="col-md-3">
+            @if (client != null)
+            {
+                foreach (var cl in client)
+                {
             <aside class="user-profile-sidebar">
                 <div class="user-profile-avatar text-center">
-                    <img src="img/300x300.png" alt="Image Alternative text" title="AMaze" />
-                    <h5>John Doe</h5>
-                    <p>Member Since May 2012</p>
+                    <img src="~/img/300x300.png" alt="Image Alternative text" title="@cl.firstName" />
+                    <h5>@cl.firstName</h5>
                 </div>
                 <ul class="list user-profile-nav">
                     <li>
@@ -38,6 +48,9 @@
                     </li>
                 </ul>
             </aside>
+                    break;
+                }
+            }
         </div>
 
         <div class="col-md-9">
@@ -50,7 +63,7 @@
 
                 <li>
                     <span class="booking-item-wishlist-title"><i class="fa fa-building-o"></i> Hotel </span>
-                    <a class="fa fa-times booking-item-wishlist-remove" href="#" rel="tooltip" data-placement="top" title="remove from wishlist"></a>
+                    <a class="fa fa-times booking-item-wishlist-remove" href="@Url.Action("RemoveFromCart", "Reservation", new { RoomId = items.RoomID }, null)" rel="tooltip" data-placement="top" title="remove from wishlist"></a>
                     <a class="booking-item" href="#">
                         <div class="row">
                             <div class="col-md-3">
@@ -83,7 +96,7 @@
                                 <p class="booking-item-address"><i class="fa fa-map-marker"></i> @items.Hotel.Address</p><small class="booking-item-last-booked">Latest booking: Just now</small>
                             </div>
                             <div class="col-md-3">
-                                <span class="booking-item-price-from">from</span><span class="booking-item-price">@items.Currency @items.Price</span><span>/night</span><span class="btn btn-primary">Book Now</span>
+                                <span class="booking-item-price-from">from</span><span class="booking-item-price">@items.Currency.Currency1 @items.Price</span><span>/night</span><span class="btn btn-primary">Book Now</span>
                             </div>
                         </div>
                     </a>
@@ -91,8 +104,7 @@
 
                 }
                 }
-
-
+                
 
                 @if (transport != null)
                 {

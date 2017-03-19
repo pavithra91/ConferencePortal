@@ -26,5 +26,9 @@ namespace ConferencePortal
         public Nullable<System.DateTime> depatureDate { get; set; }
         public string depatureFlightNo { get; set; }
         public int AUTOID { get; set; }
+        public string phone { get; set; }
+        public string email { get; set; }
+        public string address { get; set; }
+        public string city { get; set; }
     }
 }

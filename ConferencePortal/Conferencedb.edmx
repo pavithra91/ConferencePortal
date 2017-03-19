@@ -28,10 +28,11 @@
           <Property Name="country" Type="varchar" MaxLength="50" />
           <Property Name="BookingID" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="City" Type="varchar" MaxLength="50" />
-          <Property Name="Deligate" Type="varchar" MaxLength="1" />
+          <Property Name="Deligate" Type="bit" />
           <Property Name="ContactNumber" Type="varchar" MaxLength="20" />
           <Property Name="email" Type="varchar" MaxLength="80" />
-          <Property Name="verified" Type="varchar" MaxLength="1" />
+          <Property Name="IsUserVerified" Type="bit" />
+          <Property Name="Password" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Conference">
           <Key>
@@ -42,6 +43,18 @@
           <Property Name="ConventionURL" Type="varchar" MaxLength="500" />
           <Property Name="ShowConventionLogo" Type="varchar" MaxLength="1" />
           <Property Name="ConventionLogo" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Configurations">
+          <Key>
+            <PropertyRef Name="ConventionID" />
+          </Key>
+          <Property Name="AUTOID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ConventionID" Type="int" Nullable="false" />
+          <Property Name="RegistrationRequired" Type="char" MaxLength="1" />
+          <Property Name="RegistrationFees" Type="float" />
+          <Property Name="AccommodationRequired" Type="char" MaxLength="1" />
+          <Property Name="TransportRequired" Type="char" MaxLength="1" />
+          <Property Name="ExcursionRequired" Type="char" MaxLength="1" />
         </EntityType>
         <EntityType Name="Currency">
           <Key>
@@ -103,6 +116,10 @@
           <Property Name="depatureDate" Type="date" />
           <Property Name="depatureFlightNo" Type="varchar" MaxLength="20" />
           <Property Name="AUTOID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="phone" Type="varchar" MaxLength="20" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="address" Type="varchar" MaxLength="500" />
+          <Property Name="city" Type="varchar" MaxLength="100" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'conferencedb.dbo.Reservation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -241,6 +258,20 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="ConventionID_fk_ConventionSettings">
+          <End Role="Conference" Type="Self.Conference" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Configurations" Type="Self.Configurations" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Conference">
+              <PropertyRef Name="ConventionID" />
+            </Principal>
+            <Dependent Role="Configurations">
+              <PropertyRef Name="ConventionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="CurCode_fk_Currency">
           <End Role="Currency" Type="Self.Currency" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -325,6 +356,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySet Name="Allotments" EntityType="Self.Allotments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Conference" EntityType="Self.Conference" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Configurations" EntityType="Self.Configurations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Excursions" EntityType="Self.Excursions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hotel" EntityType="Self.Hotel" Schema="dbo" store:Type="Tables" />
@@ -369,6 +401,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             <End Role="Conference" EntitySet="Conference" />
             <End Role="Excursions" EntitySet="Excursions" />
           </AssociationSet>
+          <AssociationSet Name="ConventionID_fk_ConventionSettings" Association="Self.ConventionID_fk_ConventionSettings">
+            <End Role="Conference" EntitySet="Conference" />
+            <End Role="Configurations" EntitySet="Configurations" />
+          </AssociationSet>
           <AssociationSet Name="CurCode_fk_Currency" Association="Self.CurCode_fk_Currency">
             <End Role="Currency" EntitySet="Currency" />
             <End Role="Transport" EntitySet="Transport" />
@@ -402,6 +438,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySet Name="Allotments" EntityType="conferencedbModel.Allotment" />
           <EntitySet Name="Clients" EntityType="conferencedbModel.Client" />
           <EntitySet Name="Conferences" EntityType="conferencedbModel.Conference" />
+          <EntitySet Name="Configurations" EntityType="conferencedbModel.Configuration" />
           <EntitySet Name="Currencies" EntityType="conferencedbModel.Currency" />
           <EntitySet Name="Excursions" EntityType="conferencedbModel.Excursion" />
           <EntitySet Name="Hotels" EntityType="conferencedbModel.Hotel" />
@@ -434,6 +471,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <AssociationSet Name="ConventionID_fk_Convention" Association="conferencedbModel.ConventionID_fk_Convention">
             <End Role="Conference" EntitySet="Conferences" />
             <End Role="Excursion" EntitySet="Excursions" />
+          </AssociationSet>
+          <AssociationSet Name="ConventionID_fk_ConventionSettings" Association="conferencedbModel.ConventionID_fk_ConventionSettings">
+            <End Role="Conference" EntitySet="Conferences" />
+            <End Role="Configuration" EntitySet="Configurations" />
           </AssociationSet>
           <AssociationSet Name="CurCode_fk_Currency" Association="conferencedbModel.CurCode_fk_Currency">
             <End Role="Currency" EntitySet="Currencies" />
@@ -485,10 +526,11 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="BookingID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Deligate" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Deligate" Type="Boolean" />
           <Property Name="ContactNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="email" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
-          <Property Name="verified" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="IsUserVerified" Type="Boolean" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Conference" Relationship="conferencedbModel.conference_fk_Conference" FromRole="Client" ToRole="Conference" />
         </EntityType>
         <EntityType Name="Conference">
@@ -505,6 +547,20 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <NavigationProperty Name="Transports" Relationship="conferencedbModel.ConferenceID_fk_Conference" FromRole="Conference" ToRole="Transport" />
           <NavigationProperty Name="Rooms" Relationship="conferencedbModel.ConferenceID_fk_Rooms" FromRole="Conference" ToRole="Room" />
           <NavigationProperty Name="Excursions" Relationship="conferencedbModel.ConventionID_fk_Convention" FromRole="Conference" ToRole="Excursion" />
+          <NavigationProperty Name="Configuration" Relationship="conferencedbModel.ConventionID_fk_ConventionSettings" FromRole="Conference" ToRole="Configuration" />
+        </EntityType>
+        <EntityType Name="Configuration">
+          <Key>
+            <PropertyRef Name="ConventionID" />
+          </Key>
+          <Property Name="AUTOID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConventionID" Type="Int32" Nullable="false" />
+          <Property Name="RegistrationRequired" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="RegistrationFees" Type="Double" />
+          <Property Name="AccommodationRequired" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="TransportRequired" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ExcursionRequired" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Conference" Relationship="conferencedbModel.ConventionID_fk_ConventionSettings" FromRole="Configuration" ToRole="Conference" />
         </EntityType>
         <EntityType Name="Currency">
           <Key>
@@ -571,6 +627,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="depatureDate" Type="DateTime" Precision="0" />
           <Property Name="depatureFlightNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="AUTOID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="address" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="city" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="RoomOccupancy">
           <Key>
@@ -712,6 +772,20 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="ConventionID_fk_ConventionSettings">
+          <End Type="conferencedbModel.Conference" Role="Conference" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="conferencedbModel.Configuration" Role="Configuration" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Conference">
+              <PropertyRef Name="ConventionID" />
+            </Principal>
+            <Dependent Role="Configuration">
+              <PropertyRef Name="ConventionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="CurCode_fk_Currency">
           <End Type="conferencedbModel.Currency" Role="Currency" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -812,7 +886,8 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySetMapping Name="Clients">
             <EntityTypeMapping TypeName="conferencedbModel.Client">
               <MappingFragment StoreEntitySet="Clients">
-                <ScalarProperty Name="verified" ColumnName="verified" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IsUserVerified" ColumnName="IsUserVerified" />
                 <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
                 <ScalarProperty Name="Deligate" ColumnName="Deligate" />
@@ -836,6 +911,19 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
                 <ScalarProperty Name="ConventionURL" ColumnName="ConventionURL" />
                 <ScalarProperty Name="ConventionName" ColumnName="ConventionName" />
                 <ScalarProperty Name="ConventionID" ColumnName="ConventionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Configurations">
+            <EntityTypeMapping TypeName="conferencedbModel.Configuration">
+              <MappingFragment StoreEntitySet="Configurations">
+                <ScalarProperty Name="ExcursionRequired" ColumnName="ExcursionRequired" />
+                <ScalarProperty Name="TransportRequired" ColumnName="TransportRequired" />
+                <ScalarProperty Name="AccommodationRequired" ColumnName="AccommodationRequired" />
+                <ScalarProperty Name="RegistrationFees" ColumnName="RegistrationFees" />
+                <ScalarProperty Name="RegistrationRequired" ColumnName="RegistrationRequired" />
+                <ScalarProperty Name="ConventionID" ColumnName="ConventionID" />
+                <ScalarProperty Name="AUTOID" ColumnName="AUTOID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -890,6 +978,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySetMapping Name="Registrations">
             <EntityTypeMapping TypeName="conferencedbModel.Registration">
               <MappingFragment StoreEntitySet="Registrations">
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
                 <ScalarProperty Name="AUTOID" ColumnName="AUTOID" />
                 <ScalarProperty Name="depatureFlightNo" ColumnName="depatureFlightNo" />
                 <ScalarProperty Name="depatureDate" ColumnName="depatureDate" />

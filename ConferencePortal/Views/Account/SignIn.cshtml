@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "SignIn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h1 class="page-title">Login on Convention Portal</h1>
+</div>
+<div class="gap"></div>
+
+@using (Html.BeginForm("Authenticate", "Account", FormMethod.Post))
+{
+<div class="container">
+    <div class="row" data-gutter="60">
+        <div class="col-sm-5">
+            <h3>Welcome to Walkerstours Convention Portal</h3>
+            <p>Ultricies vestibulum egestas ad cras mollis nam dictumst netus leo facilisis justo maecenas molestie ipsum felis mus cubilia hendrerit vestibulum accumsan consectetur convallis vitae nec sapien diam justo lobortis aenean</p>
+            <p>Lobortis tristique interdum curae luctus mattis nisl aenean diam suscipit</p>
+        </div>
+        <div class="col-sm-5" style="margin-left: 30px;">
+            <h3>Login</h3>
+            <form>
+                <div class="form-group form-group-icon-left">
+                    <i class="fa fa-user input-icon input-icon-show"></i>
+                    <label>Username or email</label>
+                    <input class="form-control" placeholder="e.g. johndoe@gmail.com" name="Email" type="text" />
+                </div>
+                <div class="form-group form-group-icon-left">
+                    <i class="fa fa-lock input-icon input-icon-show"></i>
+                    <label>Password</label>
+                    <input class="form-control" type="password" name="Passwrod" placeholder="my secret password" />
+                </div>
+                <input class="btn btn-primary" type="submit" value="Sign in" />
+            </form>
+        </div>
+        @*<div class="col-md-4">
+            <h3>New To Traveler?</h3>
+            <form>
+                <div class="form-group form-group-icon-left">
+                    <i class="fa fa-user input-icon input-icon-show"></i>
+                    <label>Full Name</label>
+                    <input class="form-control" placeholder="e.g. John Doe" type="text" />
+                </div>
+                <div class="form-group form-group-icon-left">
+                    <i class="fa fa-envelope input-icon input-icon-show"></i>
+                    <label>Emai</label>
+                    <input class="form-control" placeholder="e.g. johndoe@gmail.com" type="text" />
+                </div>
+                <div class="form-group form-group-icon-left">
+                    <i class="fa fa-lock input-icon input-icon-show"></i>
+                    <label>Password</label>
+                    <input class="form-control" type="password" placeholder="my secret password" />
+                </div>
+                <input class="btn btn-primary" type="submit" value="Sign up for Traveler" />
+            </form>
+        </div>*@
+    </div>
+</div>
+
+}

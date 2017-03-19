@@ -40,5 +40,6 @@ namespace ConferencePortal
         public virtual ICollection<Room> Rooms { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Excursion> Excursions { get; set; }
+        public virtual Configuration Configuration { get; set; }
     }
 }

@@ -23,10 +23,11 @@ namespace ConferencePortal
         public string country { get; set; }
         public string BookingID { get; set; }
         public string City { get; set; }
-        public string Deligate { get; set; }
+        public Nullable<bool> Deligate { get; set; }
         public string ContactNumber { get; set; }
         public string email { get; set; }
-        public string verified { get; set; }
+        public Nullable<bool> IsUserVerified { get; set; }
+        public string Password { get; set; }
     
         public virtual Conference Conference { get; set; }
     }

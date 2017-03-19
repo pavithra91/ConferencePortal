@@ -21,16 +21,22 @@ namespace ConferencePortal.Controllers
                               where st.ConferenceID == Convention
                               select st;
 
+            var Configurations = from config in en.Configurations
+                              where config.ConventionID == Convention
+                              select config;
+
             if (HotelId != 0)
             {
                 var roomResult = from st in en.Rooms
-                                 where st.ConventionID == Convention && st.HotelID == HotelId
+                                 where st.ConventionID == Convention && st.HotelID == HotelId && st.Allotment.AvailableRooms > 0
                                  select st;
 
                 ViewBag.Rooms = roomResult.ToList();
             }
 
+            ViewBag.Configurations = Configurations.ToList();
             ViewBag.Hotels = hotelResult.ToList();
+
             TempData["ShoppingCart"] = cart;
 
             return View();
@@ -54,14 +60,53 @@ namespace ConferencePortal.Controllers
             return RedirectToAction("Index", "Reservation", new { ConventionID = 1, HotelId = Convert.ToInt32(HotelList) });
         }
 
+        [HttpPost]
+        public ActionResult SearchTransport()
+        {
+
+            return RedirectToAction("Index", "Reservation", new { ConventionID = 1, Transport = 1 });
+        }
+
+
         public ActionResult ViewCart()
         {
             ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
 
+            if (cart != null)
+            {
+                ViewBag.Rooms = cart.Rooms;
+                ViewBag.Transport = cart.Transport;
+
+                List<Client> cl = new List<Client> { cart.client };
+                ViewBag.Client = cl;
+
+                TempData["ShoppingCart"] = cart;
+            }
+            return View();
+        }
+
+        public ActionResult RemoveFromCart(string RoomId)
+        {
+            ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
+
+            List<Room> rm = cart.Rooms;
+            foreach(var items in rm)
+            {
+                if(items.RoomID == Convert.ToInt32(RoomId))
+                {
+                    rm.Remove(items);
+                    break;
+                }
+            }
+
+            cart.Rooms = rm;
+
             ViewBag.Rooms = cart.Rooms;
             ViewBag.Transport = cart.Transport;
 
-            return View();
+            TempData["ShoppingCart"] = cart;
+
+            return RedirectToAction("ViewCart", "Reservation");
         }
 
         public ActionResult Test()

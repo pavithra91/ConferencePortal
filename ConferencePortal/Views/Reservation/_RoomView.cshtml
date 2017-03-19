@@ -99,22 +99,10 @@
 </ul>
 @*}*@
 
-<input type="hidden" id="cat" name="category" value="10" />
 
 @section scriptLocation{
-    <script>
-        function OnChangeCategory(id) {
-            var element = document.getElementById("cat");
-            if (!isNaN(id)) {
-                element.value = id;
-                alert("tttt");
-            }
-            else {
-                element.value = -1;
-                alert("Else");
-            }
-        };
-    </script>
+
+
 }
 
 
