@@ -23,7 +23,7 @@ namespace ConferencePortal
     
         public int HotelID { get; set; }
         public string HotelName { get; set; }
-        public Nullable<int> ConferenceID { get; set; }
+        public int ConventionID { get; set; }
         public string HotelCode { get; set; }
         public string ShortDescription { get; set; }
         public string LongDescription { get; set; }
@@ -31,6 +31,7 @@ namespace ConferencePortal
         public string Address { get; set; }
         public Nullable<double> StarRaing { get; set; }
     
+        public virtual Configuration Configuration { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Room> Rooms { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

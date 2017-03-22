@@ -1391,7 +1391,7 @@
         calendarWeeks: false,
         clearBtn: false,
         daysOfWeekDisabled: [],
-        endDate: Infinity,
+        endDate: BookingEndPeriod(),
         forceParse: true,
         format: 'mm/dd/yyyy',
         keyboardNavigation: true,
@@ -1401,12 +1401,63 @@
         multidateSeparator: ',',
         orientation: "auto",
         rtl: false,
-        startDate: -Infinity,
+        startDate: BookingStartPeriod(),
         startView: 0,
         todayBtn: false,
         todayHighlight: false,
         weekStart: 0
     };
+
+    function BookingStartPeriod() {
+        var succeed = "";
+        var url = window.location.search;
+        url = url.replace("?", ''); // remove the ?
+        var myurls = url.split("&");
+        var ConventionID = myurls[0].replace("ConventionID=", "");
+
+        var dd = $.ajax(
+         {
+             type: "POST",
+             url: "http://localhost:55185/Reservation/GetBookingStartPeriod?ConventionID=" + ConventionID,
+             dataType: "text",
+             async: false,
+             success: function (result) {
+                 succeed = result;
+             },
+             error: function (x, e) {
+                succeed = "March 30, 2017 11:13:00";
+             }
+         });
+
+        var d = new Date(succeed);
+        return d;
+    };
+
+    function BookingEndPeriod() {
+        var succeed = "";
+        var url = window.location.search;
+        url = url.replace("?", ''); // remove the ?
+        var myurls = url.split("&");
+        var ConventionID = myurls[0].replace("ConventionID=", "");
+
+        var dd = $.ajax(
+         {
+             type: "POST",
+             url: "http://localhost:55185/Reservation/GetBookingEndPeriod?ConventionID=" + ConventionID,
+             dataType: "text",
+             async: false,
+             success: function (result) {
+                 succeed = result;
+             },
+             error: function (x, e) {
+                 succeed = "March 30, 2017 11:13:00";
+             }
+         });
+
+        var d = new Date(succeed);
+        return d;
+    };
+
     var locale_opts = $.fn.datepicker.locale_opts = [
         'format',
         'rtl',

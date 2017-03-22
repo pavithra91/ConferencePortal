@@ -1786,9 +1786,6 @@
     <Compile Include="Client.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
-    <Compile Include="Conference.cs">
-      <DependentUpon>Conferencedb.tt</DependentUpon>
-    </Compile>
     <Compile Include="Conferencedb.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1836,6 +1833,9 @@
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
     <Compile Include="RoomOccupancy.cs">
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoomRate.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
     <Compile Include="Transport.cs">

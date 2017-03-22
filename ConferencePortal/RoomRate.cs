@@ -12,23 +12,17 @@ namespace ConferencePortal
     using System;
     using System.Collections.Generic;
     
-    public partial class Client
+    public partial class RoomRate
     {
-        public int ClientID { get; set; }
+        public int AUTOID { get; set; }
         public Nullable<int> ConventionID { get; set; }
-        public string title { get; set; }
-        public string firstName { get; set; }
-        public string lastName { get; set; }
-        public string Address { get; set; }
-        public string country { get; set; }
-        public string BookingID { get; set; }
-        public string City { get; set; }
-        public Nullable<bool> Deligate { get; set; }
-        public string ContactNumber { get; set; }
-        public string email { get; set; }
-        public Nullable<bool> IsUserVerified { get; set; }
-        public string Password { get; set; }
+        public Nullable<System.DateTime> RateDate { get; set; }
+        public Nullable<int> RoomID { get; set; }
+        public Nullable<int> Allotment { get; set; }
+        public Nullable<int> Occupancy { get; set; }
+        public Nullable<double> Rate { get; set; }
     
         public virtual Configuration Configuration { get; set; }
+        public virtual Room Room { get; set; }
     }
 }

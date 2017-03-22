@@ -368,43 +368,42 @@
 
 @section scriptLocation{
     <script>
+        //$("#start").change(function () {
+        //    var curDate = new Date();
+        //    var myDAte = $('#start').datepicker("getDate");
+        //    if (Date.parse(curDate) > Date.parse(myDAte)) {
+        //        alert('You have to Select Future Date');
+        //        $("#start").datepicker().datepicker("setDate", new Date());
+        //        return;
+        //    }
+        //    else {
+        //        var bla2 = $('#start').val();
+        //        $("#end").datepicker().datepicker("setDate", bla2);
+        //    }
+        //});
 
-        $("#start").change(function () {
-            var curDate = new Date();
-            var myDAte = $('#start').datepicker("getDate");
-            if (Date.parse(curDate) > Date.parse(myDAte)) {
-                alert('You have to Select Future Date');
-                $("#start").datepicker().datepicker("setDate", new Date());
-                return;
-            }
-            else {
-                var bla2 = $('#start').val();
-                $("#end").datepicker().datepicker("setDate", bla2);
-            }
-        });
+        //function myFunction() {
+        //       var dd =  $.ajax(
+        //        {
+        //            type: "POST",
+        //            url: "http://localhost:55185/Reservation/Test",
+        //            dataType: "json",
+        //            success: function (result) {
+        //                window.location.href = result;
+        //            },
+        //            error: function (x, e) {
+        //                alert("Error" + e.error);
+        //            }
+        //        });
 
-        function myFunction() {
-            $("#btnbook").on("click", function () {
-                $.ajax(
-                {
-                    type: "POST",
-                    url: "http://localhost:55185/Reservation/Test",
-                    dataType: "json",
-                    success: function (result) {
-                        window.location.href = result;
-                    },
-                    error: function (x, e) {
-                        alert("Error" + e.error);
-                    }
-                });
-            });
-        }
+        //       return dd;
+        //}
 
-        $(function () {
-            $("#tab-4").tabs();
-            $('#tab-4').click('tabsselect', function (event, ui) {
-                alert("tsdfsdfsdf");
-            });
-        });
+        //$(function () {
+        //    $("#tab-4").tabs();
+        //    $('#tab-4').click('tabsselect', function (event, ui) {
+        //        alert("tsdfsdfsdf");
+        //    });
+        //});
     </script>
 }
