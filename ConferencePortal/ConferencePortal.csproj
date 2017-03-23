@@ -1782,6 +1782,7 @@
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
     <Compile Include="App_Code\ShoppingCart.cs" />
+    <Compile Include="App_Code\TempRes.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Client.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>

@@ -10,10 +10,15 @@ namespace ConferencePortal.Controllers
     public class ReservationController : Controller
     {
         conferencedbEntities en = new conferencedbEntities();
-        // GET: Reservation
+        // GET: ReservationSearchHotel
         public ActionResult Index(string ConventionID, int HotelId)
         {
             ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
+            TempRes res;
+            if (TempData["TempRes"] != null)
+            {
+                res = TempData["TempRes"] as TempRes;
+            }
 
             int Convention = Convert.ToInt32(ConventionID);
 
@@ -53,9 +58,14 @@ namespace ConferencePortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult SearchHotel(string HotelList)
+        public ActionResult SearchHotel(string HotelList, string start, string end)
         {
             string hot = HotelList;
+            TempRes res = new TempRes();
+            res.StartDate = start;
+            res.EndtDate = end;
+
+            TempData["TempRes"] = res;
 
             return RedirectToAction("Index", "Reservation", new { ConventionID = 1, HotelId = Convert.ToInt32(HotelList) });
         }
