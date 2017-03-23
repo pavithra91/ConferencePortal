@@ -14,14 +14,47 @@ namespace ConferencePortal
     
     public partial class Configuration
     {
-        public int AUTOID { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Configuration()
+        {
+            this.Allotments = new HashSet<Allotment>();
+            this.Clients = new HashSet<Client>();
+            this.Transports = new HashSet<Transport>();
+            this.Rooms = new HashSet<Room>();
+            this.RoomRates = new HashSet<RoomRate>();
+            this.Excursions = new HashSet<Excursion>();
+            this.Hotels = new HashSet<Hotel>();
+        }
+    
         public int ConventionID { get; set; }
+        public string ConventionName { get; set; }
+        public string ConventionURL { get; set; }
+        public string ShowConventionLogo { get; set; }
+        public string ConventionLogo { get; set; }
         public string RegistrationRequired { get; set; }
         public Nullable<double> RegistrationFees { get; set; }
         public string AccommodationRequired { get; set; }
+        public string PackagesRequired { get; set; }
         public string TransportRequired { get; set; }
         public string ExcursionRequired { get; set; }
+        public Nullable<System.DateTime> ConventionStartDate { get; set; }
+        public Nullable<System.DateTime> ConventionEndDate { get; set; }
+        public Nullable<System.DateTime> BookingPeriodStart { get; set; }
+        public Nullable<System.DateTime> BookingPeriodEnd { get; set; }
     
-        public virtual Conference Conference { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Allotment> Allotments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Client> Clients { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Transport> Transports { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Room> Rooms { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RoomRate> RoomRates { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Excursion> Excursions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Hotel> Hotels { get; set; }
     }
 }

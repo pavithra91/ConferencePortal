@@ -22,6 +22,6 @@ namespace ConferencePortal
         public string ExcursionImage { get; set; }
         public Nullable<double> Price { get; set; }
     
-        public virtual Conference Conference { get; set; }
+        public virtual Configuration Configuration { get; set; }
     }
 }
