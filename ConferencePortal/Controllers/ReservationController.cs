@@ -14,7 +14,7 @@ namespace ConferencePortal.Controllers
         // GET: Reservation
         public ActionResult Index(string ConventionID, int HotelId)
         {
-            ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
+            ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;            
 
             int Convention = Convert.ToInt32(ConventionID);
 
@@ -28,11 +28,60 @@ namespace ConferencePortal.Controllers
 
             if (HotelId != 0)
             {
-                var roomResult = from st in en.Rooms
-                                 where st.ConventionID == Convention && st.HotelID == HotelId
-                                 select st;
+                TempDate TempDates = TempData["TempDate"] as TempDate;
 
-                ViewBag.Rooms = roomResult.ToList();
+                if (TempDates!=null)
+                {
+               //     var roomResult =
+               //(from dbo in en.Rooms
+               // from rmalt in en.RoomAllotments
+               // from rmrate in en.RoomRates
+               // where dbo.ConventionID == Convention && dbo.RoomID == rmalt.RoomID && dbo.AllotmentID == rmalt.AllotmentID && (rmrate.Allotment > 0 || rmalt.Allotment.AvailableRooms > 0) && (rmrate.RateDate >= TempDates.StartDate && rmrate.RateDate <= TempDates.EndDate)
+               // select dbo).Distinct();
+
+                    DateTime start = TempDates.StartDate;
+                    DateTime end = TempDates.EndDate;
+                    int dateDiff = (end - start).Days;
+
+                    List<Room> rmlist = new List<Room>();
+                    int count = 0;
+
+                    for(int i=0; i<=dateDiff; i++)
+                    {
+                        var test2 =
+                            (from roomAllotment in en.RoomAllotments
+                            where roomAllotment.Room.ConventionID == Convention && roomAllotment.Date == start && (roomAllotment.AvailableRooms > 0 || roomAllotment.RoomRate.Status > 0)
+                            select roomAllotment.Room).ToList();
+
+                        count = test2.Count;
+
+
+                        if (test2.Count>0)
+                        {
+                            foreach (var rms in test2)
+                            {
+                                rmlist.Add(rms);
+                            }
+                            start = start.AddDays(1);
+                            continue;
+                        }
+                        else
+                        {
+                            rmlist = null;
+                            break;
+                        }
+                    }
+
+                    if (rmlist != null)
+                    {
+                        List<Room> RooomResult = rmlist.Distinct().ToList();
+                        ViewBag.Rooms = RooomResult.ToList();
+                    }
+                    else
+                    {
+                        ViewBag.Rooms = null;
+                    }
+                }                
             }
 
             ViewBag.Configurations = Configurations.ToList();
@@ -54,9 +103,20 @@ namespace ConferencePortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult SearchHotel(string HotelList)
+        public ActionResult SearchHotel(FormCollection fomr)
         {
-            string hot = HotelList;
+            string HotelList = Request.Form["HotelList"];
+            string start = Request.Form["start"];
+            string end = Request.Form["end"];
+
+            DateTime startdate = Convert.ToDateTime(start);
+            DateTime enddate = Convert.ToDateTime(end);
+
+            TempDate TempDates = new TempDate();
+            TempDates.StartDate = startdate;
+            TempDates.EndDate = enddate;
+
+            TempData["TempDate"] = TempDates;
 
             return RedirectToAction("Index", "Reservation", new { ConventionID = 1, HotelId = Convert.ToInt32(HotelList) });
         }

@@ -14,6 +14,12 @@ namespace ConferencePortal
     
     public partial class RoomRate
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public RoomRate()
+        {
+            this.RoomAllotments = new HashSet<RoomAllotment>();
+        }
+    
         public int AUTOID { get; set; }
         public Nullable<int> ConventionID { get; set; }
         public Nullable<System.DateTime> RateDate { get; set; }
@@ -21,8 +27,11 @@ namespace ConferencePortal
         public Nullable<int> Allotment { get; set; }
         public Nullable<int> Occupancy { get; set; }
         public Nullable<double> Rate { get; set; }
+        public Nullable<int> Status { get; set; }
     
         public virtual Configuration Configuration { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RoomAllotment> RoomAllotments { get; set; }
         public virtual Room Room { get; set; }
     }
 }

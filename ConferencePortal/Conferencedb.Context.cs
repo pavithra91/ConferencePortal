@@ -33,6 +33,7 @@ namespace ConferencePortal
         public virtual DbSet<Hotel> Hotels { get; set; }
         public virtual DbSet<Payment> Payments { get; set; }
         public virtual DbSet<Registration> Registrations { get; set; }
+        public virtual DbSet<RoomAllotment> RoomAllotments { get; set; }
         public virtual DbSet<RoomOccupancy> RoomOccupancies { get; set; }
         public virtual DbSet<RoomRate> RoomRates { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }

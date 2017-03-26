@@ -14,8 +14,7 @@
           <Property Name="ReservedRooms" Type="int" />
           <Property Name="AvailableRooms" Type="int" />
           <Property Name="ConventionID" Type="int" />
-          <Property Name="Date" Type="date" />
-          <Property Name="RoomID" Type="int" />
+          <Property Name="Status" Type="int" />
         </EntityType>
         <EntityType Name="Clients">
           <Key>
@@ -137,6 +136,20 @@ warning 6002: The table/view 'conferencedb.dbo.Reservation' does not have a prim
           <Property Name="TransportRequired" Type="varchar" MaxLength="1" />
           <Property Name="TransportID" Type="int" />
         </EntityType>
+        <EntityType Name="RoomAllotment">
+          <Key>
+            <PropertyRef Name="AUTOID" />
+            <PropertyRef Name="RoomID" />
+            <PropertyRef Name="AllotmentID" />
+            <PropertyRef Name="RateID" />
+          </Key>
+          <Property Name="AUTOID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoomID" Type="int" Nullable="false" />
+          <Property Name="AllotmentID" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" />
+          <Property Name="RateID" Type="int" Nullable="false" />
+          <Property Name="AvailableRooms" Type="int" />
+        </EntityType>
         <EntityType Name="RoomOccupancy">
           <Key>
             <PropertyRef Name="OccupancyID" />
@@ -155,6 +168,7 @@ warning 6002: The table/view 'conferencedb.dbo.Reservation' does not have a prim
           <Property Name="Allotment" Type="int" />
           <Property Name="Occupancy" Type="int" />
           <Property Name="Rate" Type="float" />
+          <Property Name="Status" Type="int" />
         </EntityType>
         <EntityType Name="Rooms">
           <Key>
@@ -187,16 +201,16 @@ warning 6002: The table/view 'conferencedb.dbo.Reservation' does not have a prim
           <Property Name="CurCode" Type="int" />
           <Property Name="ShowInSearch" Type="char" MaxLength="1" />
         </EntityType>
-        <Association Name="AllotmentID_fk_Rooms">
-          <End Role="Allotments" Type="Self.Allotments" Multiplicity="0..1">
+        <Association Name="Allotment_fk">
+          <End Role="Allotments" Type="Self.Allotments" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Rooms" Type="Self.Rooms" Multiplicity="*" />
+          <End Role="RoomAllotment" Type="Self.RoomAllotment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Allotments">
               <PropertyRef Name="AllotmentID" />
             </Principal>
-            <Dependent Role="Rooms">
+            <Dependent Role="RoomAllotment">
               <PropertyRef Name="AllotmentID" />
             </Dependent>
           </ReferentialConstraint>
@@ -337,6 +351,20 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="RoomID_fk">
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RoomAllotment" Type="Self.RoomAllotment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rooms">
+              <PropertyRef Name="RoomID" />
+            </Principal>
+            <Dependent Role="RoomAllotment">
+              <PropertyRef Name="RoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="RoomID_fk_Reservation">
           <End Role="Rooms" Type="Self.Rooms" Multiplicity="0..1" />
           <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
@@ -358,6 +386,18 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             </Principal>
             <Dependent Role="RoomRates">
               <PropertyRef Name="RoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RoomRate_fk">
+          <End Role="RoomRates" Type="Self.RoomRates" Multiplicity="1" />
+          <End Role="RoomAllotment" Type="Self.RoomAllotment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoomRates">
+              <PropertyRef Name="AUTOID" />
+            </Principal>
+            <Dependent Role="RoomAllotment">
+              <PropertyRef Name="RateID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -384,6 +424,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySet Name="Hotel" EntityType="Self.Hotel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Registrations" EntityType="Self.Registrations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoomAllotment" EntityType="Self.RoomAllotment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RoomOccupancy" EntityType="Self.RoomOccupancy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RoomRates" EntityType="Self.RoomRates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rooms" EntityType="Self.Rooms" Schema="dbo" store:Type="Tables" />
@@ -400,9 +441,9 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
     [Reservation].[TransportID] AS [TransportID]
     FROM [dbo].[Reservation] AS [Reservation]</DefiningQuery>
           </EntitySet>
-          <AssociationSet Name="AllotmentID_fk_Rooms" Association="Self.AllotmentID_fk_Rooms">
+          <AssociationSet Name="Allotment_fk" Association="Self.Allotment_fk">
             <End Role="Allotments" EntitySet="Allotments" />
-            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="RoomAllotment" EntitySet="RoomAllotment" />
           </AssociationSet>
           <AssociationSet Name="conference_fk_Conference" Association="Self.conference_fk_Conference">
             <End Role="Configurations" EntitySet="Configurations" />
@@ -444,6 +485,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             <End Role="Hotel" EntitySet="Hotel" />
             <End Role="Reservation" EntitySet="Reservation" />
           </AssociationSet>
+          <AssociationSet Name="RoomID_fk" Association="Self.RoomID_fk">
+            <End Role="Rooms" EntitySet="Rooms" />
+            <End Role="RoomAllotment" EntitySet="RoomAllotment" />
+          </AssociationSet>
           <AssociationSet Name="RoomID_fk_Reservation" Association="Self.RoomID_fk_Reservation">
             <End Role="Rooms" EntitySet="Rooms" />
             <End Role="Reservation" EntitySet="Reservation" />
@@ -451,6 +496,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <AssociationSet Name="RoomID_fk_RoomRates" Association="Self.RoomID_fk_RoomRates">
             <End Role="Rooms" EntitySet="Rooms" />
             <End Role="RoomRates" EntitySet="RoomRates" />
+          </AssociationSet>
+          <AssociationSet Name="RoomRate_fk" Association="Self.RoomRate_fk">
+            <End Role="RoomRates" EntitySet="RoomRates" />
+            <End Role="RoomAllotment" EntitySet="RoomAllotment" />
           </AssociationSet>
           <AssociationSet Name="TransportID_fk_Reservation" Association="Self.TransportID_fk_Reservation">
             <End Role="Transport" EntitySet="Transport" />
@@ -470,14 +519,15 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySet Name="Hotels" EntityType="conferencedbModel.Hotel" />
           <EntitySet Name="Payments" EntityType="conferencedbModel.Payment" />
           <EntitySet Name="Registrations" EntityType="conferencedbModel.Registration" />
+          <EntitySet Name="RoomAllotments" EntityType="conferencedbModel.RoomAllotment" />
           <EntitySet Name="RoomOccupancies" EntityType="conferencedbModel.RoomOccupancy" />
           <EntitySet Name="RoomRates" EntityType="conferencedbModel.RoomRate" />
           <EntitySet Name="Rooms" EntityType="conferencedbModel.Room" />
           <EntitySet Name="Transports" EntityType="conferencedbModel.Transport" />
           <EntitySet Name="Reservations" EntityType="conferencedbModel.Reservation" />
-          <AssociationSet Name="AllotmentID_fk_Rooms" Association="conferencedbModel.AllotmentID_fk_Rooms">
+          <AssociationSet Name="Allotment_fk" Association="conferencedbModel.Allotment_fk">
             <End Role="Allotment" EntitySet="Allotments" />
-            <End Role="Room" EntitySet="Rooms" />
+            <End Role="RoomAllotment" EntitySet="RoomAllotments" />
           </AssociationSet>
           <AssociationSet Name="ConferenceID_fk_Allotment" Association="conferencedbModel.ConferenceID_fk_Allotment">
             <End Role="Configuration" EntitySet="Configurations" />
@@ -519,6 +569,14 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             <End Role="Hotel" EntitySet="Hotels" />
             <End Role="Reservation" EntitySet="Reservations" />
           </AssociationSet>
+          <AssociationSet Name="RoomID_fk" Association="conferencedbModel.RoomID_fk">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="RoomAllotment" EntitySet="RoomAllotments" />
+          </AssociationSet>
+          <AssociationSet Name="RoomRate_fk" Association="conferencedbModel.RoomRate_fk">
+            <End Role="RoomRate" EntitySet="RoomRates" />
+            <End Role="RoomAllotment" EntitySet="RoomAllotments" />
+          </AssociationSet>
           <AssociationSet Name="RoomID_fk_RoomRates" Association="conferencedbModel.RoomID_fk_RoomRates">
             <End Role="Room" EntitySet="Rooms" />
             <End Role="RoomRate" EntitySet="RoomRates" />
@@ -541,9 +599,8 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="ReservedRooms" Type="Int32" />
           <Property Name="AvailableRooms" Type="Int32" />
           <Property Name="ConventionID" Type="Int32" />
-          <Property Name="Date" Type="DateTime" Precision="0" />
-          <Property Name="RoomID" Type="Int32" />
-          <NavigationProperty Name="Rooms" Relationship="conferencedbModel.AllotmentID_fk_Rooms" FromRole="Allotment" ToRole="Room" />
+          <Property Name="Status" Type="Int32" />
+          <NavigationProperty Name="RoomAllotments" Relationship="conferencedbModel.Allotment_fk" FromRole="Allotment" ToRole="RoomAllotment" />
           <NavigationProperty Name="Configuration" Relationship="conferencedbModel.ConferenceID_fk_Allotment" FromRole="Allotment" ToRole="Configuration" />
         </EntityType>
         <EntityType Name="Client">
@@ -663,6 +720,23 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="address" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="city" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="RoomAllotment">
+          <Key>
+            <PropertyRef Name="AUTOID" />
+            <PropertyRef Name="RoomID" />
+            <PropertyRef Name="AllotmentID" />
+            <PropertyRef Name="RateID" />
+          </Key>
+          <Property Name="AUTOID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoomID" Type="Int32" Nullable="false" />
+          <Property Name="AllotmentID" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="RateID" Type="Int32" Nullable="false" />
+          <Property Name="AvailableRooms" Type="Int32" />
+          <NavigationProperty Name="Allotment" Relationship="conferencedbModel.Allotment_fk" FromRole="RoomAllotment" ToRole="Allotment" />
+          <NavigationProperty Name="Room" Relationship="conferencedbModel.RoomID_fk" FromRole="RoomAllotment" ToRole="Room" />
+          <NavigationProperty Name="RoomRate" Relationship="conferencedbModel.RoomRate_fk" FromRole="RoomAllotment" ToRole="RoomRate" />
+        </EntityType>
         <EntityType Name="RoomOccupancy">
           <Key>
             <PropertyRef Name="OccupancyID" />
@@ -681,7 +755,9 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="Allotment" Type="Int32" />
           <Property Name="Occupancy" Type="Int32" />
           <Property Name="Rate" Type="Double" />
+          <Property Name="Status" Type="Int32" />
           <NavigationProperty Name="Configuration" Relationship="conferencedbModel.Convention_fk_RoomRates" FromRole="RoomRate" ToRole="Configuration" />
+          <NavigationProperty Name="RoomAllotments" Relationship="conferencedbModel.RoomRate_fk" FromRole="RoomRate" ToRole="RoomAllotment" />
           <NavigationProperty Name="Room" Relationship="conferencedbModel.RoomID_fk_RoomRates" FromRole="RoomRate" ToRole="Room" />
         </EntityType>
         <EntityType Name="Room">
@@ -700,10 +776,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="CurCode" Type="Int32" />
           <Property Name="OccupancyID" Type="Int32" />
           <Property Name="RoomImage" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Allotment" Relationship="conferencedbModel.AllotmentID_fk_Rooms" FromRole="Room" ToRole="Allotment" />
           <NavigationProperty Name="Configuration" Relationship="conferencedbModel.ConferenceID_fk_Rooms" FromRole="Room" ToRole="Configuration" />
           <NavigationProperty Name="Currency" Relationship="conferencedbModel.CurID_fk_Currency" FromRole="Room" ToRole="Currency" />
           <NavigationProperty Name="Hotel" Relationship="conferencedbModel.HotelID_fk_Hotel" FromRole="Room" ToRole="Hotel" />
+          <NavigationProperty Name="RoomAllotments" Relationship="conferencedbModel.RoomID_fk" FromRole="Room" ToRole="RoomAllotment" />
           <NavigationProperty Name="RoomRates" Relationship="conferencedbModel.RoomID_fk_RoomRates" FromRole="Room" ToRole="RoomRate" />
           <NavigationProperty Name="Reservations" Relationship="conferencedbModel.RoomID_fk_Reservation" FromRole="Room" ToRole="Reservation" />
         </EntityType>
@@ -740,16 +816,16 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <NavigationProperty Name="Room" Relationship="conferencedbModel.RoomID_fk_Reservation" FromRole="Reservation" ToRole="Room" />
           <NavigationProperty Name="Transport" Relationship="conferencedbModel.TransportID_fk_Reservation" FromRole="Reservation" ToRole="Transport" />
         </EntityType>
-        <Association Name="AllotmentID_fk_Rooms">
-          <End Type="conferencedbModel.Allotment" Role="Allotment" Multiplicity="0..1">
+        <Association Name="Allotment_fk">
+          <End Type="conferencedbModel.Allotment" Role="Allotment" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Type="conferencedbModel.Room" Role="Room" Multiplicity="*" />
+          <End Type="conferencedbModel.RoomAllotment" Role="RoomAllotment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Allotment">
               <PropertyRef Name="AllotmentID" />
             </Principal>
-            <Dependent Role="Room">
+            <Dependent Role="RoomAllotment">
               <PropertyRef Name="AllotmentID" />
             </Dependent>
           </ReferentialConstraint>
@@ -884,6 +960,32 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="RoomID_fk">
+          <End Type="conferencedbModel.Room" Role="Room" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="conferencedbModel.RoomAllotment" Role="RoomAllotment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="RoomID" />
+            </Principal>
+            <Dependent Role="RoomAllotment">
+              <PropertyRef Name="RoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RoomRate_fk">
+          <End Type="conferencedbModel.RoomRate" Role="RoomRate" Multiplicity="1" />
+          <End Type="conferencedbModel.RoomAllotment" Role="RoomAllotment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoomRate">
+              <PropertyRef Name="AUTOID" />
+            </Principal>
+            <Dependent Role="RoomAllotment">
+              <PropertyRef Name="RateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="RoomID_fk_RoomRates">
           <End Type="conferencedbModel.Room" Role="Room" Multiplicity="0..1" />
           <End Type="conferencedbModel.RoomRate" Role="RoomRate" Multiplicity="*" />
@@ -931,8 +1033,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySetMapping Name="Allotments">
             <EntityTypeMapping TypeName="conferencedbModel.Allotment">
               <MappingFragment StoreEntitySet="Allotments">
-                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ConventionID" ColumnName="ConventionID" />
                 <ScalarProperty Name="AvailableRooms" ColumnName="AvailableRooms" />
                 <ScalarProperty Name="ReservedRooms" ColumnName="ReservedRooms" />
@@ -1052,6 +1153,18 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="RoomAllotments">
+            <EntityTypeMapping TypeName="conferencedbModel.RoomAllotment">
+              <MappingFragment StoreEntitySet="RoomAllotment">
+                <ScalarProperty Name="AvailableRooms" ColumnName="AvailableRooms" />
+                <ScalarProperty Name="RateID" ColumnName="RateID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="AllotmentID" ColumnName="AllotmentID" />
+                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
+                <ScalarProperty Name="AUTOID" ColumnName="AUTOID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="RoomOccupancies">
             <EntityTypeMapping TypeName="conferencedbModel.RoomOccupancy">
               <MappingFragment StoreEntitySet="RoomOccupancy">
@@ -1063,6 +1176,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySetMapping Name="RoomRates">
             <EntityTypeMapping TypeName="conferencedbModel.RoomRate">
               <MappingFragment StoreEntitySet="RoomRates">
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Rate" ColumnName="Rate" />
                 <ScalarProperty Name="Occupancy" ColumnName="Occupancy" />
                 <ScalarProperty Name="Allotment" ColumnName="Allotment" />
