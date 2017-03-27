@@ -32,56 +32,32 @@ namespace ConferencePortal.Controllers
 
                 if (TempDates!=null)
                 {
-               //     var roomResult =
-               //(from dbo in en.Rooms
-               // from rmalt in en.RoomAllotments
-               // from rmrate in en.RoomRates
-               // where dbo.ConventionID == Convention && dbo.RoomID == rmalt.RoomID && dbo.AllotmentID == rmalt.AllotmentID && (rmrate.Allotment > 0 || rmalt.Allotment.AvailableRooms > 0) && (rmrate.RateDate >= TempDates.StartDate && rmrate.RateDate <= TempDates.EndDate)
-               // select dbo).Distinct();
-
                     DateTime start = TempDates.StartDate;
                     DateTime end = TempDates.EndDate;
-                    int dateDiff = (end - start).Days;
 
-                    List<Room> rmlist = new List<Room>();
-                    int count = 0;
+                    var rooms =
+    (from roomAllotment in en.RoomAllotments
+     from rms in en.Rooms
+     where roomAllotment.Room.ConventionID == Convention  && (roomAllotment.Date >= start && roomAllotment.Date <= end) 
+     select new { roomAllotment.Date, roomAllotment.AvailableRooms, roomAllotment.RoomRate.Allotment, roomAllotment.Room.RoomName, roomAllotment.Room }).Distinct().ToList();
 
-                    for(int i=0; i<=dateDiff; i++)
+
+                    List<Room> rm = new List<Room>();
+                    foreach(var items in rooms)
                     {
-                        var test2 =
-                            (from roomAllotment in en.RoomAllotments
-                            where roomAllotment.Room.ConventionID == Convention && roomAllotment.Date == start && (roomAllotment.AvailableRooms > 0 || roomAllotment.RoomRate.Status > 0)
-                            select roomAllotment.Room).ToList();
-
-                        count = test2.Count;
-
-
-                        if (test2.Count>0)
+                        if((items.Allotment+items.AvailableRooms)>0)
                         {
-                            foreach (var rms in test2)
-                            {
-                                rmlist.Add(rms);
-                            }
-                            start = start.AddDays(1);
-                            continue;
+                            rm.Add(items.Room);
                         }
                         else
                         {
-                            rmlist = null;
-                            break;
+                            rm.Remove(items.Room);
                         }
                     }
 
-                    if (rmlist != null)
-                    {
-                        List<Room> RooomResult = rmlist.Distinct().ToList();
-                        ViewBag.Rooms = RooomResult.ToList();
-                    }
-                    else
-                    {
-                        ViewBag.Rooms = null;
-                    }
-                }                
+                    List<Room> Result = rm.Distinct().ToList();
+                    ViewBag.Rooms = Result.ToList();
+                }
             }
 
             ViewBag.Configurations = Configurations.ToList();
