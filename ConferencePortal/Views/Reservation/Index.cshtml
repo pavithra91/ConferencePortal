@@ -2,13 +2,15 @@
 @{
     ViewBag.Title = "Index";
 
-    List<Room> rm = null;
     IEnumerable<Room> rooms = null;
+    IEnumerable<RoomAllotment> allotment = null;
+
+    var prod = ViewData["RoomList"];
 
     if (ViewBag.Rooms != null)
     {
-        rm = ViewBag.Rooms;
-        rooms = rm;
+        rooms = ViewBag.Rooms;
+        allotment = ViewBag.Allotments;
     }
 
     List<Hotel> hotels = ViewBag.Hotels;
@@ -124,7 +126,7 @@
                 @{
                     if (rooms != null && config.AccommodationRequired == "Y")
                     {
-                        @Html.Partial("_RoomView", rm);
+                        @Html.Partial("_RoomView", new { rooms, allotment });
                     }
                 }
             </div>
@@ -136,7 +138,7 @@
                     <h4>About the Hotel</h4>
                     <p class="mb30">
 
-                        @foreach (var items in rm)
+                        @foreach (Room items in rooms)
                         {
                         HotelDescription = items.Hotel.ShortDescription;
                         break;

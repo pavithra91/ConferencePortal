@@ -35,28 +35,61 @@ namespace ConferencePortal.Controllers
                     DateTime start = TempDates.StartDate;
                     DateTime end = TempDates.EndDate;
 
-                    var rooms =
-    (from roomAllotment in en.RoomAllotments
-     from rms in en.Rooms
-     where roomAllotment.Room.ConventionID == Convention  && (roomAllotment.Date >= start && roomAllotment.Date <= end) 
-     select new { roomAllotment.Date, roomAllotment.AvailableRooms, roomAllotment.RoomRate.Allotment, roomAllotment.Room.RoomName, roomAllotment.Room }).Distinct().ToList();
+                    IEnumerable<RoomAllotment> allotmentListRooms = en.RoomAllotments
+                        .Where(w => w.Date >= start && w.Date <= end && w.Room.ConventionID == Convention);
+
+                    IEnumerable<Room> testRooms = allotmentListRooms.Select(w => w.Room);
+                    IEnumerable<Room> roomsToBeRemoved = allotmentListRooms.Where(w => (w.AvailableRooms.HasValue ? w.AvailableRooms.Value : 0) <= 0).Select(w => w.Room);
+                    testRooms=testRooms.Except(roomsToBeRemoved);
 
 
-                    List<Room> rm = new List<Room>();
-                    foreach(var items in rooms)
-                    {
-                        if((items.Allotment+items.AvailableRooms)>0)
-                        {
-                            rm.Add(items.Room);
-                        }
-                        else
-                        {
-                            rm.Remove(items.Room);
-                        }
-                    }
+                    //var rooms =
+                    //            (from roomAllotment in en.RoomAllotments
+                    //            where roomAllotment.Room.ConventionID == Convention  && (roomAllotment.Date >= start && roomAllotment.Date <= end) 
+                    //            select new { RoomCount = roomAllotment.AvailableRooms + roomAllotment.RoomRate.Allotment, roomAllotment.Date, roomAllotment.AvailableRooms,
+                    //                roomAllotment.RoomRate.Allotment, roomAllotment.Room.RoomName, roomAllotment.Room }).Distinct().ToList();
 
-                    List<Room> Result = rm.Distinct().ToList();
-                    ViewBag.Rooms = Result.ToList();
+
+                    //List<Room> RoomList = new List<Room>();
+                    //List<Room> RemoveList = new List<Room>();
+
+                    //foreach(var items in rooms)
+                    //{
+                    //    if((items.Allotment+items.AvailableRooms)>0)
+                    //    {
+                    //        RoomList.Add(items.Room);
+                    //    }
+                    //    else
+                    //    {
+                    //        RemoveList.Add(items.Room);
+                    //    }
+                    //}
+
+                    //foreach(var items in RemoveList)
+                    //{
+                    //    RoomList.Remove(items);
+                    //}
+
+                    //List<Room> Result = RoomList.Distinct().ToList();
+
+                    //List<TempRoom> tmroom = new List<TempRoom>();
+                    //foreach(var items in Result)
+                    //{
+                    //    TempRoom tm = new TempRoom();
+                    //    tm.RoomID = items.RoomID;
+
+                    //    var rooms2 =
+                    //            (from roomAllotment in en.RoomAllotments
+                    //             where roomAllotment.RoomID == items.RoomID
+                    //             select new { RoomCount = roomAllotment.AvailableRooms + roomAllotment.RoomRate.Allotment }).Distinct();
+
+
+
+                    //    tmroom.Add(tm);
+                    //}
+
+                    ViewBag.Rooms = testRooms;
+                    ViewBag.Allotments = allotmentListRooms;
                 }
             }
 

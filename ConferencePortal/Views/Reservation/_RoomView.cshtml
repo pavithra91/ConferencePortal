@@ -1,7 +1,9 @@
 ﻿@{ 
-    List<Room> rm = ViewBag.Rooms;
+    //List<Room> rm = ViewBag.Rooms;
 
-    IEnumerable<Room> rooms = rm;
+    IEnumerable<Room> rooms = ViewBag.Rooms;
+
+    IEnumerable<RoomAllotment> allotment = ViewBag.Allotments;
 }
 
 
@@ -9,7 +11,7 @@
 {*@
 
 <ul class="booking-list">
-    @foreach (var items in rooms)
+    @foreach (Room items in rooms)
     {
         <li>
             @*<a class="booking-item">*@
@@ -51,12 +53,15 @@
                     </div>
                     <div class="col-md-3">
                         <span class="booking-item-price">@items.Currency.Currency1 </span><span>/night</span>
-
+                        
                         <br />
 
                         <div class="form-group form-group-select-plus">
             <label>Rooms</label>
+                            @allotment.Where(w=>w.RoomID==items.RoomID).Min(w=>w.AvailableRooms)
+
             <div class="btn-group btn-group-select-num" data-toggle="buttons">
+                
                 <label class="btn btn-primary active">
                     <input type="radio" name="options" />1
                 </label>
