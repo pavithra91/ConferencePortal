@@ -17,6 +17,7 @@ namespace ConferencePortal
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Room()
         {
+            this.RoomAllotments = new HashSet<RoomAllotment>();
             this.RoomRates = new HashSet<RoomRate>();
             this.Reservations = new HashSet<Reservation>();
         }
@@ -34,10 +35,11 @@ namespace ConferencePortal
         public Nullable<int> OccupancyID { get; set; }
         public string RoomImage { get; set; }
     
-        public virtual Allotment Allotment { get; set; }
         public virtual Configuration Configuration { get; set; }
         public virtual Currency Currency { get; set; }
         public virtual Hotel Hotel { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RoomAllotment> RoomAllotments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RoomRate> RoomRates { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -2,7 +2,6 @@
     List<Hotel> hotels = ViewBag.Hotels;
 }
 
-
 @using (Html.BeginForm("SearchHotel", "Reservation", FormMethod.Post))
 {
 
@@ -19,7 +18,7 @@
                 </select>
             </div>
         </div>
-        <div class="input-daterange" data-date-format="mm/dd/yyyy">
+        <div class="input-daterange" data-date-format="M d, yyyy">
             <div class="row">
 
 

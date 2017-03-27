@@ -1782,7 +1782,7 @@
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
     <Compile Include="App_Code\ShoppingCart.cs" />
-    <Compile Include="App_Code\TempRes.cs" />
+    <Compile Include="App_Code\TempDate.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Client.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
@@ -1831,6 +1831,9 @@
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
     <Compile Include="Room.cs">
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoomAllotment.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
     <Compile Include="RoomOccupancy.cs">
