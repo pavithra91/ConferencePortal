@@ -20,7 +20,7 @@ namespace ConferencePortal
             this.RoomAllotments = new HashSet<RoomAllotment>();
         }
     
-        public int AUTOID { get; set; }
+        public int RateID { get; set; }
         public Nullable<int> ConventionID { get; set; }
         public Nullable<System.DateTime> RateDate { get; set; }
         public Nullable<int> RoomID { get; set; }

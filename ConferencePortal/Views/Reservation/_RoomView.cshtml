@@ -2,6 +2,9 @@
     //List<Room> rm = ViewBag.Rooms;
 
     IEnumerable<Room> rooms = ViewBag.Rooms;
+    int RoomCount = 1;
+
+    double rate = 0.0;
 
     IEnumerable<RoomAllotment> allotment = ViewBag.Allotments;
 }
@@ -52,15 +55,34 @@
                         </ul>
                     </div>
                     <div class="col-md-3">
-                        <span class="booking-item-price">@items.Currency.Currency1 </span><span>/night</span>
+                        <span class="booking-item-price"> 
+                        
+                        @{ 
+                            rate = (double)allotment.Where(w => w.RoomID == items.RoomID).Sum(w=>w.RoomRate.Rate) / allotment.Where(w => w.RoomID == items.RoomID).Count();
+                        }
+
+                            @rate @items.Currency.Currency1 </span><span>/night</span>
                         
                         <br />
 
                         <div class="form-group form-group-select-plus">
             <label>Rooms</label>
-                            @allotment.Where(w=>w.RoomID==items.RoomID).Min(w=>w.AvailableRooms)
+                            <select class="form-control">
+                                
+                                @for (int i = 0; i < allotment.Where(w => w.RoomID == items.RoomID).Min(w => w.AvailableRooms); i++)
+                                {
+                                    <option>@RoomCount</option>
 
-            <div class="btn-group btn-group-select-num" data-toggle="buttons">
+                                    {
+                                        RoomCount++;
+                                    }
+                                }
+                                
+                                @{ 
+                                    RoomCount = 1;
+                                }
+                            </select>
+            @*<div class="btn-group btn-group-select-num" data-toggle="buttons">
                 
                 <label class="btn btn-primary active">
                     <input type="radio" name="options" />1
@@ -74,23 +96,8 @@
                 <label class="btn btn-primary">
                     <input type="radio" name="options" />3+
                 </label>
-            </div>
-            <select class="form-control hidden">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option selected="selected">4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-                <option>11</option>
-                <option>12</option>
-                <option>13</option>
-                <option>14</option>
-            </select>
+            </div>*@
+            
 
                             <a href="@Url.Action("AddtoCart", "Reservation", new { RoomId = items.RoomID }, null)" aria-controls="@items.RoomID">
                                 <input type="button" class="btn btn-primary" value="Add to Cart" />

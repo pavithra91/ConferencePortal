@@ -159,9 +159,9 @@ warning 6002: The table/view 'conferencedb.dbo.Reservation' does not have a prim
         </EntityType>
         <EntityType Name="RoomRates">
           <Key>
-            <PropertyRef Name="AUTOID" />
+            <PropertyRef Name="RateID" />
           </Key>
-          <Property Name="AUTOID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ConventionID" Type="int" />
           <Property Name="RateDate" Type="date" />
           <Property Name="RoomID" Type="int" />
@@ -394,7 +394,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <End Role="RoomAllotment" Type="Self.RoomAllotment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="RoomRates">
-              <PropertyRef Name="AUTOID" />
+              <PropertyRef Name="RateID" />
             </Principal>
             <Dependent Role="RoomAllotment">
               <PropertyRef Name="RateID" />
@@ -746,9 +746,9 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
         </EntityType>
         <EntityType Name="RoomRate">
           <Key>
-            <PropertyRef Name="AUTOID" />
+            <PropertyRef Name="RateID" />
           </Key>
-          <Property Name="AUTOID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ConventionID" Type="Int32" />
           <Property Name="RateDate" Type="DateTime" Precision="0" />
           <Property Name="RoomID" Type="Int32" />
@@ -979,7 +979,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <End Type="conferencedbModel.RoomAllotment" Role="RoomAllotment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="RoomRate">
-              <PropertyRef Name="AUTOID" />
+              <PropertyRef Name="RateID" />
             </Principal>
             <Dependent Role="RoomAllotment">
               <PropertyRef Name="RateID" />
@@ -1183,7 +1183,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
                 <ScalarProperty Name="RoomID" ColumnName="RoomID" />
                 <ScalarProperty Name="RateDate" ColumnName="RateDate" />
                 <ScalarProperty Name="ConventionID" ColumnName="ConventionID" />
-                <ScalarProperty Name="AUTOID" ColumnName="AUTOID" />
+                <ScalarProperty Name="RateID" ColumnName="RateID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
