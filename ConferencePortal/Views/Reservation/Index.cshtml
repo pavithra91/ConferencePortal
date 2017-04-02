@@ -13,6 +13,13 @@
         allotment = ViewBag.Allotments;
     }
 
+    //IEnumerable<Transport> transport = null;
+
+    //if (ViewBag.Transport != null)
+    //{
+    //    transport = ViewBag.Transport;
+    //}
+
     List<Hotel> hotels = ViewBag.Hotels;
     List<Configuration> Configurations = ViewBag.Configurations;
 
@@ -88,7 +95,7 @@
 
                                                 <div class="tab-pane fade" id="tab-4">
 
-                                                    @Html.Partial("_TransportSearchView", hotels)
+                                                    @Html.Partial("_TransportSearchView", ViewBag.Arrival as SelectList)
 
                                                 </div>
 
@@ -369,5 +376,30 @@
 
 
 @section scriptLocation{
+<script type="text/javascript">
+    $('input:radio[name="myRadios"]').change(function () {
+        if ($(this).val() == '1') {            
+            $('#Pickup').val("BIA");
+            $("#Pickup").attr("disabled", true);
+            $("#DropOff").attr("disabled", false);
+            $('#DropOff').val("");
 
+            $("#Pickup").val("BIA");
+            
+        }
+        else if($(this).val() == '2')
+        {
+            $("#DropOff").val("BIA");
+            //$('#DropOff').val("Bandaranayake Internation Airport");
+            $("#DropOff").attr("disabled", true);
+            $("#Pickup").attr("disabled", false);
+            $('#Pickup').val("");
+        }
+        else
+        {
+
+        }
+    });
+    
+</script>
 }

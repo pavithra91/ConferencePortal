@@ -1,5 +1,10 @@
 ﻿@{
-    List<Transport> transport = ViewBag.Transport;
+//IEnumerable<Transport> transport;
+
+//if (ViewBag.Transport != null)
+//{
+//    transport = ViewBag.Transport;
+//}
 }
 
 
@@ -7,19 +12,48 @@
 {
 
 
+    <div class="row">
+        <div class="col-md-2">
+            <div class="radio-inline">
+                <label>
+                    <input  type="radio" name="myRadios" onchange="handleChange1();" value="1" /> Arrival
+                    @*<input class="i-radio" type="radio" checked="checked" onchange="handleChange1();" value="1" name="rbList" />Arrival*@
+                </label>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="radio-inline">
+                <label>
+                    <input type="radio" name="myRadios" onchange="handleChange2();" value="2" /> Depature
+                    @*<input class="i-radio" type="radio" name="rbList" onchange="handleChange2();" value="2" />Depature*@
+                </label>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="radio-inline">
+                <label>
+                    <input type="radio" name="myRadios" onchange="handleChange3();" value="3" /> Other
+                    @*<input class="i-radio" type="radio" name="rbList" />Other*@
+                </label>
+            </div>
+        </div>
+    </div>
+
 <div class="row">
     <div class="col-md-6">
         <div class="form-group  form-group-icon-left">
             <i class="fa fa-map-marker input-icon"></i>
             <label>Pick-up Location</label>
-            <input class="typeahead form-control" placeholder="City, Airport, U.S. Zip" type="text" />
+            @Html.DropDownList("Pickup", ViewBag.Arrival as SelectList, new { @class = "form-control", @name= "Pickup", @id= "Pickup" })
+            @*<input class="typeahead form-control" name="Pickup" id="Pickup" placeholder="City, Airport, U.S. Zip" type="text" />*@
         </div>
     </div>
     <div class="col-md-6">
         <div class="form-group  form-group-icon-left">
             <i class="fa fa-map-marker input-icon"></i>
             <label>Drop-off Location</label>
-            <input class="typeahead form-control" placeholder="City, Airport, U.S. Zip" type="text" />
+            @Html.DropDownList("DropOff", ViewBag.Arrival as SelectList, new { @class = "form-control", @name = "DropOff", @id = "DropOff" })
+            @*<input class="typeahead form-control" name="DropOff" id="DropOff" placeholder="City, Airport, U.S. Zip" type="text" />*@
         </div>
     </div>
 </div>
@@ -56,4 +90,35 @@
     </div>
 </div>
 <button class="btn btn-primary btn-lg" type="submit">Search for Rental Cars</button>
+}
+
+@section scriptLocation{
+
+
+
+    @*<script>
+        alert("You selected the first option and deselected the second one");
+        $(function () {
+            $('input:radio[name="myRadios"]').change(function () {
+                if ($(this).val() == '1') {
+                    alert("You selected the first option and deselected the second one");
+                } else {
+                    alert("You selected the second option and deselected the first one");
+                }
+            });
+        });
+    </script>*@
+
+    @*<script>
+        $(function () {
+            $('input:radio[name="rbList"]').change(function () {
+                if ($(this).val() == '1') {
+                    $('#Pickup').val("Bandaranayake Internation Airport");
+                    alert("Arrival");
+                } else {
+                    alert("You selected the second option and deselected the first one");
+                }
+            });
+        });
+    </script>*@
 }

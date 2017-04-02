@@ -67,8 +67,7 @@
 
                         <div class="form-group form-group-select-plus">
             <label>Rooms</label>
-                            <select class="form-control">
-                                
+                            <select name="test" id="test" class="form-control" onselect="">                                
                                 @for (int i = 0; i < allotment.Where(w => w.RoomID == items.RoomID).Min(w => w.AvailableRooms); i++)
                                 {
                                     <option>@RoomCount</option>
@@ -82,6 +81,9 @@
                                     RoomCount = 1;
                                 }
                             </select>
+
+
+
             @*<div class="btn-group btn-group-select-num" data-toggle="buttons">
                 
                 <label class="btn btn-primary active">
@@ -114,7 +116,9 @@
 
 @section scriptLocation{
 
-
+    <script>
+        var selected = document.getElementById()
+    </script>
 }
 
 

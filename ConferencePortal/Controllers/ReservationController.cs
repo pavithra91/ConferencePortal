@@ -12,8 +12,9 @@ namespace ConferencePortal.Controllers
     {
         conferencedbEntities en = new conferencedbEntities();
         // GET: Reservation
-        public ActionResult Index(string ConventionID, int HotelId)
+        public ActionResult Index(string ConventionID)
         {
+
             ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;            
 
             int Convention = Convert.ToInt32(ConventionID);
@@ -22,15 +23,44 @@ namespace ConferencePortal.Controllers
                               where st.ConventionID == Convention
                               select st;
 
-            var Configurations = from config in en.Configurations
+            IEnumerable<Transport> transport = en.Transports
+                        .Where(w => w.ShowInSearch=="Y").Distinct();
+
+            List<Configuration> Configurations = (from config in en.Configurations
                               where config.ConventionID == Convention
-                              select config;
+                              select config).ToList();
+           
+
+            ViewBag.Configurations = Configurations;
+            ViewBag.Hotels = hotelResult.ToList();
+
+            ViewBag.Arrival = new SelectList(transport, "StartLocation", "StartLocation");
+            ViewBag.Depature = new SelectList(transport, "DropOffLocation", "DropOffLocation");
+            //ViewBag.Transport = transport;
+
+            IEnumerable<Room> testRooms = TempData["HotelRooms"] as IEnumerable<Room>;
+            IEnumerable<RoomAllotment> allotmentListRooms = TempData["Allotments"] as IEnumerable<RoomAllotment>;
+
+            if (testRooms != null)
+            {
+                ViewBag.Rooms = testRooms;
+                ViewBag.Allotments = allotmentListRooms;
+            }
+
+            TempData["ShoppingCart"] = cart;
+
+            return View();
+        }
+
+        public ActionResult HotelView(string ConventionID, int HotelId)
+        {
+            int Convention = Convert.ToInt32(ConventionID);
 
             if (HotelId != 0)
             {
                 TempDate TempDates = TempData["TempDate"] as TempDate;
 
-                if (TempDates!=null)
+                if (TempDates != null)
                 {
                     DateTime start = TempDates.StartDate;
                     DateTime end = TempDates.EndDate;
@@ -40,7 +70,7 @@ namespace ConferencePortal.Controllers
 
                     IEnumerable<Room> testRooms = allotmentListRooms.Select(w => w.Room);
                     IEnumerable<Room> roomsToBeRemoved = allotmentListRooms.Where(w => (w.AvailableRooms.HasValue ? w.AvailableRooms.Value : 0) <= 0).Select(w => w.Room);
-                    testRooms=testRooms.Except(roomsToBeRemoved);
+                    testRooms = testRooms.Except(roomsToBeRemoved);
 
 
                     //var rooms =
@@ -88,17 +118,12 @@ namespace ConferencePortal.Controllers
                     //    tmroom.Add(tm);
                     //}
 
-                    ViewBag.Rooms = testRooms;
-                    ViewBag.Allotments = allotmentListRooms;
+                    TempData["HotelRooms"] = testRooms;
+                    TempData["Allotments"] = allotmentListRooms;
                 }
             }
 
-            ViewBag.Configurations = Configurations.ToList();
-            ViewBag.Hotels = hotelResult.ToList();
-
-            TempData["ShoppingCart"] = cart;
-
-            return View();
+            return RedirectToAction("Index", "Reservation", new { ConventionID = 1});
         }
 
         public ActionResult AddtoCart(string RoomId)
@@ -127,14 +152,15 @@ namespace ConferencePortal.Controllers
 
             TempData["TempDate"] = TempDates;
 
-            return RedirectToAction("Index", "Reservation", new { ConventionID = 1, HotelId = Convert.ToInt32(HotelList) });
+            return RedirectToAction("HotelView", "Reservation", new { ConventionID = 1, HotelId = Convert.ToInt32(HotelList) });
         }
 
         [HttpPost]
         public ActionResult SearchTransport()
         {
 
-            return RedirectToAction("Index", "Reservation", new { ConventionID = 1, Transport = 1 });
+
+            return RedirectToAction("Index", "Reservation", new { ConventionID = 1});
         }
 
 
