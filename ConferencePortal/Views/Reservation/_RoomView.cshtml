@@ -13,6 +13,8 @@
 @*@using (Html.BeginForm("AddtoCart", "Reservation", FormMethod.Post))
 {*@
 
+<input type="text" name="rooCount" id="rooCount" />
+
 <ul class="booking-list">
     @foreach (Room items in rooms)
     {
@@ -67,7 +69,7 @@
 
                         <div class="form-group form-group-select-plus">
             <label>Rooms</label>
-                            <select name="test" id="test" class="form-control" onselect="">                                
+                            <select name="test" id="@items.RoomID" class="form-control" onchange="myFunction(@items.RoomID)">                                
                                 @for (int i = 0; i < allotment.Where(w => w.RoomID == items.RoomID).Min(w => w.AvailableRooms); i++)
                                 {
                                     <option>@RoomCount</option>
@@ -99,7 +101,6 @@
                     <input type="radio" name="options" />3+
                 </label>
             </div>*@
-            
 
                             <a href="@Url.Action("AddtoCart", "Reservation", new { RoomId = items.RoomID }, null)" aria-controls="@items.RoomID">
                                 <input type="button" class="btn btn-primary" value="Add to Cart" />
@@ -116,9 +117,7 @@
 
 @section scriptLocation{
 
-    <script>
-        var selected = document.getElementById()
-    </script>
+   
 }
 
 

@@ -128,6 +128,8 @@ namespace ConferencePortal.Controllers
 
         public ActionResult AddtoCart(string RoomId)
         {
+            string roomCount = Request.Form["rooCount"];
+
             ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
     
             Room room = en.Rooms.Find(Convert.ToInt32(RoomId));
