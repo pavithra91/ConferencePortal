@@ -23,8 +23,7 @@ namespace ConferencePortal.Controllers
                               where st.ConventionID == Convention
                               select st;
 
-            IEnumerable<Transport> transport = en.Transports
-                        .Where(w => w.ShowInSearch=="Y").Distinct();
+            IEnumerable<string> transport = en.Transports.Where(w => w.ShowInSearch=="Y").Select(x=>x.StartLocation).Distinct();
 
             List<Configuration> Configurations = (from config in en.Configurations
                               where config.ConventionID == Convention
@@ -128,7 +127,7 @@ namespace ConferencePortal.Controllers
 
         public ActionResult AddtoCart(string RoomId)
         {
-            string roomCount = Request.Form["rooCount"];
+            string roomCount = Request.Form["roomCount"];
 
             ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
     

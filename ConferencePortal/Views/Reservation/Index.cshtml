@@ -379,12 +379,7 @@
 <script type="text/javascript">        
     function myFunction(a) {
         var x = document.getElementById(a).value;
-        if (x > 0)
-        {
-            document.getElementById("").valueOf = x;
-            alert(x);
-        }
-        
+        $("#roomCount").val(x);       
     }
 
     $('input:radio[name="myRadios"]').change(function () {
