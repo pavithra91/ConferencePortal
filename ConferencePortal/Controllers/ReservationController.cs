@@ -23,7 +23,7 @@ namespace ConferencePortal.Controllers
                               where st.ConventionID == Convention
                               select st;
 
-            IEnumerable<string> transport = en.Transports.Where(w => w.ShowInSearch=="Y").Select(x=>x.StartLocation).Distinct();
+            IEnumerable<Transport> transport = en.Transports.Where(w => w.ShowInSearch=="Y");
 
             List<Configuration> Configurations = (from config in en.Configurations
                               where config.ConventionID == Convention
@@ -33,9 +33,9 @@ namespace ConferencePortal.Controllers
             ViewBag.Configurations = Configurations;
             ViewBag.Hotels = hotelResult.ToList();
 
-            ViewBag.Arrival = new SelectList(transport, "StartLocation", "StartLocation");
-            ViewBag.Depature = new SelectList(transport, "DropOffLocation", "DropOffLocation");
-            //ViewBag.Transport = transport;
+            //ViewBag.Arrival = transport;//new SelectList(transport, "StartLocation", "StartLocation");
+            //ViewBag.Depature = new SelectList(transport, "DropOffLocation", "DropOffLocation");
+            ViewBag.Transport = transport;
 
             IEnumerable<Room> testRooms = TempData["HotelRooms"] as IEnumerable<Room>;
             IEnumerable<RoomAllotment> allotmentListRooms = TempData["Allotments"] as IEnumerable<RoomAllotment>;
@@ -157,9 +157,10 @@ namespace ConferencePortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult SearchTransport()
+        public ActionResult SearchTransport(FormCollection fomr)
         {
-
+            string Pickup = Request.Form["Pickup"];
+            string DropOff = Request.Form["DropOff"];
 
             return RedirectToAction("Index", "Reservation", new { ConventionID = 1});
         }
@@ -206,9 +207,17 @@ namespace ConferencePortal.Controllers
             return RedirectToAction("ViewCart", "Reservation");
         }
 
-        public ActionResult Test()
+        public JsonResult Test(string type)
         {
-            return Json("March 31, 2017 11:13:00");
+            List<string> team = new List<string>();
+            IEnumerable<Transport> transport = en.Transports.Where(w => w.ShowInSearch == "Y" && w.Type == "A");
+
+            foreach (var items in transport)
+            {
+                team.Add(items.StartLocation);
+            }
+
+            return Json(team);
         }
 
         public string GetBookingStartPeriod(string ConventionID)
