@@ -63,7 +63,7 @@
 
                 <li>
                     <span class="booking-item-wishlist-title"><i class="fa fa-building-o"></i> Hotel </span>
-                    <a class="fa fa-times booking-item-wishlist-remove" href="@Url.Action("RemoveFromCart", "Reservation", new { RoomId = items.RoomID }, null)" rel="tooltip" data-placement="top" title="remove from wishlist"></a>
+                    <a class="fa fa-times booking-item-wishlist-remove" href="@Url.Action("RemoveFromCart", "Reservation", new { ItemType= "AC", ItemID = items.RoomID }, null)" rel="tooltip" data-placement="top" title="remove from Cart"></a>
                     <a class="booking-item" href="#">
                         <div class="row">
                             <div class="col-md-3">
@@ -113,7 +113,7 @@
 
                         <li>
                             <span class="booking-item-wishlist-title"><i class="fa fa-bolt"></i> Transport </span>
-                            <a class="fa fa-times booking-item-wishlist-remove" href="#" rel="tooltip" data-placement="top" title="remove from wishlist"></a>
+                            <a class="fa fa-times booking-item-wishlist-remove" href="@Url.Action("RemoveFromCart", "Reservation", new { ItemType= "TR" , ItemID = items.TransportID }, null)" rel="tooltip" data-placement="top" title="remove from wishlist"></a>
                             <a class="booking-item" href="#">
                                 <div class="row">
                                     <div class="col-md-3">

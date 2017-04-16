@@ -1746,6 +1746,7 @@
     <Content Include="js\fitvids.js" />
     <Content Include="js\fotorama.js" />
     <Content Include="js\gridrotator.js" />
+    <Content Include="js\HelperJS.js" />
     <Content Include="js\icheck.js" />
     <Content Include="js\ionrangeslider.js" />
     <Content Include="js\jquery.js" />
@@ -1781,6 +1782,7 @@
     <Compile Include="Allotment.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_Code\RoomsInCart.cs" />
     <Compile Include="App_Code\ShoppingCart.cs" />
     <Compile Include="App_Code\TempDate.cs" />
     <Compile Include="App_Code\TempRoom.cs" />
@@ -1820,6 +1822,7 @@
     <Compile Include="Hotel.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
+    <Compile Include="HtmlExtensions.cs" />
     <Compile Include="Models\LoginDataModel.cs" />
     <Compile Include="Payment.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>

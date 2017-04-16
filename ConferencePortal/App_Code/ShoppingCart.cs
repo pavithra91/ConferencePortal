@@ -10,7 +10,7 @@ namespace ConferencePortal.App_Code
         public int ClientId { get; set; }
         public int NoofDelegates { get; set; }
         public Client client { get; set; }
-        public List<Room> Rooms = new List<Room>();
+        public List<RoomsInCart> Rooms = new List<RoomsInCart>();
         public List<Transport> Transport = new List<Transport>();
     }
 }
