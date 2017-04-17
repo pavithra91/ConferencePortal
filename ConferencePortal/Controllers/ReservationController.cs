@@ -33,9 +33,9 @@ namespace ConferencePortal.Controllers
             ViewBag.Configurations = Configurations;
             ViewBag.Hotels = hotelResult.ToList();
 
-            //ViewBag.Arrival = transport;//new SelectList(transport, "StartLocation", "StartLocation");
-            //ViewBag.Depature = new SelectList(transport, "DropOffLocation", "DropOffLocation");
-            ViewBag.Transport = transport;
+            ViewBag.Arrival = new SelectList(transport, "StartLocation", "StartLocation");
+            ViewBag.Depature = new SelectList(transport, "DropOffLocation", "DropOffLocation");
+            //ViewBag.Transport = transport;
 
             IEnumerable<Room> testRooms = TempData["HotelRooms"] as IEnumerable<Room>;
             IEnumerable<RoomAllotment> allotmentListRooms = TempData["Allotments"] as IEnumerable<RoomAllotment>;
@@ -168,8 +168,7 @@ namespace ConferencePortal.Controllers
         [HttpPost]
         public ActionResult SearchTransport(FormCollection fomr)
         {
-            string Pickup = Request.Form["Pickup"];
-            string DropOff = Request.Form["DropOff"];
+
 
             return RedirectToAction("Index", "Reservation", new { ConventionID = 1});
         }
