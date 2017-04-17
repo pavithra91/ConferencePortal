@@ -1,15 +1,50 @@
 ﻿@{
-//IEnumerable<Transport> transport;
+    IEnumerable<Transport> transport;
 
-//if (ViewBag.Transport != null)
-//{
-//    transport = ViewBag.Transport;
-//}
+    List<SelectListItem> Arrival = new List<SelectListItem>();
+    List<SelectListItem> Dropoff = new List<SelectListItem>();
+
+    if (ViewBag.Transport != null)
+    {
+        transport = ViewBag.Transport;
+
+        foreach (var items in transport)
+        {
+            if (items.Type == "A")
+            {
+                Arrival.Add(new SelectListItem
+                {
+                    Text = items.StartLocation,
+                    Value = items.StartLocation
+                });
+            }
+            else
+            { continue; }
+        }
+
+        foreach (var items in transport)
+        {
+            if (items.Type == "D")
+            {
+                Dropoff.Add(new SelectListItem
+                {
+                    Text = items.StartLocation,
+                    Value = items.StartLocation
+                });
+            }
+            else
+            {
+                continue;
+            }
+        }
+    }
 }
 
 
 @using (Html.BeginForm("SearchTransport", "Reservation", FormMethod.Post))
 {
+
+
     <div class="row">
         <div class="col-md-2">
             <div class="radio-inline">
@@ -42,7 +77,8 @@
         <div class="form-group  form-group-icon-left">
             <i class="fa fa-map-marker input-icon"></i>
             <label>Pick-up Location</label>
-            @Html.DropDownList("Pickup", ViewBag.Arrival as SelectList, new { @class = "form-control", @name= "Pickup", @id= "Pickup" })
+
+            @Html.DropDownList("Pickup", Arrival, new { @class = "form-control", @name= "Pickup", @id= "Pickup" })
             @*<input class="typeahead form-control" name="Pickup" id="Pickup" placeholder="City, Airport, U.S. Zip" type="text" />*@
         </div>
     </div>
@@ -50,7 +86,9 @@
         <div class="form-group  form-group-icon-left">
             <i class="fa fa-map-marker input-icon"></i>
             <label>Drop-off Location</label>
-            
+
+            @Html.DropDownList("DropOff", Dropoff, new { @class = "form-control", @name = "DropOff", @id = "DropOff" })
+
             @*@Html.DropDownList("DropOff", ViewBag.Arrival as SelectList, new { @class = "form-control", @name = "DropOff", @id = "DropOff" })*@
             @*<input class="typeahead form-control" name="DropOff" id="DropOff" placeholder="City, Airport, U.S. Zip" type="text" />*@
         </div>
@@ -92,6 +130,8 @@
 }
 
 @section scriptLocation{
+
+
 
     @*<script>
         alert("You selected the first option and deselected the second one");

@@ -33,9 +33,9 @@ namespace ConferencePortal.Controllers
             ViewBag.Configurations = Configurations;
             ViewBag.Hotels = hotelResult.ToList();
 
-            ViewBag.Arrival = new SelectList(transport, "StartLocation", "StartLocation");
+            //ViewBag.Arrival = transport;//new SelectList(transport, "StartLocation", "StartLocation");
             //ViewBag.Depature = new SelectList(transport, "DropOffLocation", "DropOffLocation");
-            //ViewBag.Transport = transport;
+            ViewBag.Transport = transport;
 
             IEnumerable<Room> testRooms = TempData["HotelRooms"] as IEnumerable<Room>;
             IEnumerable<RoomAllotment> allotmentListRooms = TempData["Allotments"] as IEnumerable<RoomAllotment>;
@@ -125,16 +125,25 @@ namespace ConferencePortal.Controllers
             return RedirectToAction("Index", "Reservation", new { ConventionID = 1});
         }
 
-        public ActionResult AddtoCart(string RoomId)
+        public ActionResult AddtoCart(string ItemType, string ItemID, FormCollection fomr)
         {
-            string roomCount = Request.Form["roomCount"];
-
             ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
-    
-            Room room = en.Rooms.Find(Convert.ToInt32(RoomId));
-            cart.Rooms.Add(room);
 
-            return RedirectToAction("Index", "Reservation", new { ConventionID = 1, HotelId = 0 });
+            if (ItemType == "AC")
+            {
+                string roomCount = Request.Form["roomCount"];
+                Room room = en.Rooms.Find(Convert.ToInt32(ItemID));
+                RoomsInCart rmCart = new RoomsInCart();
+                rmCart.room = room;
+                //rmCart.Price = 
+                             
+                cart.Rooms.Add(rmCart);                
+            }
+            else if(ItemType == "TR")
+            {
+
+            }
+            return RedirectToAction("Index", "Reservation", new { ConventionID = 1});
         }
 
         [HttpPost]
@@ -160,6 +169,7 @@ namespace ConferencePortal.Controllers
         public ActionResult SearchTransport(FormCollection fomr)
         {
             string Pickup = Request.Form["Pickup"];
+            string DropOff = Request.Form["DropOff"];
 
             return RedirectToAction("Index", "Reservation", new { ConventionID = 1});
         }
@@ -182,22 +192,38 @@ namespace ConferencePortal.Controllers
             return View();
         }
 
-        public ActionResult RemoveFromCart(string RoomId)
+        public ActionResult RemoveFromCart(string ItemType, string ItemID)
         {
             ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
 
-            List<Room> rm = cart.Rooms;
-            foreach(var items in rm)
+            if (ItemType == "AC")
             {
-                if(items.RoomID == Convert.ToInt32(RoomId))
+                List<RoomsInCart> rm = cart.Rooms;
+                foreach (var items in rm)
                 {
-                    rm.Remove(items);
-                    break;
+                    if (items.room.RoomID == Convert.ToInt32(ItemID))
+                    {
+                        rm.Remove(items);
+                        break;
+                    }
                 }
+
+                cart.Rooms = rm;
             }
+            else if(ItemType == "TR")
+            {
+                List<Transport> tr = cart.Transport;
+                foreach (var items in tr)
+                {
+                    if (items.TransportID == Convert.ToInt32(ItemID))
+                    {
+                        tr.Remove(items);
+                        break;
+                    }
+                }
 
-            cart.Rooms = rm;
-
+                cart.Transport = tr;
+            }
             ViewBag.Rooms = cart.Rooms;
             ViewBag.Transport = cart.Transport;
 
@@ -206,9 +232,17 @@ namespace ConferencePortal.Controllers
             return RedirectToAction("ViewCart", "Reservation");
         }
 
-        public ActionResult Test()
+        public JsonResult Test(string type)
         {
-            return Json("March 31, 2017 11:13:00");
+            List<string> team = new List<string>();
+            IEnumerable<Transport> transport = en.Transports.Where(w => w.ShowInSearch == "Y" && w.Type == "A");
+
+            foreach (var items in transport)
+            {
+                team.Add(items.StartLocation);
+            }
+
+            return Json(team);
         }
 
         public string GetBookingStartPeriod(string ConventionID)

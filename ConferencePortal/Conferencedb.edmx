@@ -200,6 +200,7 @@ warning 6002: The table/view 'conferencedb.dbo.Reservation' does not have a prim
           <Property Name="Image" Type="varchar" MaxLength="200" />
           <Property Name="CurCode" Type="int" />
           <Property Name="ShowInSearch" Type="char" MaxLength="1" />
+          <Property Name="Type" Type="char" MaxLength="1" />
         </EntityType>
         <Association Name="Allotment_fk">
           <End Role="Allotments" Type="Self.Allotments" Multiplicity="1">
@@ -798,6 +799,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="ShowInSearch" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="Configuration" Relationship="conferencedbModel.ConferenceID_fk_Conference" FromRole="Transport" ToRole="Configuration" />
           <NavigationProperty Name="Reservations" Relationship="conferencedbModel.TransportID_fk_Reservation" FromRole="Transport" ToRole="Reservation" />
+          <Property Name="Type" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
         </EntityType>
         <EntityType Name="Reservation">
           <Key>
@@ -1208,6 +1210,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySetMapping Name="Transports">
             <EntityTypeMapping TypeName="conferencedbModel.Transport">
               <MappingFragment StoreEntitySet="Transport">
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="ShowInSearch" ColumnName="ShowInSearch" />
                 <ScalarProperty Name="CurCode" ColumnName="CurCode" />
                 <ScalarProperty Name="Image" ColumnName="Image" />

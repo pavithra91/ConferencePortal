@@ -13,12 +13,12 @@
         allotment = ViewBag.Allotments;
     }
 
-    //IEnumerable<Transport> transport = null;
+    IEnumerable<Transport> transport = null;
 
-    //if (ViewBag.Transport != null)
-    //{
-    //    transport = ViewBag.Transport;
-    //}
+    if (ViewBag.Transport != null)
+    {
+        transport = ViewBag.Transport;
+    }
 
     List<Hotel> hotels = ViewBag.Hotels;
     List<Configuration> Configurations = ViewBag.Configurations;
@@ -95,7 +95,9 @@
 
                                                 <div class="tab-pane fade" id="tab-4">
 
-                                                    @Html.Partial("_TransportSearchView", ViewBag.Arrival as SelectList)
+                                                    @*@Html.Partial("_TransportSearchView", ViewBag.Arrival as SelectList)*@
+
+                                                    @Html.Partial("_TransportSearchView", transport)
 
                                                 </div>
 
@@ -376,12 +378,7 @@
 
 
 @section scriptLocation{
-<script type="text/javascript">        
-    function myFunction(a) {
-        var x = document.getElementById(a).value;
-        $("#roomCount").val(x);       
-    }
-
+<script type="text/javascript">  
     $('input:radio[name="myRadios"]').change(function () {
         if ($(this).val() == '1') {            
             $('#Pickup').val("BIA");
@@ -389,7 +386,7 @@
             $("#DropOff").attr("disabled", false);
             $('#DropOff').val("");
 
-            $("#Pickup").val("BIA");
+            $("#Pickup").val("BIA");         
             
         }
         else if($(this).val() == '2')
@@ -399,6 +396,8 @@
             $("#DropOff").attr("disabled", true);
             $("#Pickup").attr("disabled", false);
             $('#Pickup').val("");
+
+            $("#DropOff").val("BIA");
         }
         else
         {

@@ -13,7 +13,7 @@
 @*@using (Html.BeginForm("AddtoCart", "Reservation", FormMethod.Post))
 {*@
 
-<input type="text" name="roomCount" id="roomCount" />
+<input type="hidden" name="roomCount" id="roomCount" />
 
 <ul class="booking-list">
     @foreach (Room items in rooms)
@@ -102,7 +102,7 @@
                 </label>
             </div>*@
 
-                            <a href="@Url.Action("AddtoCart", "Reservation", new { RoomId = items.RoomID }, null)" aria-controls="@items.RoomID">
+                            <a href="@Url.Action("AddtoCart", "Reservation", new { ItemType = "AC", ItemID = items.RoomID }, null)" aria-controls="@items.RoomID">
                                 <input type="button" class="btn btn-primary" value="Add to Cart" />
                             </a>
         </div>
@@ -114,10 +114,29 @@
 </ul>
 @*}*@
 
-
-@section scriptLocation{
-
-   
+@Html.Script(
+    @<script>
+       function myFunction(a) {
+    var x = document.getElementById(a).value;
+    $("#roomCount").val(x);
 }
+
+
+$("a[data-form-method='post']").click(function (event) {
+
+    form.submit();
+    alert("test");
+    event.preventDefault();
+
+    var element = $(this);
+    var action = element.attr("href");
+    element.closest("form").each(function () {
+        var form = $(this);
+        form.attr("action", action);
+        form.submit();
+    });
+});
+    </script>
+)
 
 
