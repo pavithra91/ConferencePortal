@@ -8,10 +8,8 @@
 }
 
 
-@using (Html.BeginForm("SearchHotel", "Reservation", FormMethod.Post))
+@using (Html.BeginForm("SearchTransport", "Reservation", FormMethod.Post))
 {
-
-
     <div class="row">
         <div class="col-md-2">
             <div class="radio-inline">
@@ -52,7 +50,8 @@
         <div class="form-group  form-group-icon-left">
             <i class="fa fa-map-marker input-icon"></i>
             <label>Drop-off Location</label>
-            @Html.DropDownList("DropOff", ViewBag.Arrival as SelectList, new { @class = "form-control", @name = "DropOff", @id = "DropOff" })
+            
+            @*@Html.DropDownList("DropOff", ViewBag.Arrival as SelectList, new { @class = "form-control", @name = "DropOff", @id = "DropOff" })*@
             @*<input class="typeahead form-control" name="DropOff" id="DropOff" placeholder="City, Airport, U.S. Zip" type="text" />*@
         </div>
     </div>
@@ -93,8 +92,6 @@
 }
 
 @section scriptLocation{
-
-
 
     @*<script>
         alert("You selected the first option and deselected the second one");

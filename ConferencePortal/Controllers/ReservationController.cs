@@ -23,7 +23,7 @@ namespace ConferencePortal.Controllers
                               where st.ConventionID == Convention
                               select st;
 
-            IEnumerable<string> transport = en.Transports.Where(w => w.ShowInSearch=="Y").Select(x=>x.StartLocation).Distinct();
+            IEnumerable<Transport> transport = en.Transports.Where(w => w.ShowInSearch=="Y");
 
             List<Configuration> Configurations = (from config in en.Configurations
                               where config.ConventionID == Convention
@@ -34,7 +34,7 @@ namespace ConferencePortal.Controllers
             ViewBag.Hotels = hotelResult.ToList();
 
             ViewBag.Arrival = new SelectList(transport, "StartLocation", "StartLocation");
-            ViewBag.Depature = new SelectList(transport, "DropOffLocation", "DropOffLocation");
+            //ViewBag.Depature = new SelectList(transport, "DropOffLocation", "DropOffLocation");
             //ViewBag.Transport = transport;
 
             IEnumerable<Room> testRooms = TempData["HotelRooms"] as IEnumerable<Room>;
@@ -157,9 +157,9 @@ namespace ConferencePortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult SearchTransport()
+        public ActionResult SearchTransport(FormCollection fomr)
         {
-
+            string Pickup = Request.Form["Pickup"];
 
             return RedirectToAction("Index", "Reservation", new { ConventionID = 1});
         }
