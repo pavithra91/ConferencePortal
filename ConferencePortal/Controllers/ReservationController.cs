@@ -125,18 +125,19 @@ namespace ConferencePortal.Controllers
             return RedirectToAction("Index", "Reservation", new { ConventionID = 1});
         }
 
-        public ActionResult AddtoCart(string ItemType, string ItemID, FormCollection fomr)
+        public ActionResult AddtoCart(string ItemType, string ItemID, string RoomRate, string rmCount)
         {
             ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
 
             if (ItemType == "AC")
             {
-                string roomCount = Request.Form["roomCount"];
+                int roomCount = Convert.ToInt32(rmCount);
+                double RoomPrice = Convert.ToDouble(RoomRate);
                 Room room = en.Rooms.Find(Convert.ToInt32(ItemID));
                 RoomsInCart rmCart = new RoomsInCart();
                 rmCart.room = room;
-                //rmCart.Price = 
-                             
+                rmCart.Price = RoomPrice * roomCount;
+
                 cart.Rooms.Add(rmCart);                
             }
             else if(ItemType == "TR")
