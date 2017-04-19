@@ -1,5 +1,4 @@
 ﻿using ConferencePortal.App_Code;
-using ConferencePortal.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -126,19 +125,19 @@ namespace ConferencePortal.Controllers
             return RedirectToAction("Index", "Reservation", new { ConventionID = 1});
         }
 
-        public ActionResult AddtoCart(string ItemType, string ItemID, string SelectedRoomCount, FormCollection fomr)
+        public ActionResult AddtoCart(string ItemType, string ItemID, string RoomRate, string rmCount)
         {
             ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
 
             if (ItemType == "AC")
             {
-               // string roomCount = Request.Form["roomCount"];
-                string var1 = fomr["roomCount"];
+                int roomCount = Convert.ToInt32(rmCount);
+                double RoomPrice = Convert.ToDouble(RoomRate);
                 Room room = en.Rooms.Find(Convert.ToInt32(ItemID));
                 RoomsInCart rmCart = new RoomsInCart();
                 rmCart.room = room;
-                //rmCart.Price = 
-                             
+                rmCart.Price = RoomPrice * roomCount;
+
                 cart.Rooms.Add(rmCart);                
             }
             else if(ItemType == "TR")
@@ -178,7 +177,7 @@ namespace ConferencePortal.Controllers
 
         public ActionResult ViewCart()
         {
-            ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;            
+            ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
 
             if (cart != null)
             {
