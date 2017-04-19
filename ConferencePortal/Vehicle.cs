@@ -24,6 +24,8 @@ namespace ConferencePortal
         public string VehicleCategory { get; set; }
         public Nullable<int> NoOfPassengers { get; set; }
         public string Image { get; set; }
+        public Nullable<int> NoOfDoors { get; set; }
+        public Nullable<int> NoOfBaggages { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TransportRate> TransportRates { get; set; }

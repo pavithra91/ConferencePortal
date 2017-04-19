@@ -1731,6 +1731,8 @@
     <Content Include="img\rooms\DeluxeDouble.jpg" />
     <Content Include="img\rooms\DeluxeRoom.jpg" />
     <Content Include="img\Toyota-Prius-Plus.png" />
+    <Content Include="img\vehicle\Audi-S8.png" />
+    <Content Include="img\vehicle\Volkswagen-Polo-BlueGT.png" />
     <Content Include="img\Volkswagen-Polo-BlueGT.png" />
     <Content Include="img\Volkswagen-Touareg-Edition-X.png" />
     <Content Include="img\Volvo-V40.png" />
@@ -1824,6 +1826,7 @@
     <Compile Include="HtmlExtensions.cs" />
     <Compile Include="Models\LoginDataModel.cs" />
     <Compile Include="Models\RoomsInCart.cs" />
+    <Compile Include="Models\TransportInCart.cs" />
     <Compile Include="Payment.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>

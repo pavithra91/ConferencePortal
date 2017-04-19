@@ -1,1 +1,112 @@
-﻿
+﻿@{
+    IEnumerable<TransportRate> TrRates = ViewBag.Transport;
+
+    IEnumerable<RoomAllotment> allotment = ViewBag.Allotments;
+    int VehicleCount = 1;
+}
+
+<input type="hidden" name="VehicleCount" id="VehicleCount" value="1" />
+
+<ul class="booking-list">
+    @foreach (TransportRate items in TrRates)
+    {
+        <li>
+            @*<a class="booking-item">*@
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="@items.Vehicle.Image" alt="Image Alternative text" title="Vehicle 1" />
+                </div>
+                <div class="col-md-6">
+                    <h5 class="booking-item-title">@items.Transport.StartLocation to @items.Transport.DropOffLocation - @items.Vehicle.VehicleCategory</h5>
+                    <p class="text-small">Pretium consequat odio ultrices nisi elementum imperdiet sem nulla feugiat mauris dui nunc</p>
+                    <ul class="booking-item-features booking-item-features-sign clearfix">
+                        <li rel="tooltip" data-placement="top" title="Passengers">
+                            <i class="fa fa-male"></i><span class="booking-item-feature-sign">x @items.Vehicle.NoOfPassengers</span>
+                        </li>
+                        <li rel="tooltip" data-placement="top" title="Doors">
+                            <i class="im im-car-doors"></i><span class="booking-item-feature-sign">x 2</span>
+                        </li>
+                        <li rel="tooltip" data-placement="top" title="Baggage Quantity">
+                            <i class="fa fa-briefcase"></i><span class="booking-item-feature-sign">x 2</span>
+                        </li>
+                    </ul>
+                    <ul class="booking-item-features booking-item-features-small clearfix">
+                        <li rel="tooltip" data-placement="top" title="Car with Driver">
+                            <i class="im im-driver"></i>
+                        </li>
+                        <li rel="tooltip" data-placement="top" title="Air Conditioning">
+                            <i class="im im-air"></i>
+                        </li>
+                        <li rel="tooltip" data-placement="top" title="Meet and Greet">
+                            <i class="im im-meet"></i>
+                        </li>
+                       
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <span class="booking-item-price">
+                        @items.Price @items.Currency.Currency1
+                    </span>
+
+                    <br />
+
+                    <div class="form-group form-group-select-plus">
+                        <label>No Of Vehicles</label>
+                        <select name="test" id="@items.TransportID" class="form-control" onchange="myFunction(@items.TransportID)">
+                            @for (int i = 0; i < 6; i++)
+                            {
+                                <option>@VehicleCount</option>
+
+                                {
+                                    VehicleCount++;
+                                }
+                            }
+
+                            @{
+                                VehicleCount = 1;
+                            }
+                        </select>
+
+
+
+                        @*<div class="btn-group btn-group-select-num" data-toggle="buttons">
+
+                                <label class="btn btn-primary active">
+                                    <input type="radio" name="options" />1
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="options" />2
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="options" />3
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="options" />3+
+                                </label>
+                            </div>*@
+
+                        <a href="#" onclick="AddtoCartFunc(@items.TransportID, @items.Price)" aria-controls="@items.TransportID">
+                            <input type="button" class="btn btn-primary" value="Add to Cart" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+            @*</a>*@
+        </li>
+                                }
+</ul>
+
+@Html.Script(
+    @<script>
+       function myFunction(a) {
+    var x = document.getElementById(a).value;
+    $("#VehicleCount").val(x);
+       }
+
+       function AddtoCartFunc(TransportID, Rate)
+       {
+           var VehicleCount = document.getElementById("VehicleCount").value;
+           window.location.href = '@Url.Action("AddtoCart", "Reservation")?ItemType=TR' + '&ItemID=' + TransportID + '&RoomRate=' + Rate + '&rmCount=' + VehicleCount;
+       }
+    </script>
+)

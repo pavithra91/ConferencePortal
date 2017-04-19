@@ -12,6 +12,6 @@ namespace ConferencePortal.App_Code
         public int NoofDelegates { get; set; }
         public Client client { get; set; }
         public List<RoomsInCart> Rooms = new List<RoomsInCart>();
-        public List<Transport> Transport = new List<Transport>();
+        public List<TransportInCart> Transport = new List<TransportInCart>();
     }
 }

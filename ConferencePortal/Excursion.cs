@@ -21,6 +21,9 @@ namespace ConferencePortal
         public string LongDescription { get; set; }
         public string ExcursionImage { get; set; }
         public Nullable<double> Price { get; set; }
+        public Nullable<System.TimeSpan> StartTime { get; set; }
+        public Nullable<System.TimeSpan> EndTime { get; set; }
+        public string TourType { get; set; }
     
         public virtual Configuration Configuration { get; set; }
     }

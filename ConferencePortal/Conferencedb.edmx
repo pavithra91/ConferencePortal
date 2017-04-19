@@ -73,6 +73,9 @@
           <Property Name="LongDescription" Type="varchar" MaxLength="500" />
           <Property Name="ExcursionImage" Type="varchar" MaxLength="100" />
           <Property Name="Price" Type="float" />
+          <Property Name="StartTime" Type="time" Precision="7" />
+          <Property Name="EndTime" Type="time" Precision="7" />
+          <Property Name="TourType" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Hotel">
           <Key>
@@ -217,6 +220,8 @@ warning 6002: The table/view 'conferencedb.dbo.Reservation' does not have a prim
           <Property Name="VehicleCategory" Type="varchar" MaxLength="100" />
           <Property Name="NoOfPassengers" Type="int" />
           <Property Name="Image" Type="varchar" MaxLength="200" />
+          <Property Name="NoOfDoors" Type="int" />
+          <Property Name="NoOfBaggages" Type="int" />
         </EntityType>
         <Association Name="Allotment_fk">
           <End Role="Allotments" Type="Self.Allotments" Multiplicity="1">
@@ -755,6 +760,9 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="LongDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="ExcursionImage" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Price" Type="Double" />
+          <Property Name="StartTime" Type="Time" Precision="7" />
+          <Property Name="EndTime" Type="Time" Precision="7" />
+          <Property Name="TourType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Configuration" Relationship="conferencedbModel.ConventionID_fk_Convention" FromRole="Excursion" ToRole="Configuration" />
         </EntityType>
         <EntityType Name="Hotel">
@@ -905,6 +913,8 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="VehicleCategory" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="NoOfPassengers" Type="Int32" />
           <Property Name="Image" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="NoOfDoors" Type="Int32" />
+          <Property Name="NoOfBaggages" Type="Int32" />
           <NavigationProperty Name="TransportRates" Relationship="conferencedbModel.VehicleCategoryID_TransportRate_fk" FromRole="Vehicle" ToRole="TransportRate" />
         </EntityType>
         <EntityType Name="Reservation">
@@ -1242,6 +1252,9 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySetMapping Name="Excursions">
             <EntityTypeMapping TypeName="conferencedbModel.Excursion">
               <MappingFragment StoreEntitySet="Excursions">
+                <ScalarProperty Name="TourType" ColumnName="TourType" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="ExcursionImage" ColumnName="ExcursionImage" />
                 <ScalarProperty Name="LongDescription" ColumnName="LongDescription" />
@@ -1380,6 +1393,8 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySetMapping Name="Vehicles">
             <EntityTypeMapping TypeName="conferencedbModel.Vehicle">
               <MappingFragment StoreEntitySet="Vehicle">
+                <ScalarProperty Name="NoOfBaggages" ColumnName="NoOfBaggages" />
+                <ScalarProperty Name="NoOfDoors" ColumnName="NoOfDoors" />
                 <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="NoOfPassengers" ColumnName="NoOfPassengers" />
                 <ScalarProperty Name="VehicleCategory" ColumnName="VehicleCategory" />

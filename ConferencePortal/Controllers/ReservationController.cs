@@ -15,6 +15,7 @@ namespace ConferencePortal.Controllers
         // GET: Reservation
         public ActionResult Index(string ConventionID)
         {
+            //TempDate TempDates = TempData["TempDate"] as TempDate;
 
             ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;            
 
@@ -24,7 +25,7 @@ namespace ConferencePortal.Controllers
                               where st.ConventionID == Convention
                               select st;
 
-            IEnumerable<Transport> transport = en.Transports.Where(w => w.ShowInSearch=="Y");
+            //IEnumerable<Transport> transport = en.Transports.Where(w => w.ShowInSearch=="Y");
 
             List<Configuration> Configurations = (from config in en.Configurations
                               where config.ConventionID == Convention
@@ -34,15 +35,23 @@ namespace ConferencePortal.Controllers
             ViewBag.Configurations = Configurations;
             ViewBag.Hotels = hotelResult.ToList();
             
-            ViewBag.Transport = transport;
+            //ViewBag.Transport = transport;
 
             IEnumerable<Room> testRooms = TempData["HotelRooms"] as IEnumerable<Room>;
             IEnumerable<RoomAllotment> allotmentListRooms = TempData["Allotments"] as IEnumerable<RoomAllotment>;
+            IEnumerable<TransportRate> TrRates = TempData["Transport"] as IEnumerable<TransportRate>;
 
             if (testRooms != null)
             {
                 ViewBag.Rooms = testRooms;
                 ViewBag.Allotments = allotmentListRooms;
+
+                //ViewBag.StartDate = TempDates.StartDate;
+                //ViewBag.EndDate = TempDates.EndDate;
+            }
+            else if(TrRates != null)
+            {
+                ViewBag.Transport = TrRates;
             }
 
             TempData["ShoppingCart"] = cart;
@@ -146,7 +155,15 @@ namespace ConferencePortal.Controllers
             }
             else if(ItemType == "TR")
             {
+                int VehicleCount = Convert.ToInt32(rmCount);
+                double Rate = Convert.ToDouble(RoomRate);
+                Transport TR = en.Transports.Find(Convert.ToInt32(ItemID));
+                TransportInCart TRCart = new TransportInCart();
+                TRCart.TR = TR;
+                TRCart.Price = Rate * VehicleCount;
+                TRCart.NoOfVehicles = VehicleCount;
 
+                cart.Transport.Add(TRCart);
             }
             return RedirectToAction("Index", "Reservation", new { ConventionID = 1});
         }
@@ -173,12 +190,22 @@ namespace ConferencePortal.Controllers
         [HttpPost]
         public ActionResult SearchTransport(FormCollection fomr)
         {
-            string StartLocation = fomr["PickUp"].ToString();
-            string EndLocation = fomr["DropOff"].ToString();
-            string strDDLValue = fomr["DropOff"].ToString();
+            string TRType = fomr["myRadios"].ToString();
+            if (TRType != "3")
+            {
+                string StartLocation = fomr["PickUp"].ToString();
+                string EndLocation = fomr["DropOff"].ToString();
+                string strDDLValue = fomr["DropOff"].ToString();
 
-            IEnumerable<TransportRate> TrRates = en.TransportRates
-    .Where(w => w.Transport.StartLocation == StartLocation && w.Transport.DropOffLocation == EndLocation && w.Transport.ConventionID == 1);
+                IEnumerable<TransportRate> TrRates = en.TransportRates
+        .Where(w => w.Transport.StartLocation == StartLocation && w.Transport.DropOffLocation == EndLocation && w.Transport.ConventionID == 1);
+
+                TempData["Transport"] = TrRates;
+            }
+            else
+            {
+
+            }
 
             return RedirectToAction("Index", "Reservation", new { ConventionID = 1});
         }
@@ -221,10 +248,10 @@ namespace ConferencePortal.Controllers
             }
             else if(ItemType == "TR")
             {
-                List<Transport> tr = cart.Transport;
+                List<TransportInCart> tr = cart.Transport;
                 foreach (var items in tr)
                 {
-                    if (items.TransportID == Convert.ToInt32(ItemID))
+                    if (items.TR.TransportID == Convert.ToInt32(ItemID))
                     {
                         tr.Remove(items);
                         break;

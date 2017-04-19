@@ -1,56 +1,10 @@
-﻿@{
-    IEnumerable<Transport> transport;
-
-    List<SelectListItem> Arrival = new List<SelectListItem>();
-    List<SelectListItem> Dropoff = new List<SelectListItem>();
-
-    if (ViewBag.Transport != null)
-    {
-        transport = ViewBag.Transport;
-
-        foreach (var items in transport)
-        {
-            if (items.Type == "A")
-            {
-                Arrival.Add(new SelectListItem
-                {
-                    Text = items.StartLocation,
-                    Value = items.StartLocation
-                });
-            }
-            else
-            { continue; }
-        }
-
-        foreach (var items in transport)
-        {
-            if (items.Type == "D")
-            {
-                Dropoff.Add(new SelectListItem
-                {
-                    Text = items.StartLocation,
-                    Value = items.StartLocation
-                });
-            }
-            else
-            {
-                continue;
-            }
-        }
-    }
-}
-
-
-@using (Html.BeginForm("SearchTransport", "Reservation", FormMethod.Post))
+﻿@using (Html.BeginForm("SearchTransport", "Reservation", FormMethod.Post))
 {
-
-
     <div class="row">
         <div class="col-md-2">
             <div class="radio-inline">
                 <label>
-                    <input  type="radio" name="myRadios" onchange="handleChange1();" value="1" /> Arrival
-                    @*<input class="i-radio" type="radio" checked="checked" onchange="handleChange1();" value="1" name="rbList" />Arrival*@
+                    <input  type="radio" name="myRadios" checked="checked" onchange="handleChange1();" value="1" /> Arrival
                 </label>
             </div>
         </div>
@@ -58,7 +12,6 @@
             <div class="radio-inline">
                 <label>
                     <input type="radio" name="myRadios" onchange="handleChange2();" value="2" /> Depature
-                    @*<input class="i-radio" type="radio" name="rbList" onchange="handleChange2();" value="2" />Depature*@
                 </label>
             </div>
         </div>
@@ -66,7 +19,6 @@
             <div class="radio-inline">
                 <label>
                     <input type="radio" name="myRadios" onchange="handleChange3();" value="3" /> Other
-                    @*<input class="i-radio" type="radio" name="rbList" />Other*@
                 </label>
             </div>
         </div>
@@ -77,7 +29,7 @@
         <div class="form-group  form-group-icon-left">
             <i class="fa fa-map-marker input-icon"></i>
             <label>Pick-up Location</label>
-
+            <input type="text" name="txtPickup" id="txtPickup" class="form-control" style="display:none" />
             <select id="Pickup" name="Pickup" class="form-control"></select>
         
         </div>
@@ -86,7 +38,7 @@
         <div class="form-group  form-group-icon-left">
             <i class="fa fa-map-marker input-icon"></i>
             <label>Drop-off Location</label>
-
+            <input type="text" name="txtDropOff" id="txtDropOff" class="form-control" style="display:none" />
             <select id="DropOff" name="DropOff" class="form-control"></select>
 
         </div>
@@ -124,7 +76,7 @@
         </div>
     </div>
 </div>
-<button class="btn btn-primary btn-lg" type="submit">Search for Rental Cars</button>
+<button class="btn btn-primary btn-lg" id="btnSubmit" type="submit">Search for Rental Cars</button>
 }
 
 
@@ -164,6 +116,21 @@
         var testDdl = $('#Pickup');
         var testDd2 = $('#DropOff');
 
+        $('#Pickup').empty();
+        $('#DropOff').empty()
+
+        for (var i = 0; i < data.length; i++) {
+            var option = $("<option/>");
+            option.attr("value", data[i]).text(data[i]);
+            testDdl.append(option);
+        }
+
+        for (var i = 0; i < data2.length; i++) {
+            var option = $("<option/>");
+            option.attr("value", data2[i]).text(data2[i]);
+            testDd2.append(option);
+        }
+
         $('input:radio[name="myRadios"]').change(function () {
             if ($(this).val() == '1') {                
 
@@ -182,13 +149,13 @@
                     testDd2.append(option);
                 }
 
-                //$('#Pickup').val("BIA");
-                //$("#Pickup").attr("disabled", true);
-                //$("#DropOff").attr("disabled", false);
-                //$('#DropOff').val("");
+                $('#Pickup').show();
+                $('#DropOff').show();
 
-                //$("#Pickup").val("BIA");
+                document.getElementById("txtPickup").style.display = 'none';
+                document.getElementById("txtDropOff").style.display = 'none';
 
+                document.getElementById("btnSubmit").innerText = "Search for Rental Cars";
             }
             else if ($(this).val() == '2') {
 
@@ -207,16 +174,22 @@
                     testDdl.append(option);
                 }
 
-                //$("#DropOff").val("BIA");
-                //$('#DropOff').val("Bandaranayake Internation Airport");
-                //$("#DropOff").attr("disabled", true);
-                //$("#Pickup").attr("disabled", false);
-                //$('#Pickup').val("");
+                $('#Pickup').show();
+                $('#DropOff').show();
 
-                //$("#DropOff").val("BIA");
+                document.getElementById("txtPickup").style.display = 'none';
+                document.getElementById("txtDropOff").style.display = 'none';
+
+                document.getElementById("btnSubmit").innerText = "Search for Rental Cars";
             }
-            else {
+            else if ($(this).val() == '3') {
+                $('#Pickup').hide();
+                $('#DropOff').hide();
 
+                document.getElementById("txtPickup").style.display = 'block';
+                document.getElementById("txtDropOff").style.display = 'block';
+
+                document.getElementById("btnSubmit").innerText = "Send Request";
             }
         });
 
