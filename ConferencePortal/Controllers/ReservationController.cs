@@ -1,4 +1,5 @@
 ﻿using ConferencePortal.App_Code;
+using ConferencePortal.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -32,10 +33,8 @@ namespace ConferencePortal.Controllers
 
             ViewBag.Configurations = Configurations;
             ViewBag.Hotels = hotelResult.ToList();
-
-            ViewBag.Arrival = new SelectList(transport, "StartLocation", "StartLocation");
-            ViewBag.Depature = new SelectList(transport, "DropOffLocation", "DropOffLocation");
-            //ViewBag.Transport = transport;
+            
+            ViewBag.Transport = transport;
 
             IEnumerable<Room> testRooms = TempData["HotelRooms"] as IEnumerable<Room>;
             IEnumerable<RoomAllotment> allotmentListRooms = TempData["Allotments"] as IEnumerable<RoomAllotment>;
@@ -125,6 +124,11 @@ namespace ConferencePortal.Controllers
             return RedirectToAction("Index", "Reservation", new { ConventionID = 1});
         }
 
+        //public ActionResult TransportView(string ConventionID, int TransportID)
+        //{
+
+        //}
+
         public ActionResult AddtoCart(string ItemType, string ItemID, string RoomRate, string rmCount)
         {
             ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
@@ -169,7 +173,12 @@ namespace ConferencePortal.Controllers
         [HttpPost]
         public ActionResult SearchTransport(FormCollection fomr)
         {
+            string StartLocation = fomr["PickUp"].ToString();
+            string EndLocation = fomr["DropOff"].ToString();
+            string strDDLValue = fomr["DropOff"].ToString();
 
+            IEnumerable<TransportRate> TrRates = en.TransportRates
+    .Where(w => w.Transport.StartLocation == StartLocation && w.Transport.DropOffLocation == EndLocation && w.Transport.ConventionID == 1);
 
             return RedirectToAction("Index", "Reservation", new { ConventionID = 1});
         }
@@ -287,6 +296,20 @@ namespace ConferencePortal.Controllers
             }
 
             return BookingEndDate; //"March 31, 2017 11:13:00";
+        }
+
+        [HttpGet]
+        public virtual JsonResult GetPickUpLocations()
+        {
+            string[] transport = en.Transports.Where(w => w.ShowInSearch == "Y" && w.Type == "A").Select(w => w.StartLocation).ToArray();            
+            return Json(transport, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public virtual JsonResult GetDropOffLocations()
+        {
+            string[] transport = en.Transports.Where(w => w.ShowInSearch == "Y" && w.Type == "D").Select(w => w.StartLocation).ToArray();
+            return Json(transport, JsonRequestBehavior.AllowGet);
         }
 
     }

@@ -38,6 +38,8 @@ namespace ConferencePortal
         public virtual DbSet<RoomRate> RoomRates { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<Transport> Transports { get; set; }
+        public virtual DbSet<TransportRate> TransportRates { get; set; }
+        public virtual DbSet<Vehicle> Vehicles { get; set; }
         public virtual DbSet<Reservation> Reservations { get; set; }
     }
 }

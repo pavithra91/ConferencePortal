@@ -78,8 +78,8 @@
             <i class="fa fa-map-marker input-icon"></i>
             <label>Pick-up Location</label>
 
-            @Html.DropDownList("Pickup", Arrival, new { @class = "form-control", @name= "Pickup", @id= "Pickup" })
-            @*<input class="typeahead form-control" name="Pickup" id="Pickup" placeholder="City, Airport, U.S. Zip" type="text" />*@
+            <select id="Pickup" name="Pickup" class="form-control"></select>
+        
         </div>
     </div>
     <div class="col-md-6">
@@ -87,10 +87,8 @@
             <i class="fa fa-map-marker input-icon"></i>
             <label>Drop-off Location</label>
 
-            @Html.DropDownList("DropOff", Dropoff, new { @class = "form-control", @name = "DropOff", @id = "DropOff" })
+            <select id="DropOff" name="DropOff" class="form-control"></select>
 
-            @*@Html.DropDownList("DropOff", ViewBag.Arrival as SelectList, new { @class = "form-control", @name = "DropOff", @id = "DropOff" })*@
-            @*<input class="typeahead form-control" name="DropOff" id="DropOff" placeholder="City, Airport, U.S. Zip" type="text" />*@
         </div>
     </div>
 </div>
@@ -128,6 +126,102 @@
 </div>
 <button class="btn btn-primary btn-lg" type="submit">Search for Rental Cars</button>
 }
+
+
+@Html.Script(
+    @<script>
+
+        var dd = $.ajax(
+                     {
+                         type: "GET",
+                         url: "http://localhost:55185/Reservation/GetPickUpLocations",
+                         dataType: "json",
+                         async: false,
+                         success: function (result) {
+                             data = result;
+                         },
+                         error: function (x, e) {
+                             alert(x + " " + e);
+                             data = ["hello", "world"];
+                         }
+                     });
+
+        var dd2 = $.ajax(
+             {
+                 type: "GET",
+                 url: "http://localhost:55185/Reservation/GetDropOffLocations",
+                 dataType: "json",
+                 async: false,
+                 success: function (result) {
+                     data2 = result;
+                 },
+                 error: function (x, e) {
+                     alert(x + " " + e);
+                     data2 = ["hello", "world"];
+                 }
+             });
+
+        var testDdl = $('#Pickup');
+        var testDd2 = $('#DropOff');
+
+        $('input:radio[name="myRadios"]').change(function () {
+            if ($(this).val() == '1') {                
+
+                $('#Pickup').empty();
+                $('#DropOff').empty()
+
+                for (var i = 0; i < data.length; i++) {
+                    var option = $("<option/>");
+                    option.attr("value", data[i]).text(data[i]);
+                    testDdl.append(option);
+                }
+
+                for (var i = 0; i < data2.length; i++) {
+                    var option = $("<option/>");
+                    option.attr("value", data2[i]).text(data2[i]);
+                    testDd2.append(option);
+                }
+
+                //$('#Pickup').val("BIA");
+                //$("#Pickup").attr("disabled", true);
+                //$("#DropOff").attr("disabled", false);
+                //$('#DropOff').val("");
+
+                //$("#Pickup").val("BIA");
+
+            }
+            else if ($(this).val() == '2') {
+
+                $('#Pickup').empty();
+                $('#DropOff').empty()
+
+                for (var i = 0; i < data.length; i++) {
+                    var option = $("<option/>");
+                    option.attr("value", data[i]).text(data[i]);
+                    testDd2.append(option);
+                }
+
+                for (var i = 0; i < data2.length; i++) {
+                    var option = $("<option/>");
+                    option.attr("value", data2[i]).text(data2[i]);
+                    testDdl.append(option);
+                }
+
+                //$("#DropOff").val("BIA");
+                //$('#DropOff').val("Bandaranayake Internation Airport");
+                //$("#DropOff").attr("disabled", true);
+                //$("#Pickup").attr("disabled", false);
+                //$('#Pickup').val("");
+
+                //$("#DropOff").val("BIA");
+            }
+            else {
+
+            }
+        });
+
+    </script>
+)
 
 @section scriptLocation{
 

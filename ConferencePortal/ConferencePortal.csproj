@@ -1849,6 +1849,12 @@
     <Compile Include="Transport.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
+    <Compile Include="TransportRate.cs">
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vehicle.cs">
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />

@@ -379,31 +379,7 @@
 
 @section scriptLocation{
 <script type="text/javascript">  
-    $('input:radio[name="myRadios"]').change(function () {
-        if ($(this).val() == '1') {            
-            $('#Pickup').val("BIA");
-            $("#Pickup").attr("disabled", true);
-            $("#DropOff").attr("disabled", false);
-            $('#DropOff').val("");
 
-            $("#Pickup").val("BIA");         
-            
-        }
-        else if($(this).val() == '2')
-        {
-            $("#DropOff").val("BIA");
-            //$('#DropOff').val("Bandaranayake Internation Airport");
-            $("#DropOff").attr("disabled", true);
-            $("#Pickup").attr("disabled", false);
-            $('#Pickup').val("");
-
-            $("#DropOff").val("BIA");
-        }
-        else
-        {
-
-        }
-    });
     
 </script>
 }

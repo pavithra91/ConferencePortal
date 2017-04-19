@@ -195,12 +195,28 @@ warning 6002: The table/view 'conferencedb.dbo.Reservation' does not have a prim
           <Property Name="ConventionID" Type="int" />
           <Property Name="StartLocation" Type="varchar" MaxLength="100" />
           <Property Name="DropOffLocation" Type="varchar" MaxLength="100" />
-          <Property Name="VehicleCategory" Type="varchar" MaxLength="100" />
-          <Property Name="Price" Type="float" />
-          <Property Name="Image" Type="varchar" MaxLength="200" />
           <Property Name="CurCode" Type="int" />
           <Property Name="ShowInSearch" Type="char" MaxLength="1" />
           <Property Name="Type" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="TransportRate">
+          <Key>
+            <PropertyRef Name="RateID" />
+          </Key>
+          <Property Name="RateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TransportID" Type="int" />
+          <Property Name="VehicleCategory" Type="int" />
+          <Property Name="Price" Type="float" />
+          <Property Name="CurCode" Type="int" />
+        </EntityType>
+        <EntityType Name="Vehicle">
+          <Key>
+            <PropertyRef Name="VehicleID" />
+          </Key>
+          <Property Name="VehicleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VehicleCategory" Type="varchar" MaxLength="100" />
+          <Property Name="NoOfPassengers" Type="int" />
+          <Property Name="Image" Type="varchar" MaxLength="200" />
         </EntityType>
         <Association Name="Allotment_fk">
           <End Role="Allotments" Type="Self.Allotments" Multiplicity="1">
@@ -312,6 +328,18 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="CurCode_Currency_fk">
+          <End Role="Currency" Type="Self.Currency" Multiplicity="0..1" />
+          <End Role="TransportRate" Type="Self.TransportRate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="CurID" />
+            </Principal>
+            <Dependent Role="TransportRate">
+              <PropertyRef Name="CurCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="CurID_fk_Currency">
           <End Role="Currency" Type="Self.Currency" Multiplicity="0..1" />
           <End Role="Rooms" Type="Self.Rooms" Multiplicity="*" />
@@ -416,6 +444,34 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="TransportID_TransportRate_fk">
+          <End Role="Transport" Type="Self.Transport" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TransportRate" Type="Self.TransportRate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transport">
+              <PropertyRef Name="TransportID" />
+            </Principal>
+            <Dependent Role="TransportRate">
+              <PropertyRef Name="TransportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="VehicleCategoryID_TransportRate_fk">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TransportRate" Type="Self.TransportRate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="VehicleID" />
+            </Principal>
+            <Dependent Role="TransportRate">
+              <PropertyRef Name="VehicleCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="conferencedbModelStoreContainer">
           <EntitySet Name="Allotments" EntityType="Self.Allotments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
@@ -430,6 +486,8 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySet Name="RoomRates" EntityType="Self.RoomRates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rooms" EntityType="Self.Rooms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Transport" EntityType="Self.Transport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransportRate" EntityType="Self.TransportRate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Reservation" EntityType="Self.Reservation" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [Reservation].[BookingID] AS [BookingID], 
@@ -474,6 +532,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             <End Role="Configurations" EntitySet="Configurations" />
             <End Role="Hotel" EntitySet="Hotel" />
           </AssociationSet>
+          <AssociationSet Name="CurCode_Currency_fk" Association="Self.CurCode_Currency_fk">
+            <End Role="Currency" EntitySet="Currency" />
+            <End Role="TransportRate" EntitySet="TransportRate" />
+          </AssociationSet>
           <AssociationSet Name="CurID_fk_Currency" Association="Self.CurID_fk_Currency">
             <End Role="Currency" EntitySet="Currency" />
             <End Role="Rooms" EntitySet="Rooms" />
@@ -506,6 +568,14 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             <End Role="Transport" EntitySet="Transport" />
             <End Role="Reservation" EntitySet="Reservation" />
           </AssociationSet>
+          <AssociationSet Name="TransportID_TransportRate_fk" Association="Self.TransportID_TransportRate_fk">
+            <End Role="Transport" EntitySet="Transport" />
+            <End Role="TransportRate" EntitySet="TransportRate" />
+          </AssociationSet>
+          <AssociationSet Name="VehicleCategoryID_TransportRate_fk" Association="Self.VehicleCategoryID_TransportRate_fk">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="TransportRate" EntitySet="TransportRate" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -525,6 +595,8 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySet Name="RoomRates" EntityType="conferencedbModel.RoomRate" />
           <EntitySet Name="Rooms" EntityType="conferencedbModel.Room" />
           <EntitySet Name="Transports" EntityType="conferencedbModel.Transport" />
+          <EntitySet Name="TransportRates" EntityType="conferencedbModel.TransportRate" />
+          <EntitySet Name="Vehicles" EntityType="conferencedbModel.Vehicle" />
           <EntitySet Name="Reservations" EntityType="conferencedbModel.Reservation" />
           <AssociationSet Name="Allotment_fk" Association="conferencedbModel.Allotment_fk">
             <End Role="Allotment" EntitySet="Allotments" />
@@ -558,6 +630,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             <End Role="Configuration" EntitySet="Configurations" />
             <End Role="Hotel" EntitySet="Hotels" />
           </AssociationSet>
+          <AssociationSet Name="CurCode_Currency_fk" Association="conferencedbModel.CurCode_Currency_fk">
+            <End Role="Currency" EntitySet="Currencies" />
+            <End Role="TransportRate" EntitySet="TransportRates" />
+          </AssociationSet>
           <AssociationSet Name="CurID_fk_Currency" Association="conferencedbModel.CurID_fk_Currency">
             <End Role="Currency" EntitySet="Currencies" />
             <End Role="Room" EntitySet="Rooms" />
@@ -589,6 +665,14 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <AssociationSet Name="TransportID_fk_Reservation" Association="conferencedbModel.TransportID_fk_Reservation">
             <End Role="Transport" EntitySet="Transports" />
             <End Role="Reservation" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="TransportID_TransportRate_fk" Association="conferencedbModel.TransportID_TransportRate_fk">
+            <End Role="Transport" EntitySet="Transports" />
+            <End Role="TransportRate" EntitySet="TransportRates" />
+          </AssociationSet>
+          <AssociationSet Name="VehicleCategoryID_TransportRate_fk" Association="conferencedbModel.VehicleCategoryID_TransportRate_fk">
+            <End Role="Vehicle" EntitySet="Vehicles" />
+            <End Role="TransportRate" EntitySet="TransportRates" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Allotment">
@@ -657,6 +741,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           </Key>
           <Property Name="CurID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Currency1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TransportRates" Relationship="conferencedbModel.CurCode_Currency_fk" FromRole="Currency" ToRole="TransportRate" />
           <NavigationProperty Name="Rooms" Relationship="conferencedbModel.CurID_fk_Currency" FromRole="Currency" ToRole="Room" />
         </EntityType>
         <EntityType Name="Excursion">
@@ -792,14 +877,35 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="ConventionID" Type="Int32" />
           <Property Name="StartLocation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="DropOffLocation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="VehicleCategory" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Price" Type="Double" />
-          <Property Name="Image" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="CurCode" Type="Int32" />
           <Property Name="ShowInSearch" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Type" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="Configuration" Relationship="conferencedbModel.ConferenceID_fk_Conference" FromRole="Transport" ToRole="Configuration" />
           <NavigationProperty Name="Reservations" Relationship="conferencedbModel.TransportID_fk_Reservation" FromRole="Transport" ToRole="Reservation" />
-          <Property Name="Type" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="TransportRates" Relationship="conferencedbModel.TransportID_TransportRate_fk" FromRole="Transport" ToRole="TransportRate" />
+        </EntityType>
+        <EntityType Name="TransportRate">
+          <Key>
+            <PropertyRef Name="RateID" />
+          </Key>
+          <Property Name="RateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TransportID" Type="Int32" />
+          <Property Name="VehicleCategory" Type="Int32" />
+          <Property Name="Price" Type="Double" />
+          <Property Name="CurCode" Type="Int32" />
+          <NavigationProperty Name="Currency" Relationship="conferencedbModel.CurCode_Currency_fk" FromRole="TransportRate" ToRole="Currency" />
+          <NavigationProperty Name="Transport" Relationship="conferencedbModel.TransportID_TransportRate_fk" FromRole="TransportRate" ToRole="Transport" />
+          <NavigationProperty Name="Vehicle" Relationship="conferencedbModel.VehicleCategoryID_TransportRate_fk" FromRole="TransportRate" ToRole="Vehicle" />
+        </EntityType>
+        <EntityType Name="Vehicle">
+          <Key>
+            <PropertyRef Name="VehicleID" />
+          </Key>
+          <Property Name="VehicleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VehicleCategory" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NoOfPassengers" Type="Int32" />
+          <Property Name="Image" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TransportRates" Relationship="conferencedbModel.VehicleCategoryID_TransportRate_fk" FromRole="Vehicle" ToRole="TransportRate" />
         </EntityType>
         <EntityType Name="Reservation">
           <Key>
@@ -922,6 +1028,18 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="CurCode_Currency_fk">
+          <End Type="conferencedbModel.Currency" Role="Currency" Multiplicity="0..1" />
+          <End Type="conferencedbModel.TransportRate" Role="TransportRate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="CurID" />
+            </Principal>
+            <Dependent Role="TransportRate">
+              <PropertyRef Name="CurCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="CurID_fk_Currency">
           <End Type="conferencedbModel.Currency" Role="Currency" Multiplicity="0..1" />
           <End Type="conferencedbModel.Room" Role="Room" Multiplicity="*" />
@@ -1023,6 +1141,34 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             </Principal>
             <Dependent Role="Reservation">
               <PropertyRef Name="TransportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TransportID_TransportRate_fk">
+          <End Type="conferencedbModel.Transport" Role="Transport" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="conferencedbModel.TransportRate" Role="TransportRate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transport">
+              <PropertyRef Name="TransportID" />
+            </Principal>
+            <Dependent Role="TransportRate">
+              <PropertyRef Name="TransportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="VehicleCategoryID_TransportRate_fk">
+          <End Type="conferencedbModel.Vehicle" Role="Vehicle" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="conferencedbModel.TransportRate" Role="TransportRate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="VehicleID" />
+            </Principal>
+            <Dependent Role="TransportRate">
+              <PropertyRef Name="VehicleCategory" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1213,13 +1359,31 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="ShowInSearch" ColumnName="ShowInSearch" />
                 <ScalarProperty Name="CurCode" ColumnName="CurCode" />
-                <ScalarProperty Name="Image" ColumnName="Image" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="VehicleCategory" ColumnName="VehicleCategory" />
                 <ScalarProperty Name="DropOffLocation" ColumnName="DropOffLocation" />
                 <ScalarProperty Name="StartLocation" ColumnName="StartLocation" />
                 <ScalarProperty Name="ConventionID" ColumnName="ConventionID" />
                 <ScalarProperty Name="TransportID" ColumnName="TransportID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransportRates">
+            <EntityTypeMapping TypeName="conferencedbModel.TransportRate">
+              <MappingFragment StoreEntitySet="TransportRate">
+                <ScalarProperty Name="CurCode" ColumnName="CurCode" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="VehicleCategory" ColumnName="VehicleCategory" />
+                <ScalarProperty Name="TransportID" ColumnName="TransportID" />
+                <ScalarProperty Name="RateID" ColumnName="RateID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vehicles">
+            <EntityTypeMapping TypeName="conferencedbModel.Vehicle">
+              <MappingFragment StoreEntitySet="Vehicle">
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="NoOfPassengers" ColumnName="NoOfPassengers" />
+                <ScalarProperty Name="VehicleCategory" ColumnName="VehicleCategory" />
+                <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

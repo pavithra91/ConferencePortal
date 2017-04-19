@@ -12,26 +12,19 @@ namespace ConferencePortal
     using System;
     using System.Collections.Generic;
     
-    public partial class Transport
+    public partial class Vehicle
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Transport()
+        public Vehicle()
         {
-            this.Reservations = new HashSet<Reservation>();
             this.TransportRates = new HashSet<TransportRate>();
         }
     
-        public int TransportID { get; set; }
-        public Nullable<int> ConventionID { get; set; }
-        public string StartLocation { get; set; }
-        public string DropOffLocation { get; set; }
-        public Nullable<int> CurCode { get; set; }
-        public string ShowInSearch { get; set; }
-        public string Type { get; set; }
+        public int VehicleID { get; set; }
+        public string VehicleCategory { get; set; }
+        public Nullable<int> NoOfPassengers { get; set; }
+        public string Image { get; set; }
     
-        public virtual Configuration Configuration { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Reservation> Reservations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TransportRate> TransportRates { get; set; }
     }
