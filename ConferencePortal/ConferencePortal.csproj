@@ -1782,7 +1782,6 @@
     <Compile Include="Allotment.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
-    <Compile Include="App_Code\RoomsInCart.cs" />
     <Compile Include="App_Code\ShoppingCart.cs" />
     <Compile Include="App_Code\TempDate.cs" />
     <Compile Include="App_Code\TempRoom.cs" />
@@ -1824,6 +1823,7 @@
     </Compile>
     <Compile Include="HtmlExtensions.cs" />
     <Compile Include="Models\LoginDataModel.cs" />
+    <Compile Include="Models\RoomsInCart.cs" />
     <Compile Include="Payment.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>

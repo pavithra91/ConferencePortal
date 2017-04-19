@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ConferencePortal.App_Code
+namespace ConferencePortal.Models
 {
     public class RoomsInCart
     {

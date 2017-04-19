@@ -15,7 +15,7 @@ namespace ConferencePortal.Controllers
         // GET: Account
         public ActionResult Index()
         {
-            ViewBag.ConventionID = "001";
+            ViewBag.ConventionID = "1";
             
             return View();
         }
@@ -60,7 +60,7 @@ namespace ConferencePortal.Controllers
 
             TempData["ShoppingCart"] = cart;
 
-            return RedirectToAction("Index", "Reservation", new { ConventionID = 1, HotelId = 0 });
+            return RedirectToAction("Index", "Reservation", new { ConventionID = 1});
         }
 
         [HttpPost]

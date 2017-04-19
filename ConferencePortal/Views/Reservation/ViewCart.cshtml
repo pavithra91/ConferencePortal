@@ -1,9 +1,11 @@
-﻿
+﻿@using roomsInCart = ConferencePortal.Models.RoomsInCart;
+
+
 @{
     ViewBag.Title = "ViewCart";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    List<Room> rooms = null;
+    List<roomsInCart> rooms = null;
     List<Transport> transport = null;
     IEnumerable<Client> client = null;
 
@@ -63,12 +65,12 @@
 
                 <li>
                     <span class="booking-item-wishlist-title"><i class="fa fa-building-o"></i> Hotel </span>
-                    <a class="fa fa-times booking-item-wishlist-remove" href="@Url.Action("RemoveFromCart", "Reservation", new { ItemType= "AC", ItemID = items.RoomID }, null)" rel="tooltip" data-placement="top" title="remove from Cart"></a>
+                    <a class="fa fa-times booking-item-wishlist-remove" href="@Url.Action("RemoveFromCart", "Reservation", new { ItemType= "AC", ItemID = items.room.RoomID }, null)" rel="tooltip" data-placement="top" title="remove from Cart"></a>
                     <a class="booking-item" href="#">
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="booking-item-img-wrap">
-                                    <img src="@items.RoomImage" alt="Image Alternative text" title="hotel 1" />
+                                    <img src="@items.room.RoomImage" alt="Image Alternative text" title="hotel 1" />
                                     <div class="booking-item-img-num"><i class="fa fa-picture-o"></i>19</div>
                                 </div>
                             </div>
@@ -90,13 +92,13 @@
                                         <li>
                                             <i class="fa fa-star-o"></i>
                                         </li>
-                                    </ul><span class="booking-item-rating-number"><b>@items.Hotel.StarRaing</b> of 5</span><small>(764 reviews)</small>
+                                    </ul><span class="booking-item-rating-number"><b>@items.room.Hotel.StarRaing</b> of 5</span><small>(764 reviews)</small>
                                 </div>
-                                <h5 class="booking-item-title">@items.RoomName</h5>
-                                <p class="booking-item-address"><i class="fa fa-map-marker"></i> @items.Hotel.Address</p><small class="booking-item-last-booked">Latest booking: Just now</small>
+                                <h5 class="booking-item-title">@items.room.RoomName</h5>
+                                <p class="booking-item-address"><i class="fa fa-map-marker"></i> @items.room.Hotel.Address</p><small class="booking-item-last-booked">Latest booking: Just now</small>
                             </div>
                             <div class="col-md-3">
-                                <span class="booking-item-price-from">from</span><span class="booking-item-price">@items.Currency.Currency1 @items.Price</span><span>/night</span><span class="btn btn-primary">Book Now</span>
+                                <span class="booking-item-price-from">from</span><span class="booking-item-price">@items.room.Currency.Currency1 @items.Price</span><span>/night</span><span class="btn btn-primary">Book Now</span>
                             </div>
                         </div>
                     </a>
@@ -139,12 +141,12 @@
                                                 </li>
                                             </ul><span class="booking-item-rating-number"><b>3.5</b> of 5</span>
                                         </div>
-                                        <h5 class="booking-item-title">@items.DisplayName</h5>
+                                        <h5 class="booking-item-title">@items.StartLocation </h5>
                                         <p class="booking-item-address"><i class="fa fa-map-marker"></i> New York, NY (Downtown - Wall Street)</p>
                                         <p class="booking-item-description">Velit ornare pulvinar integer dapibus imperdiet quisque class tortor vestibulum mollis diam</p>
                                     </div>
                                     <div class="col-md-3">
-                                        <span class="booking-item-price-from">average</span><span class="booking-item-price">@items.Currency @items.Price</span><span>/person</span><span class="btn btn-primary">Add to Trip</span>
+                                        <span class="booking-item-price-from">average</span><span class="booking-item-price">@*@items.Currency @items.Price*@</span><span>/person</span><span class="btn btn-primary">Add to Trip</span>
                                     </div>
                                 </div>
                             </a>
