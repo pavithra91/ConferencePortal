@@ -24,7 +24,10 @@ namespace ConferencePortal
         public Nullable<System.TimeSpan> StartTime { get; set; }
         public Nullable<System.TimeSpan> EndTime { get; set; }
         public string TourType { get; set; }
+        public string Location { get; set; }
+        public Nullable<int> CurID { get; set; }
     
         public virtual Configuration Configuration { get; set; }
+        public virtual Currency Currency { get; set; }
     }
 }

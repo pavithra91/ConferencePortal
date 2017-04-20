@@ -30,8 +30,7 @@
             <i class="fa fa-map-marker input-icon"></i>
             <label>Pick-up Location</label>
             <input type="text" name="txtPickup" id="txtPickup" class="form-control" style="display:none" />
-            <select id="Pickup" name="Pickup" class="form-control"></select>
-        
+            <select id="Pickup" name="Pickup" class="form-control"></select>        
         </div>
     </div>
     <div class="col-md-6">
@@ -83,10 +82,15 @@
 @Html.Script(
     @<script>
 
+        var url = window.location.search;
+        url = url.replace("?", ''); // remove the ?
+        var myurls = url.split("&");
+        var ConventionID = myurls[0].replace("ConventionID=", "");
+
         var dd = $.ajax(
                      {
                          type: "GET",
-                         url: "http://localhost:55185/Reservation/GetPickUpLocations",
+                         url: "http://localhost:55185/Reservation/GetPickUpLocations?ConventionID=" + ConventionID,
                          dataType: "json",
                          async: false,
                          success: function (result) {
@@ -101,7 +105,7 @@
         var dd2 = $.ajax(
              {
                  type: "GET",
-                 url: "http://localhost:55185/Reservation/GetDropOffLocations",
+                 url: "http://localhost:55185/Reservation/GetDropOffLocations?ConventionID=" + ConventionID,
                  dataType: "json",
                  async: false,
                  success: function (result) {
@@ -198,31 +202,4 @@
 
 @section scriptLocation{
 
-
-
-    @*<script>
-        alert("You selected the first option and deselected the second one");
-        $(function () {
-            $('input:radio[name="myRadios"]').change(function () {
-                if ($(this).val() == '1') {
-                    alert("You selected the first option and deselected the second one");
-                } else {
-                    alert("You selected the second option and deselected the first one");
-                }
-            });
-        });
-    </script>*@
-
-    @*<script>
-        $(function () {
-            $('input:radio[name="rbList"]').change(function () {
-                if ($(this).val() == '1') {
-                    $('#Pickup').val("Bandaranayake Internation Airport");
-                    alert("Arrival");
-                } else {
-                    alert("You selected the second option and deselected the first one");
-                }
-            });
-        });
-    </script>*@
 }

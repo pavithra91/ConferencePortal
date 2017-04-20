@@ -14,10 +14,15 @@
     }
 
     IEnumerable<TransportRate> transport = null;
-
     if (ViewBag.Transport != null)
     {
         transport = ViewBag.Transport;
+    }
+
+    IEnumerable<Excursion> Excursion = null;
+    if (ViewBag.Excursion != null)
+    {
+        Excursion = ViewBag.Excursion;
     }
 
     List<Hotel> hotels = ViewBag.Hotels;
@@ -104,10 +109,9 @@
                                             }
                                             @if (config.ExcursionRequired == "Y")
                                             {
-
                                                 <div class="tab-pane fade" id="tab-5">
 
-                                                    @Html.Partial("_ExcursionSearchView", hotels)
+                                                    @Html.Partial("_ExcursionSearchView", Excursion)
                                                 </div>
                                             }
                                         </div>
@@ -140,6 +144,10 @@
                     else if (transport != null && config.TransportRequired == "Y")
                     {
                         @Html.Partial("_TransportView", new { transport });
+                    }
+                    else if (Excursion != null && config.ExcursionRequired == "Y")
+                    {
+                        @Html.Partial("_ExcursionView", new { Excursion });
                     }
                 }
             </div>

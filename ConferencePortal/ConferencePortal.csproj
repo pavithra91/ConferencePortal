@@ -1824,6 +1824,7 @@
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
     <Compile Include="HtmlExtensions.cs" />
+    <Compile Include="Models\ExcursionsInCart.cs" />
     <Compile Include="Models\LoginDataModel.cs" />
     <Compile Include="Models\RoomsInCart.cs" />
     <Compile Include="Models\TransportInCart.cs" />
@@ -1885,6 +1886,7 @@
     <Content Include="Views\Reservation\_TransportSearchView.cshtml" />
     <Content Include="Views\Reservation\_ExcursionSearchView.cshtml" />
     <Content Include="Views\Account\SignIn.cshtml" />
+    <Content Include="Views\Reservation\_ExcursionView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

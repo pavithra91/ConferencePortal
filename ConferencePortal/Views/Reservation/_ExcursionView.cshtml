@@ -1,0 +1,86 @@
+﻿@{
+    IEnumerable<Excursion> Excursion = ViewBag.Excursion;
+    int AdultsCount = 1;
+}
+
+<input type="hidden" name="AdultCount" id="AdultCount" value="0" />
+
+<ul class="booking-list">
+    @foreach (Excursion items in Excursion)
+    {
+        <li>
+                <div class="row">
+                    <div class="col-md-3">
+                        <img src="@items.ExcursionImage" alt="Image Alternative text" title="@items.ExcursionName">
+                    </div>
+                    <div class="col-md-6">
+                        @*<div class="booking-item-rating">
+                            <ul class="icon-group booking-item-rating-stars">
+                                <li>
+                                    <i class="fa fa-star"></i>
+                                </li>
+                                <li>
+                                    <i class="fa fa-star"></i>
+                                </li>
+                                <li>
+                                    <i class="fa fa-star"></i>
+                                </li>
+                                <li>
+                                    <i class="fa fa-star"></i>
+                                </li>
+                                <li>
+                                    <i class="fa fa-star-half-empty"></i>
+                                </li>
+                            </ul><span class="booking-item-rating-number"><b>4.4</b> of 5</span><small>(1107 reviews)</small>
+                        </div>*@
+                        <h5 class="booking-item-title">@items.ExcursionName</h5>
+                        <p class="booking-item-address"><i class="fa fa-times-circle"></i> Tour Starting At @items.StartTime - @items.EndTime </p> 
+                        <p class="booking-item-address"><i class="fa fa-times-circle"></i> Tour Type : @items.TourType </p> <br />
+                        <p class="booking-item-description">@items.ShortDescription </p>
+                    </div>
+                    <div class="col-md-3">
+
+                        <span class="booking-item-price">
+                            @items.Price @items.Currency.Currency1
+                        </span>
+
+                        <div class="form-group form-group-select-plus">
+                            <label>Adults</label>
+                            <select name="AdultsSelect" id="@items.ExcursionsID" class="form-control" onchange="myFunction(@items.ExcursionsID)">
+                                @for (int i = 0; i < 6; i++)
+                                {
+                                    <option>@i</option>
+                                }
+                            </select>
+                        </div>
+                        
+
+
+                        <a href="#" onclick="AddtoCartFunc(@items.ExcursionsID, @items.Price)" aria-controls="@items.ExcursionsID">
+                            <input type="button" class="btn btn-primary" value="Add to Trip" />
+                        </a>                        
+                    </div>
+                </div>
+        </li>
+   }
+</ul>
+
+@Html.Script(
+    @<script>
+       function myFunction(a) {
+    var x = document.getElementById(a).value;
+    $("#AdultCount").val(x);
+       }
+
+       function AddtoCartFunc(Excursion, Rate) {
+           var AdultCount = document.getElementById("AdultCount").value;
+           if (AdultCount == 0) {
+               alert("Please Enter at Least One Adult");
+           }
+           else {
+               window.location.href = '@Url.Action("AddtoCart", "Reservation")?ItemType=EX' + '&ItemID=' + Excursion + '&RoomRate=' + Rate + '&rmCount=' + AdultCount;
+           }
+       }
+    </script>
+)
+

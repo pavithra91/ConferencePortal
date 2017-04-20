@@ -18,6 +18,7 @@ namespace ConferencePortal
         public Currency()
         {
             this.TransportRates = new HashSet<TransportRate>();
+            this.Excursions = new HashSet<Excursion>();
             this.Rooms = new HashSet<Room>();
         }
     
@@ -26,6 +27,8 @@ namespace ConferencePortal
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TransportRate> TransportRates { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Excursion> Excursions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Room> Rooms { get; set; }
     }

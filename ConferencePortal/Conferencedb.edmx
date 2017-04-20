@@ -76,6 +76,8 @@
           <Property Name="StartTime" Type="time" Precision="7" />
           <Property Name="EndTime" Type="time" Precision="7" />
           <Property Name="TourType" Type="varchar" MaxLength="50" />
+          <Property Name="Location" Type="varchar" MaxLength="50" />
+          <Property Name="CurID" Type="int" />
         </EntityType>
         <EntityType Name="Hotel">
           <Key>
@@ -345,6 +347,18 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="CurID_Excursion_fk">
+          <End Role="Currency" Type="Self.Currency" Multiplicity="0..1" />
+          <End Role="Excursions" Type="Self.Excursions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="CurID" />
+            </Principal>
+            <Dependent Role="Excursions">
+              <PropertyRef Name="CurID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="CurID_fk_Currency">
           <End Role="Currency" Type="Self.Currency" Multiplicity="0..1" />
           <End Role="Rooms" Type="Self.Rooms" Multiplicity="*" />
@@ -541,6 +555,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             <End Role="Currency" EntitySet="Currency" />
             <End Role="TransportRate" EntitySet="TransportRate" />
           </AssociationSet>
+          <AssociationSet Name="CurID_Excursion_fk" Association="Self.CurID_Excursion_fk">
+            <End Role="Currency" EntitySet="Currency" />
+            <End Role="Excursions" EntitySet="Excursions" />
+          </AssociationSet>
           <AssociationSet Name="CurID_fk_Currency" Association="Self.CurID_fk_Currency">
             <End Role="Currency" EntitySet="Currency" />
             <End Role="Rooms" EntitySet="Rooms" />
@@ -638,6 +656,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <AssociationSet Name="CurCode_Currency_fk" Association="conferencedbModel.CurCode_Currency_fk">
             <End Role="Currency" EntitySet="Currencies" />
             <End Role="TransportRate" EntitySet="TransportRates" />
+          </AssociationSet>
+          <AssociationSet Name="CurID_Excursion_fk" Association="conferencedbModel.CurID_Excursion_fk">
+            <End Role="Currency" EntitySet="Currencies" />
+            <End Role="Excursion" EntitySet="Excursions" />
           </AssociationSet>
           <AssociationSet Name="CurID_fk_Currency" Association="conferencedbModel.CurID_fk_Currency">
             <End Role="Currency" EntitySet="Currencies" />
@@ -747,6 +769,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="CurID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Currency1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="TransportRates" Relationship="conferencedbModel.CurCode_Currency_fk" FromRole="Currency" ToRole="TransportRate" />
+          <NavigationProperty Name="Excursions" Relationship="conferencedbModel.CurID_Excursion_fk" FromRole="Currency" ToRole="Excursion" />
           <NavigationProperty Name="Rooms" Relationship="conferencedbModel.CurID_fk_Currency" FromRole="Currency" ToRole="Room" />
         </EntityType>
         <EntityType Name="Excursion">
@@ -763,7 +786,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="StartTime" Type="Time" Precision="7" />
           <Property Name="EndTime" Type="Time" Precision="7" />
           <Property Name="TourType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CurID" Type="Int32" />
           <NavigationProperty Name="Configuration" Relationship="conferencedbModel.ConventionID_fk_Convention" FromRole="Excursion" ToRole="Configuration" />
+          <NavigationProperty Name="Currency" Relationship="conferencedbModel.CurID_Excursion_fk" FromRole="Excursion" ToRole="Currency" />
         </EntityType>
         <EntityType Name="Hotel">
           <Key>
@@ -1050,6 +1076,18 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="CurID_Excursion_fk">
+          <End Type="conferencedbModel.Currency" Role="Currency" Multiplicity="0..1" />
+          <End Type="conferencedbModel.Excursion" Role="Excursion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="CurID" />
+            </Principal>
+            <Dependent Role="Excursion">
+              <PropertyRef Name="CurID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="CurID_fk_Currency">
           <End Type="conferencedbModel.Currency" Role="Currency" Multiplicity="0..1" />
           <End Type="conferencedbModel.Room" Role="Room" Multiplicity="*" />
@@ -1252,6 +1290,8 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySetMapping Name="Excursions">
             <EntityTypeMapping TypeName="conferencedbModel.Excursion">
               <MappingFragment StoreEntitySet="Excursions">
+                <ScalarProperty Name="CurID" ColumnName="CurID" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="TourType" ColumnName="TourType" />
                 <ScalarProperty Name="EndTime" ColumnName="EndTime" />
                 <ScalarProperty Name="StartTime" ColumnName="StartTime" />

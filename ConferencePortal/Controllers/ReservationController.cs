@@ -40,6 +40,7 @@ namespace ConferencePortal.Controllers
             IEnumerable<Room> testRooms = TempData["HotelRooms"] as IEnumerable<Room>;
             IEnumerable<RoomAllotment> allotmentListRooms = TempData["Allotments"] as IEnumerable<RoomAllotment>;
             IEnumerable<TransportRate> TrRates = TempData["Transport"] as IEnumerable<TransportRate>;
+            IEnumerable<Excursion> Excursion = TempData["Excursion"] as IEnumerable<Excursion>;
 
             if (testRooms != null)
             {
@@ -52,6 +53,10 @@ namespace ConferencePortal.Controllers
             else if(TrRates != null)
             {
                 ViewBag.Transport = TrRates;
+            }
+            else if(Excursion != null)
+            {
+                ViewBag.Excursion = Excursion;
             }
 
             TempData["ShoppingCart"] = cart;
@@ -138,36 +143,6 @@ namespace ConferencePortal.Controllers
 
         //}
 
-        public ActionResult AddtoCart(string ItemType, string ItemID, string RoomRate, string rmCount)
-        {
-            ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
-
-            if (ItemType == "AC")
-            {
-                int roomCount = Convert.ToInt32(rmCount);
-                double RoomPrice = Convert.ToDouble(RoomRate);
-                Room room = en.Rooms.Find(Convert.ToInt32(ItemID));
-                RoomsInCart rmCart = new RoomsInCart();
-                rmCart.room = room;
-                rmCart.Price = RoomPrice * roomCount;
-
-                cart.Rooms.Add(rmCart);                
-            }
-            else if(ItemType == "TR")
-            {
-                int VehicleCount = Convert.ToInt32(rmCount);
-                double Rate = Convert.ToDouble(RoomRate);
-                Transport TR = en.Transports.Find(Convert.ToInt32(ItemID));
-                TransportInCart TRCart = new TransportInCart();
-                TRCart.TR = TR;
-                TRCart.Price = Rate * VehicleCount;
-                TRCart.NoOfVehicles = VehicleCount;
-
-                cart.Transport.Add(TRCart);
-            }
-            return RedirectToAction("Index", "Reservation", new { ConventionID = 1});
-        }
-
         [HttpPost]
         public ActionResult SearchHotel(FormCollection fomr)
         {
@@ -210,6 +185,29 @@ namespace ConferencePortal.Controllers
             return RedirectToAction("Index", "Reservation", new { ConventionID = 1});
         }
 
+        [HttpPost]
+        public ActionResult SearchExcursion(FormCollection fomr)
+        {
+            string Location = Request.Form["Location"];
+            string start = Request.Form["start"];
+            string end = Request.Form["end"];
+
+            DateTime startdate = Convert.ToDateTime(start);
+            DateTime enddate = Convert.ToDateTime(end);
+
+            TempDate TempDates = new TempDate();
+            TempDates.StartDate = startdate;
+            TempDates.EndDate = enddate;
+
+            TempData["TempDate"] = TempDates;
+
+            IEnumerable<Excursion> Excursion = en.Excursions
+                .Where(w => w.Location == Location);
+
+            TempData["Excursion"] = Excursion;
+
+            return RedirectToAction("Index", "Reservation", new { ConventionID = 1 });
+        }
 
         public ActionResult ViewCart()
         {
@@ -219,6 +217,7 @@ namespace ConferencePortal.Controllers
             {
                 ViewBag.Rooms = cart.Rooms;
                 ViewBag.Transport = cart.Transport;
+                ViewBag.Excursion = cart.Excursion;
 
                 List<Client> cl = new List<Client> { cart.client };
                 ViewBag.Client = cl;
@@ -226,6 +225,50 @@ namespace ConferencePortal.Controllers
                 TempData["ShoppingCart"] = cart;
             }
             return View();
+        }
+
+        public ActionResult AddtoCart(string ItemType, string ItemID, string RoomRate, string rmCount)
+        {
+            ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
+
+            if (ItemType == "AC")
+            {
+                int roomCount = Convert.ToInt32(rmCount);
+                double RoomPrice = Convert.ToDouble(RoomRate);
+                Room room = en.Rooms.Find(Convert.ToInt32(ItemID));
+                RoomsInCart rmCart = new RoomsInCart();
+                rmCart.room = room;
+                rmCart.Price = RoomPrice * roomCount;
+
+                cart.Rooms.Add(rmCart);
+            }
+            else if (ItemType == "TR")
+            {
+                int VehicleCount = Convert.ToInt32(rmCount);
+                double Rate = Convert.ToDouble(RoomRate);
+                Transport TR = en.Transports.Find(Convert.ToInt32(ItemID));
+                TransportInCart TRCart = new TransportInCart();
+                TRCart.TR = TR;
+                TRCart.Price = Rate * VehicleCount;
+                TRCart.NoOfVehicles = VehicleCount;
+
+                cart.Transport.Add(TRCart);
+            }
+
+            else if (ItemType == "EX")
+            {
+                int AdultCount = Convert.ToInt32(rmCount);
+                double Rate = Convert.ToDouble(RoomRate);
+                Excursion TR = en.Excursions.Find(Convert.ToInt32(ItemID));
+                ExcursionsInCart Excursions = new ExcursionsInCart();
+                Excursions.Excursion = TR;
+                Excursions.Price = Rate * AdultCount;
+                Excursions.NoOfAdults = AdultCount;
+
+                cart.Excursion.Add(Excursions);
+            }
+
+            return RedirectToAction("Index", "Reservation", new { ConventionID = 1 });
         }
 
         public ActionResult RemoveFromCart(string ItemType, string ItemID)
@@ -260,8 +303,25 @@ namespace ConferencePortal.Controllers
 
                 cart.Transport = tr;
             }
+
+            else if (ItemType == "EX")
+            {
+                List<ExcursionsInCart> ex = cart.Excursion;
+                foreach (var items in ex)
+                {
+                    if (items.Excursion.ExcursionsID == Convert.ToInt32(ItemID))
+                    {
+                        ex.Remove(items);
+                        break;
+                    }
+                }
+
+                cart.Excursion = ex;
+            }
+
             ViewBag.Rooms = cart.Rooms;
             ViewBag.Transport = cart.Transport;
+            ViewBag.Excursion = cart.Excursion;
 
             TempData["ShoppingCart"] = cart;
 
@@ -326,18 +386,30 @@ namespace ConferencePortal.Controllers
         }
 
         [HttpGet]
-        public virtual JsonResult GetPickUpLocations()
+        public virtual JsonResult GetPickUpLocations(string ConventionID)
         {
-            string[] transport = en.Transports.Where(w => w.ShowInSearch == "Y" && w.Type == "A").Select(w => w.StartLocation).ToArray();            
+            int Convention = Convert.ToInt32(ConventionID);
+
+            string[] transport = en.Transports.Where(w => w.ShowInSearch == "Y" && w.Type == "A" && w.ConventionID == Convention).Select(w => w.StartLocation).ToArray();            
             return Json(transport, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public virtual JsonResult GetDropOffLocations()
+        public virtual JsonResult GetDropOffLocations(string ConventionID)
         {
-            string[] transport = en.Transports.Where(w => w.ShowInSearch == "Y" && w.Type == "D").Select(w => w.StartLocation).ToArray();
+            int Convention = Convert.ToInt32(ConventionID);
+
+            string[] transport = en.Transports.Where(w => w.ShowInSearch == "Y" && w.Type == "D" && w.ConventionID == Convention).Select(w => w.StartLocation).ToArray();
             return Json(transport, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public virtual JsonResult GetLocations(string ConventionID)
+        {
+            int Convention = Convert.ToInt32(ConventionID);
+
+            string[] excursion = en.Excursions.Where(w => w.ConventionID == Convention).Select(w => w.Location).Distinct().ToArray();
+            return Json(excursion, JsonRequestBehavior.AllowGet);
+        }
     }
 }
