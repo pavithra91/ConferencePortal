@@ -78,7 +78,7 @@
                alert("Please Enter at Least One Adult");
            }
            else {
-               window.location.href = '@Url.Action("AddtoCart", "Reservation")?ItemType=EX' + '&ItemID=' + Excursion + '&RoomRate=' + Rate + '&rmCount=' + AdultCount;
+               window.location.href = '@Url.Action("AddtoCart", "Reservation")?ItemType=EX' + '&ItemID=' + Excursion + '&Rate=' + Rate + '&Count=' + AdultCount;
            }
        }
     </script>

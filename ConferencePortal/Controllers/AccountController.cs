@@ -34,11 +34,11 @@ namespace ConferencePortal.Controllers
 
             ViewBag.NoOfDeligates = 2;
 
-            if (cart.client.Deligate == true)
-            {
-                List<Client> cl = new List<Client> { cart.client };
-                ViewBag.Client = cl;
-            }
+            //if (cart.client.Deligate == true)
+            //{
+            //    List<Client> cl = new List<Client> { cart.client };
+            //    ViewBag.Client = cl;
+            //}
 
             return View();
         }
@@ -66,8 +66,10 @@ namespace ConferencePortal.Controllers
         [HttpPost]
         public ActionResult RegisterDelegates(IEnumerable<Registration> reg)
         {
+            IEnumerable<Registration> test = TempData["Deligates"] as IEnumerable<Registration>;
+            test = reg;
 
-            return RedirectToAction("Index", "Reservation", new { ConventionID = 1, HotelId = 0 });
+            return RedirectToAction("ServiceList", "Reservation", new { ConventionID = 1 });
         }
 
         public ActionResult SignIn()

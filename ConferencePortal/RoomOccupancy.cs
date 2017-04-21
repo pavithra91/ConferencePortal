@@ -14,7 +14,16 @@ namespace ConferencePortal
     
     public partial class RoomOccupancy
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public RoomOccupancy()
+        {
+            this.Rooms = new HashSet<Room>();
+        }
+    
         public int OccupancyID { get; set; }
         public string OccupancyLevel { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Room> Rooms { get; set; }
     }
 }

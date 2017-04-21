@@ -399,6 +399,18 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="OccupancyID_Room_fk">
+          <End Role="RoomOccupancy" Type="Self.RoomOccupancy" Multiplicity="0..1" />
+          <End Role="Rooms" Type="Self.Rooms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoomOccupancy">
+              <PropertyRef Name="OccupancyID" />
+            </Principal>
+            <Dependent Role="Rooms">
+              <PropertyRef Name="OccupancyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="RoomID_fk">
           <End Role="Rooms" Type="Self.Rooms" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -571,6 +583,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             <End Role="Hotel" EntitySet="Hotel" />
             <End Role="Reservation" EntitySet="Reservation" />
           </AssociationSet>
+          <AssociationSet Name="OccupancyID_Room_fk" Association="Self.OccupancyID_Room_fk">
+            <End Role="RoomOccupancy" EntitySet="RoomOccupancy" />
+            <End Role="Rooms" EntitySet="Rooms" />
+          </AssociationSet>
           <AssociationSet Name="RoomID_fk" Association="Self.RoomID_fk">
             <End Role="Rooms" EntitySet="Rooms" />
             <End Role="RoomAllotment" EntitySet="RoomAllotment" />
@@ -680,6 +696,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <AssociationSet Name="RoomRate_fk" Association="conferencedbModel.RoomRate_fk">
             <End Role="RoomRate" EntitySet="RoomRates" />
             <End Role="RoomAllotment" EntitySet="RoomAllotments" />
+          </AssociationSet>
+          <AssociationSet Name="OccupancyID_Room_fk" Association="conferencedbModel.OccupancyID_Room_fk">
+            <End Role="RoomOccupancy" EntitySet="RoomOccupancies" />
+            <End Role="Room" EntitySet="Rooms" />
           </AssociationSet>
           <AssociationSet Name="RoomID_fk_RoomRates" Association="conferencedbModel.RoomID_fk_RoomRates">
             <End Role="Room" EntitySet="Rooms" />
@@ -863,6 +883,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           </Key>
           <Property Name="OccupancyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OccupancyLevel" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Rooms" Relationship="conferencedbModel.OccupancyID_Room_fk" FromRole="RoomOccupancy" ToRole="Room" />
         </EntityType>
         <EntityType Name="RoomRate">
           <Key>
@@ -900,6 +921,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <NavigationProperty Name="Currency" Relationship="conferencedbModel.CurID_fk_Currency" FromRole="Room" ToRole="Currency" />
           <NavigationProperty Name="Hotel" Relationship="conferencedbModel.HotelID_fk_Hotel" FromRole="Room" ToRole="Hotel" />
           <NavigationProperty Name="RoomAllotments" Relationship="conferencedbModel.RoomID_fk" FromRole="Room" ToRole="RoomAllotment" />
+          <NavigationProperty Name="RoomOccupancy" Relationship="conferencedbModel.OccupancyID_Room_fk" FromRole="Room" ToRole="RoomOccupancy" />
           <NavigationProperty Name="RoomRates" Relationship="conferencedbModel.RoomID_fk_RoomRates" FromRole="Room" ToRole="RoomRate" />
           <NavigationProperty Name="Reservations" Relationship="conferencedbModel.RoomID_fk_Reservation" FromRole="Room" ToRole="Reservation" />
         </EntityType>
@@ -1151,6 +1173,18 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             </Principal>
             <Dependent Role="RoomAllotment">
               <PropertyRef Name="RateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OccupancyID_Room_fk">
+          <End Type="conferencedbModel.RoomOccupancy" Role="RoomOccupancy" Multiplicity="0..1" />
+          <End Type="conferencedbModel.Room" Role="Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoomOccupancy">
+              <PropertyRef Name="OccupancyID" />
+            </Principal>
+            <Dependent Role="Room">
+              <PropertyRef Name="OccupancyID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

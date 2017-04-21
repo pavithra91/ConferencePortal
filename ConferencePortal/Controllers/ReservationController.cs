@@ -170,12 +170,31 @@ namespace ConferencePortal.Controllers
             {
                 string StartLocation = fomr["PickUp"].ToString();
                 string EndLocation = fomr["DropOff"].ToString();
-                string strDDLValue = fomr["DropOff"].ToString();
+                string _PickUpDate = "";
+                string _DropOffDate = "";
+                TempDate TempDates = new TempDate();
+
+                if (TRType=="1")
+                {
+                    _PickUpDate = fomr["start"].ToString();
+                    DateTime PickUpDate = Convert.ToDateTime(_PickUpDate);
+                    TempDates.StartDate = PickUpDate;
+                    TempDates.PickUpTime = fomr["PickUpTime"].ToString();
+                }
+                else if(TRType == "2")
+                {
+                    _DropOffDate = fomr["end"].ToString();
+                    TempDates.DropOffTime = fomr["DropOffTime"].ToString();
+                    DateTime DropOffDate = Convert.ToDateTime(_DropOffDate);
+                    TempDates.StartDate = DropOffDate;
+                }     
 
                 IEnumerable<TransportRate> TrRates = en.TransportRates
         .Where(w => w.Transport.StartLocation == StartLocation && w.Transport.DropOffLocation == EndLocation && w.Transport.ConventionID == 1);
 
                 TempData["Transport"] = TrRates;
+
+                TempData["TRTempDate"] = TempDates;
             }
             else
             {
@@ -227,42 +246,62 @@ namespace ConferencePortal.Controllers
             return View();
         }
 
-        public ActionResult AddtoCart(string ItemType, string ItemID, string RoomRate, string rmCount)
+        public ActionResult AddtoCart(string ItemType, string ItemID, string Rate, string Count)
         {
             ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
 
             if (ItemType == "AC")
             {
-                int roomCount = Convert.ToInt32(rmCount);
-                double RoomPrice = Convert.ToDouble(RoomRate);
+                TempDate TempDates = TempData["TempDate"] as TempDate;
+
+                DateTime start = TempDates.StartDate;
+                DateTime end = TempDates.EndDate;
+
+                int roomCount = Convert.ToInt32(Count);
+                double RoomPrice = Convert.ToDouble(Rate);
                 Room room = en.Rooms.Find(Convert.ToInt32(ItemID));
                 RoomsInCart rmCart = new RoomsInCart();
                 rmCart.room = room;
                 rmCart.Price = RoomPrice * roomCount;
+                rmCart.NoofRooms = roomCount;
+                rmCart.CheckInDate = start;
+                rmCart.CheckOutDate = end;
 
                 cart.Rooms.Add(rmCart);
             }
             else if (ItemType == "TR")
             {
-                int VehicleCount = Convert.ToInt32(rmCount);
-                double Rate = Convert.ToDouble(RoomRate);
-                Transport TR = en.Transports.Find(Convert.ToInt32(ItemID));
+                TempDate TempDates = TempData["TRTempDate"] as TempDate;
+
+                int VehicleCount = Convert.ToInt32(Count);
+                double Price = Convert.ToDouble(Rate);
+                TransportRate TR = en.TransportRates.Find(Convert.ToInt32(ItemID));
                 TransportInCart TRCart = new TransportInCart();
                 TRCart.TR = TR;
-                TRCart.Price = Rate * VehicleCount;
+                TRCart.Price = Price * VehicleCount;
                 TRCart.NoOfVehicles = VehicleCount;
+                if(TR.Transport.Type=="A")
+                {
+                    TRCart.PickUpDate = TempDates.StartDate.ToShortDateString();
+                    TRCart.PickUpTime = TempDates.PickUpTime;
+                }
+                else
+                {
+                    TRCart.DropOffDate = TempDates.EndDate.ToShortDateString();
+                    TRCart.DropOffTime = TempDates.DropOffTime;
+                }
 
                 cart.Transport.Add(TRCart);
             }
 
             else if (ItemType == "EX")
             {
-                int AdultCount = Convert.ToInt32(rmCount);
-                double Rate = Convert.ToDouble(RoomRate);
+                int AdultCount = Convert.ToInt32(Count);
+                double Price = Convert.ToDouble(Rate);
                 Excursion TR = en.Excursions.Find(Convert.ToInt32(ItemID));
                 ExcursionsInCart Excursions = new ExcursionsInCart();
                 Excursions.Excursion = TR;
-                Excursions.Price = Rate * AdultCount;
+                Excursions.Price = Price * AdultCount;
                 Excursions.NoOfAdults = AdultCount;
 
                 cart.Excursion.Add(Excursions);
@@ -326,6 +365,13 @@ namespace ConferencePortal.Controllers
             TempData["ShoppingCart"] = cart;
 
             return RedirectToAction("ViewCart", "Reservation");
+        }
+
+        public ActionResult ServiceList(string ConventionID)
+        {
+            IEnumerable<Registration> test = TempData["Deligates"] as IEnumerable<Registration>;
+
+            return View();
         }
 
         public JsonResult Test(string type)

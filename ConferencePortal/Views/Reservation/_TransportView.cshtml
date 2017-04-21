@@ -13,7 +13,7 @@
             @*<a class="booking-item">*@
             <div class="row">
                 <div class="col-md-3">
-                    <img src="@items.Vehicle.Image" alt="Image Alternative text" title="Vehicle 1" />
+                    <img src="@items.Vehicle.Image" alt="Image Alternative text" title="@items.Vehicle.VehicleCategory" />
                 </div>
                 <div class="col-md-6">
                     <h5 class="booking-item-title">@items.Transport.StartLocation to @items.Transport.DropOffLocation - @items.Vehicle.VehicleCategory</h5>
@@ -84,7 +84,7 @@
                                 </label>
                             </div>*@
 
-                        <a href="#" onclick="AddtoCartFunc(@items.TransportID, @items.Price)" aria-controls="@items.TransportID">
+                        <a href="#" onclick="AddtoCartFunc(@items.RateID, @items.Price)" aria-controls="@items.RateID">
                             <input type="button" class="btn btn-primary" value="Add to Cart" />
                         </a>
                     </div>
@@ -105,7 +105,7 @@
        function AddtoCartFunc(TransportID, Rate)
        {
            var VehicleCount = document.getElementById("VehicleCount").value;
-           window.location.href = '@Url.Action("AddtoCart", "Reservation")?ItemType=TR' + '&ItemID=' + TransportID + '&RoomRate=' + Rate + '&rmCount=' + VehicleCount;
+           window.location.href = '@Url.Action("AddtoCart", "Reservation")?ItemType=TR' + '&ItemID=' + TransportID + '&Rate=' + Rate + '&Count=' + VehicleCount;
        }
     </script>
 )

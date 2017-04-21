@@ -123,7 +123,7 @@
        function AddtoCartFunc(RoomID, RoomRate)
        {
            var RoomCount = document.getElementById("roomCount").value;
-           window.location.href = '@Url.Action("AddtoCart", "Reservation")?ItemType=AC' + '&ItemID='+ RoomID + '&RoomRate='+ RoomRate +  '&rmCount=' + RoomCount;
+           window.location.href = '@Url.Action("AddtoCart", "Reservation")?ItemType=AC' + '&ItemID=' + RoomID + '&Rate=' + RoomRate + '&Count=' + RoomCount;
        }
     </script>
 )

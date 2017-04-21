@@ -9,5 +9,9 @@ namespace ConferencePortal.App_Code
     {
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+
+        public string PickUpTime { get; set; }
+
+        public string DropOffTime { get; set; }
     }
 }
