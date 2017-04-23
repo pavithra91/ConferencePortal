@@ -22,7 +22,7 @@ namespace ConferencePortal.Controllers
 
         public ActionResult DeligateRegistration(string ConventionID)
         {
-            ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
+            //ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
 
             int Convention = Convert.ToInt32(ConventionID);
 
@@ -66,8 +66,10 @@ namespace ConferencePortal.Controllers
         [HttpPost]
         public ActionResult RegisterDelegates(IEnumerable<Registration> reg)
         {
-            IEnumerable<Registration> test = TempData["Deligates"] as IEnumerable<Registration>;
-            test = reg;
+            TempData["Deligates"] = reg;
+
+            ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
+            TempData["ShoppingCart"] = cart;
 
             return RedirectToAction("ServiceList", "Reservation", new { ConventionID = 1 });
         }

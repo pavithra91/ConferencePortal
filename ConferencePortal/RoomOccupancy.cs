@@ -22,6 +22,7 @@ namespace ConferencePortal
     
         public int OccupancyID { get; set; }
         public string OccupancyLevel { get; set; }
+        public Nullable<int> Capacity { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Room> Rooms { get; set; }

@@ -369,7 +369,20 @@ namespace ConferencePortal.Controllers
 
         public ActionResult ServiceList(string ConventionID)
         {
-            IEnumerable<Registration> test = TempData["Deligates"] as IEnumerable<Registration>;
+            IEnumerable<Registration> Deligates = TempData["Deligates"] as IEnumerable<Registration>;
+            ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
+
+            if (cart != null)
+            {
+                ViewBag.Rooms = cart.Rooms;
+                ViewBag.Transport = cart.Transport;
+                ViewBag.Excursion = cart.Excursion;
+
+                List<Client> cl = new List<Client> { cart.client };
+                ViewBag.Client = cl;
+            }
+
+            ViewBag.Deligates = Deligates;
 
             return View();
         }
@@ -389,7 +402,7 @@ namespace ConferencePortal.Controllers
 
         public string GetBookingStartPeriod(string ConventionID)
         {
-            int Convention = Convert.ToInt32(ConventionID);
+            int Convention = Convert.ToInt32(1);
 
             var Configurations = from config in en.Configurations
                                  where config.ConventionID == Convention
@@ -411,7 +424,7 @@ namespace ConferencePortal.Controllers
 
         public string GetBookingEndPeriod(string ConventionID)
         {
-            int Convention = Convert.ToInt32(ConventionID);
+            int Convention = Convert.ToInt32(1);
 
             var Configurations = from config in en.Configurations
                                  where config.ConventionID == Convention
@@ -434,7 +447,7 @@ namespace ConferencePortal.Controllers
         [HttpGet]
         public virtual JsonResult GetPickUpLocations(string ConventionID)
         {
-            int Convention = Convert.ToInt32(ConventionID);
+            int Convention = Convert.ToInt32(1);
 
             string[] transport = en.Transports.Where(w => w.ShowInSearch == "Y" && w.Type == "A" && w.ConventionID == Convention).Select(w => w.StartLocation).ToArray();            
             return Json(transport, JsonRequestBehavior.AllowGet);

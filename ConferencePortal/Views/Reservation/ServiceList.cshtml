@@ -1,0 +1,264 @@
+﻿@using roomsInCart = ConferencePortal.Models.RoomsInCart;
+
+@using transportInCart = ConferencePortal.Models.TransportInCart;
+
+@using excursionInCart = ConferencePortal.Models.ExcursionsInCart;
+
+@{
+    ViewBag.Title = "ServiceList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    IEnumerable<Registration> Deligates = null;
+    List<roomsInCart> rooms = null;
+    List<transportInCart> transport = null;
+    List<excursionInCart> excursion = null;
+    IEnumerable<Client> client = null;
+
+    if (ViewBag.Client != null)
+    {
+        client = ViewBag.Client;
+    }
+
+    if (ViewBag.Rooms != null)
+    {
+        rooms = ViewBag.Rooms;
+
+    }
+    if (ViewBag.Transport != null)
+    {
+        transport = ViewBag.Transport;
+
+    }
+    if (ViewBag.Excursion != null)
+    {
+        excursion = ViewBag.Excursion;
+    }
+
+    if (ViewBag.Deligates != null)
+    {
+        Deligates = ViewBag.Deligates;
+    }
+
+    string ID = "";
+    int count = 1;
+}
+
+@model roomsInCart
+
+@using (Html.BeginForm("Index", "Payment", FormMethod.Post))
+{
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            @if (client != null)
+            {
+                foreach (var cl in client)
+                {
+                    <aside class="user-profile-sidebar">
+                        <div class="user-profile-avatar text-center">
+                            <img src="~/img/300x300.png" alt="Image Alternative text" title="@cl.firstName" />
+                            <h5>@cl.firstName</h5>
+                        </div>
+                        <ul class="list user-profile-nav">
+                            <li>
+                                <a href="user-profile.html"><i class="fa fa-user"></i>Overview</a>
+                            </li>
+                            <li>
+                                <a href="user-profile-settings.html"><i class="fa fa-cog"></i>Settings</a>
+                            </li>
+                            <li>
+                                <a href="user-profile-photos.html"><i class="fa fa-camera"></i>My Travel Photos</a>
+                            </li>
+                            <li>
+                                <a href="user-profile-booking-history.html"><i class="fa fa-clock-o"></i>Booking History</a>
+                            </li>
+                            <li>
+                                <a href="user-profile-cards.html"><i class="fa fa-credit-card"></i>Credit/Debit Cards</a>
+                            </li>
+                            <li>
+                                <a href="user-profile-wishlist.html"><i class="fa fa-heart-o"></i>Wishlist</a>
+                            </li>
+                        </ul>
+                    </aside>
+                    break;
+                }
+            }
+        </div>
+
+        <div class="col-md-9">
+
+            <ul class="booking-list booking-list-wishlist">
+                @if (rooms != null)
+                {
+                    foreach (var items in rooms)
+                    {
+                        for (int j = 0; j < items.NoofRooms; j++)
+                        {
+
+                        <li>
+                            <span class="booking-item-wishlist-title"><i class="fa fa-building-o"></i> Hotel </span>
+                            @*<a class="fa fa-times booking-item-wishlist-remove" href="@Url.Action("RemoveFromCart", "Reservation", new { ItemType = "AC", ItemID = items.room.RoomID }, null)" rel="tooltip" data-placement="top" title="remove from Cart"></a>*@
+                            <a class="booking-item" href="#">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="booking-item-img-wrap">
+                                            <img src="@items.room.RoomImage" alt="Image Alternative text" title="hotel 1" />
+                                            <div class="booking-item-img-num"><i class="fa fa-picture-o"></i>19</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        @*@Html.TextBoxFor(m => m.Deligate, new { @class = "typeahead form-control", @placeholder = "ex -: White", @required = "required" })*@
+                                        <h5 class="booking-item-title">@items.room.RoomName</h5>
+                                        <p class="booking-item-address"><i class="fa fa-map-marker"></i> @items.room.Hotel.Address</p>
+                                        <p class="booking-item-address"><i class="fa fa-calendar"></i> Check In Date : @items.CheckInDate.ToShortDateString()</p>
+                                        <p class="booking-item-address"><i class="fa fa-calendar"></i> Check Out Date : @items.CheckOutDate.ToShortDateString()</p>
+
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+
+                                                <div class="form-group form-group-icon-left">
+                                                    <i class="fa fa-user input-icon"></i>
+                                                    <label>Guest Name : </label>
+
+                                                    @{ 
+                                                        ID = "AC-" + items.room.RoomID + "-" + count + "-" + j;
+                                                    }
+
+                                                    @for (int i = 0; i < items.room.RoomOccupancy.Capacity; i++)
+                                                    {
+                                                        <select name="@ID" id="@ID" class="form-control" style="margin-top:5px">
+                                                            @foreach (var del in Deligates)
+                                                            {
+                                                                <option value="@del.AUTOID">
+                                                                    @{
+                                                                        @del.firstName;
+                                                                    }
+                                                                </option>
+                                                              }
+                                                        </select>
+                                                     }
+                                                    @*<input class="typeahead form-control" placeholder="ex -: Joe" type="text" />*@
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+
+                                                                                }
+
+
+                                                                                count++;
+
+                                                                            }
+                                                                        }
+
+
+                @if (transport != null)
+                {
+                    foreach (var items in transport)
+                    {
+
+                        <li>
+                            <span class="booking-item-wishlist-title"><i class="fa fa-bolt"></i> Transport </span>
+                            <a class="fa fa-times booking-item-wishlist-remove" href="@Url.Action("RemoveFromCart", "Reservation", new { ItemType = "TR", ItemID = items.TR.TransportID }, null)" rel="tooltip" data-placement="top" title="remove from wishlist"></a>
+                            <a class="booking-item" href="#">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        @{
+                                            TransportRate TRRates = null;
+                                            foreach (var TR in items.TR.Transport.TransportRates)
+                                            {
+                                                if (items.TR.RateID == TR.RateID)
+                                                {
+                                                    TRRates = TR;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        <img src="@TRRates.Vehicle.Image" alt="Image Alternative text" title="@TRRates.Vehicle.VehicleCategory" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 class="booking-item-title">@items.TR.Transport.StartLocation to @items.TR.Transport.DropOffLocation </h5>
+                                        <p class="booking-item-address">
+                                            <i class="fa fa-clock-o"></i> PickUp Time : @if (items.TR.Transport.Type == "A")
+                                            { @items.PickUpTime} @if (items.TR.Transport.Type == "D")
+                                                        { @items.DropOffTime }
+                                        </p>
+                                        <p class="booking-item-address">
+                                            <i class="fa fa-calendar"></i> PickUp Date : @if (items.TR.Transport.Type == "A")
+                                            { @items.PickUpDate} @if (items.TR.Transport.Type == "D")
+                                                        { @items.DropOffDate }
+                                        </p>
+                                        <p class="booking-item-description">Velit ornare pulvinar integer dapibus imperdiet quisque class tortor vestibulum mollis diam</p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        @*<span class="booking-item-price-from">Total Cost</span>*@<span class="booking-item-price">@TRRates.Currency.Currency1 @items.Price</span><span>/ @items.NoOfVehicles Vehicles</span>@*<span class="btn btn-primary">Add to Trip</span>*@
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+
+                                                }
+                                            }
+
+
+
+
+                @if (excursion != null)
+                {
+                    foreach (var items in excursion)
+                    {
+
+                        <li>
+                            <span class="booking-item-wishlist-title"><i class="fa fa-bolt"></i> Excursions </span>
+                            <a class="fa fa-times booking-item-wishlist-remove" href="@Url.Action("RemoveFromCart", "Reservation", new { ItemType = "TR", ItemID = items.Excursion.ExcursionsID }, null)" rel="tooltip" data-placement="top" title="remove from wishlist"></a>
+                            <a class="booking-item" href="#">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <img src="@items.Excursion.ExcursionImage" alt="Image Alternative text" title="@items.Excursion.ExcursionName" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 class="booking-item-title">@items.Excursion.ExcursionName </h5>
+                                        <p class="booking-item-address"><i class="fa fa-map-marker"></i> Tour Duration : @items.Excursion.StartTime - @items.Excursion.EndTime</p>
+                                        <p class="booking-item-address"><i class="fa fa-map-marker"></i> Tour Type : @items.Excursion.TourType</p>
+                                        <p class="booking-item-description">@items.Excursion.ShortDescription</p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        @*<span class="booking-item-price-from">average</span>*@<span class="booking-item-price">@items.Excursion.Currency.Currency1 @items.Price</span><span>/@items.NoOfAdults person</span>@*<span class="btn btn-primary">Add to Trip</span>*@
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+
+                    }
+                }
+            </ul>
+
+            <hr />
+
+            <div class="row row-wrap">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-primary btn-sm" type="submit">Add More Services</button> <button class="btn btn-primary btn-sm" type="submit">Proceed Next</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+                                            }

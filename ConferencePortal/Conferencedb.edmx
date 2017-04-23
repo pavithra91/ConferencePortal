@@ -161,6 +161,7 @@ warning 6002: The table/view 'conferencedb.dbo.Reservation' does not have a prim
           </Key>
           <Property Name="OccupancyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OccupancyLevel" Type="varchar" MaxLength="20" />
+          <Property Name="Capacity" Type="int" />
         </EntityType>
         <EntityType Name="RoomRates">
           <Key>
@@ -883,6 +884,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           </Key>
           <Property Name="OccupancyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OccupancyLevel" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Capacity" Type="Int32" />
           <NavigationProperty Name="Rooms" Relationship="conferencedbModel.OccupancyID_Room_fk" FromRole="RoomOccupancy" ToRole="Room" />
         </EntityType>
         <EntityType Name="RoomRate">
@@ -1403,6 +1405,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySetMapping Name="RoomOccupancies">
             <EntityTypeMapping TypeName="conferencedbModel.RoomOccupancy">
               <MappingFragment StoreEntitySet="RoomOccupancy">
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
                 <ScalarProperty Name="OccupancyLevel" ColumnName="OccupancyLevel" />
                 <ScalarProperty Name="OccupancyID" ColumnName="OccupancyID" />
               </MappingFragment>

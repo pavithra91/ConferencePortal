@@ -12,5 +12,6 @@ namespace ConferencePortal.Models
         public int NoofRooms { get; set; }
         public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set; }
+        public List<Registration> Deligate { get; set; }
     }
 }
