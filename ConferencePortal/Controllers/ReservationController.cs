@@ -384,6 +384,9 @@ namespace ConferencePortal.Controllers
 
             ViewBag.Deligates = Deligates;
 
+            TempData["Deligates"] = Deligates;
+            TempData["ShoppingCart"] = cart;
+
             return View();
         }
 

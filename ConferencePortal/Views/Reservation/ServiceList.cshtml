@@ -116,9 +116,7 @@
 
 
                                         <div class="row">
-
                                             <div class="col-md-6">
-
                                                 <div class="form-group form-group-icon-left">
                                                     <i class="fa fa-user input-icon"></i>
                                                     <label>Guest Name : </label>
@@ -132,7 +130,7 @@
                                                         <select name="@ID" id="@ID" class="form-control" style="margin-top:5px">
                                                             @foreach (var del in Deligates)
                                                             {
-                                                                <option value="@del.AUTOID">
+                                                                <option value="@del.firstName">
                                                                     @{
                                                                         @del.firstName;
                                                                     }
@@ -142,10 +140,7 @@
                                                      }
                                                     @*<input class="typeahead form-control" placeholder="ex -: Joe" type="text" />*@
                                                 </div>
-
                                             </div>
-
-
                                         </div>
 
 
@@ -166,9 +161,12 @@
 
                 @if (transport != null)
                 {
-                    foreach (var items in transport)
-                    {
-
+                                count = 1;
+                                    
+                                    foreach (var items in transport)
+                                    {
+                                        for (int j = 0; j < items.NoOfVehicles; j++)
+                                        {
                         <li>
                             <span class="booking-item-wishlist-title"><i class="fa fa-bolt"></i> Transport </span>
                             <a class="fa fa-times booking-item-wishlist-remove" href="@Url.Action("RemoveFromCart", "Reservation", new { ItemType = "TR", ItemID = items.TR.TransportID }, null)" rel="tooltip" data-placement="top" title="remove from wishlist"></a>
@@ -184,31 +182,59 @@
                                                     TRRates = TR;
                                                     break;
                                                 }
-                                            }
+                }
                                         }
+
+                                        @{
+                                            ID = "TR-" + items.TR.TransportID + "-" + count + "-" + j;
+                                        }
+
                                         <img src="@TRRates.Vehicle.Image" alt="Image Alternative text" title="@TRRates.Vehicle.VehicleCategory" />
                                     </div>
                                     <div class="col-md-6">
                                         <h5 class="booking-item-title">@items.TR.Transport.StartLocation to @items.TR.Transport.DropOffLocation </h5>
                                         <p class="booking-item-address">
                                             <i class="fa fa-clock-o"></i> PickUp Time : @if (items.TR.Transport.Type == "A")
-                                            { @items.PickUpTime} @if (items.TR.Transport.Type == "D")
-                                                        { @items.DropOffTime }
+                { @items.PickUpTime} @if (items.TR.Transport.Type == "D")
+                { @items.DropOffTime }
                                         </p>
                                         <p class="booking-item-address">
                                             <i class="fa fa-calendar"></i> PickUp Date : @if (items.TR.Transport.Type == "A")
-                                            { @items.PickUpDate} @if (items.TR.Transport.Type == "D")
-                                                        { @items.DropOffDate }
+                { @items.PickUpDate} @if (items.TR.Transport.Type == "D")
+                { @items.DropOffDate }
                                         </p>
                                         <p class="booking-item-description">Velit ornare pulvinar integer dapibus imperdiet quisque class tortor vestibulum mollis diam</p>
-                                    </div>
-                                    <div class="col-md-3">
-                                        @*<span class="booking-item-price-from">Total Cost</span>*@<span class="booking-item-price">@TRRates.Currency.Currency1 @items.Price</span><span>/ @items.NoOfVehicles Vehicles</span>@*<span class="btn btn-primary">Add to Trip</span>*@
+                                    
+                                    
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group form-group-icon-left">
+                                                    <i class="fa fa-user input-icon"></i>
+                                                    <label>Guest Name : </label>
+
+                                                        <select name="@ID" id="@ID" class="form-control" style="margin-top:5px">
+                                                            @foreach (var del in Deligates)
+                                                            {
+                                                                <option value="@del.AUTOID">
+                                                                    @{
+                                                                        @del.firstName;
+                                                                    }
+                                                                </option>
+                                                                        }
+                                                        </select>
+                                                    @*<input class="typeahead form-control" placeholder="ex -: Joe" type="text" />*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                    
+                                    
                                     </div>
                                 </div>
                             </a>
                         </li>
-
+                                                    }
+                                                    count++;
                                                 }
                                             }
 

@@ -16,6 +16,13 @@
           <Property Name="ConventionID" Type="int" />
           <Property Name="Status" Type="int" />
         </EntityType>
+        <EntityType Name="BookingConfig">
+          <Key>
+            <PropertyRef Name="ConferenceID" />
+          </Key>
+          <Property Name="ConferenceID" Type="int" Nullable="false" />
+          <Property Name="BookingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
         <EntityType Name="Clients">
           <Key>
             <PropertyRef Name="ClientID" />
@@ -54,6 +61,7 @@
           <Property Name="ConventionEndDate" Type="date" />
           <Property Name="BookingPeriodStart" Type="date" />
           <Property Name="BookingPeriodEnd" Type="date" />
+          <Property Name="ConventionCode" Type="varchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Currency">
           <Key>
@@ -257,6 +265,18 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             </Principal>
             <Dependent Role="Clients">
               <PropertyRef Name="ConventionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ConferenceID_BookingConfig">
+          <End Role="Configurations" Type="Self.Configurations" Multiplicity="1" />
+          <End Role="BookingConfig" Type="Self.BookingConfig" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Configurations">
+              <PropertyRef Name="ConventionID" />
+            </Principal>
+            <Dependent Role="BookingConfig">
+              <PropertyRef Name="ConferenceID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -506,6 +526,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
         </Association>
         <EntityContainer Name="conferencedbModelStoreContainer">
           <EntitySet Name="Allotments" EntityType="Self.Allotments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BookingConfig" EntityType="Self.BookingConfig" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Configurations" EntityType="Self.Configurations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
@@ -539,6 +560,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <AssociationSet Name="conference_fk_Conference" Association="Self.conference_fk_Conference">
             <End Role="Configurations" EntitySet="Configurations" />
             <End Role="Clients" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="ConferenceID_BookingConfig" Association="Self.ConferenceID_BookingConfig">
+            <End Role="Configurations" EntitySet="Configurations" />
+            <End Role="BookingConfig" EntitySet="BookingConfig" />
           </AssociationSet>
           <AssociationSet Name="ConferenceID_fk_Allotment" Association="Self.ConferenceID_fk_Allotment">
             <End Role="Configurations" EntitySet="Configurations" />
@@ -623,6 +648,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
       <Schema Namespace="conferencedbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="conferencedbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Allotments" EntityType="conferencedbModel.Allotment" />
+          <EntitySet Name="BookingConfigs" EntityType="conferencedbModel.BookingConfig" />
           <EntitySet Name="Clients" EntityType="conferencedbModel.Client" />
           <EntitySet Name="Configurations" EntityType="conferencedbModel.Configuration" />
           <EntitySet Name="Currencies" EntityType="conferencedbModel.Currency" />
@@ -645,6 +671,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <AssociationSet Name="ConferenceID_fk_Allotment" Association="conferencedbModel.ConferenceID_fk_Allotment">
             <End Role="Configuration" EntitySet="Configurations" />
             <End Role="Allotment" EntitySet="Allotments" />
+          </AssociationSet>
+          <AssociationSet Name="ConferenceID_BookingConfig" Association="conferencedbModel.ConferenceID_BookingConfig">
+            <End Role="Configuration" EntitySet="Configurations" />
+            <End Role="BookingConfig" EntitySet="BookingConfigs" />
           </AssociationSet>
           <AssociationSet Name="conference_fk_Conference" Association="conferencedbModel.conference_fk_Conference">
             <End Role="Configuration" EntitySet="Configurations" />
@@ -736,6 +766,14 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <NavigationProperty Name="RoomAllotments" Relationship="conferencedbModel.Allotment_fk" FromRole="Allotment" ToRole="RoomAllotment" />
           <NavigationProperty Name="Configuration" Relationship="conferencedbModel.ConferenceID_fk_Allotment" FromRole="Allotment" ToRole="Configuration" />
         </EntityType>
+        <EntityType Name="BookingConfig">
+          <Key>
+            <PropertyRef Name="ConferenceID" />
+          </Key>
+          <Property Name="ConferenceID" Type="Int32" Nullable="false" />
+          <Property Name="BookingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Configuration" Relationship="conferencedbModel.ConferenceID_BookingConfig" FromRole="BookingConfig" ToRole="Configuration" />
+        </EntityType>
         <EntityType Name="Client">
           <Key>
             <PropertyRef Name="ClientID" />
@@ -775,7 +813,9 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="ConventionEndDate" Type="DateTime" Precision="0" />
           <Property Name="BookingPeriodStart" Type="DateTime" Precision="0" />
           <Property Name="BookingPeriodEnd" Type="DateTime" Precision="0" />
+          <Property Name="ConventionCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Allotments" Relationship="conferencedbModel.ConferenceID_fk_Allotment" FromRole="Configuration" ToRole="Allotment" />
+          <NavigationProperty Name="BookingConfig" Relationship="conferencedbModel.ConferenceID_BookingConfig" FromRole="Configuration" ToRole="BookingConfig" />
           <NavigationProperty Name="Clients" Relationship="conferencedbModel.conference_fk_Conference" FromRole="Configuration" ToRole="Client" />
           <NavigationProperty Name="Transports" Relationship="conferencedbModel.ConferenceID_fk_Conference" FromRole="Configuration" ToRole="Transport" />
           <NavigationProperty Name="Rooms" Relationship="conferencedbModel.ConferenceID_fk_Rooms" FromRole="Configuration" ToRole="Room" />
@@ -1007,6 +1047,18 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             </Principal>
             <Dependent Role="Allotment">
               <PropertyRef Name="ConventionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ConferenceID_BookingConfig">
+          <End Type="conferencedbModel.Configuration" Role="Configuration" Multiplicity="1" />
+          <End Type="conferencedbModel.BookingConfig" Role="BookingConfig" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Configuration">
+              <PropertyRef Name="ConventionID" />
+            </Principal>
+            <Dependent Role="BookingConfig">
+              <PropertyRef Name="ConferenceID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1274,6 +1326,14 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="BookingConfigs">
+            <EntityTypeMapping TypeName="conferencedbModel.BookingConfig">
+              <MappingFragment StoreEntitySet="BookingConfig">
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="ConferenceID" ColumnName="ConferenceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Clients">
             <EntityTypeMapping TypeName="conferencedbModel.Client">
               <MappingFragment StoreEntitySet="Clients">
@@ -1297,6 +1357,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySetMapping Name="Configurations">
             <EntityTypeMapping TypeName="conferencedbModel.Configuration">
               <MappingFragment StoreEntitySet="Configurations">
+                <ScalarProperty Name="ConventionCode" ColumnName="ConventionCode" />
                 <ScalarProperty Name="BookingPeriodEnd" ColumnName="BookingPeriodEnd" />
                 <ScalarProperty Name="BookingPeriodStart" ColumnName="BookingPeriodStart" />
                 <ScalarProperty Name="ConventionEndDate" ColumnName="ConventionEndDate" />

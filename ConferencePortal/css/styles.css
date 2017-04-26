@@ -1874,7 +1874,7 @@ body {
 }
 .top-area,
 .special-area {
-	height: 400px;
+	height: auto;
 	position: relative;
 	overflow: hidden;
 }
@@ -1903,7 +1903,7 @@ body {
 }
 .bg-holder {
   position: relative;
-  overflow: hidden;
+  
 }
 .bg-holder > .bg-mask,
 .bg-holder > .bg-blur,

@@ -1789,6 +1789,9 @@
     <Compile Include="App_Code\TempDate.cs" />
     <Compile Include="App_Code\TempRoom.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="BookingConfig.cs">
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
     <Compile Include="Client.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>

@@ -26,6 +26,7 @@ namespace ConferencePortal
         }
     
         public virtual DbSet<Allotment> Allotments { get; set; }
+        public virtual DbSet<BookingConfig> BookingConfigs { get; set; }
         public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<Configuration> Configurations { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
