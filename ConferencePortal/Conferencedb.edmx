@@ -21,7 +21,7 @@
             <PropertyRef Name="ConferenceID" />
           </Key>
           <Property Name="ConferenceID" Type="int" Nullable="false" />
-          <Property Name="BookingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BookingID" Type="int" />
         </EntityType>
         <EntityType Name="Clients">
           <Key>
@@ -70,6 +70,27 @@
           <Property Name="CurID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Currency" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Deligates">
+          <Key>
+            <PropertyRef Name="AUTOID" />
+          </Key>
+          <Property Name="BookingID" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="20" />
+          <Property Name="firstName" Type="varchar" MaxLength="50" />
+          <Property Name="lastName" Type="varchar" MaxLength="50" />
+          <Property Name="passportNo" Type="varchar" MaxLength="20" />
+          <Property Name="nationality" Type="varchar" MaxLength="20" />
+          <Property Name="country" Type="varchar" MaxLength="50" />
+          <Property Name="arrivalDate" Type="date" />
+          <Property Name="arrivalFlightNo" Type="varchar" MaxLength="20" />
+          <Property Name="depatureDate" Type="date" />
+          <Property Name="depatureFlightNo" Type="varchar" MaxLength="20" />
+          <Property Name="AUTOID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="phone" Type="varchar" MaxLength="20" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="address" Type="varchar" MaxLength="500" />
+          <Property Name="city" Type="varchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="Excursions">
           <Key>
             <PropertyRef Name="ExcursionsID" />
@@ -111,27 +132,6 @@
           <Property Name="PartialPayment" Type="varchar" MaxLength="1" />
           <Property Name="PartialPaymentAmount" Type="float" />
           <Property Name="PayLater" Type="varchar" MaxLength="1" />
-        </EntityType>
-        <EntityType Name="Registrations">
-          <Key>
-            <PropertyRef Name="AUTOID" />
-          </Key>
-          <Property Name="BookingID" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="title" Type="varchar" MaxLength="20" />
-          <Property Name="firstName" Type="varchar" MaxLength="50" />
-          <Property Name="lastName" Type="varchar" MaxLength="50" />
-          <Property Name="passportNo" Type="varchar" MaxLength="20" />
-          <Property Name="nationality" Type="varchar" MaxLength="20" />
-          <Property Name="country" Type="varchar" MaxLength="50" />
-          <Property Name="arrivalDate" Type="date" />
-          <Property Name="arrivalFlightNo" Type="varchar" MaxLength="20" />
-          <Property Name="depatureDate" Type="date" />
-          <Property Name="depatureFlightNo" Type="varchar" MaxLength="20" />
-          <Property Name="AUTOID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="phone" Type="varchar" MaxLength="20" />
-          <Property Name="email" Type="varchar" MaxLength="50" />
-          <Property Name="address" Type="varchar" MaxLength="500" />
-          <Property Name="city" Type="varchar" MaxLength="100" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'conferencedb.dbo.Reservation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -183,6 +183,16 @@ warning 6002: The table/view 'conferencedb.dbo.Reservation' does not have a prim
           <Property Name="Occupancy" Type="int" />
           <Property Name="Rate" Type="float" />
           <Property Name="Status" Type="int" />
+        </EntityType>
+        <EntityType Name="RoomReservation">
+          <Key>
+            <PropertyRef Name="AUTOID" />
+          </Key>
+          <Property Name="AUTOID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeligateID" Type="int" />
+          <Property Name="RoomID" Type="int" />
+          <Property Name="CheckInDate" Type="date" />
+          <Property Name="CheckOutDate" Type="date" />
         </EntityType>
         <EntityType Name="Rooms">
           <Key>
@@ -530,13 +540,14 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Configurations" EntityType="Self.Configurations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Deligates" EntityType="Self.Deligates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Excursions" EntityType="Self.Excursions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hotel" EntityType="Self.Hotel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Registrations" EntityType="Self.Registrations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RoomAllotment" EntityType="Self.RoomAllotment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RoomOccupancy" EntityType="Self.RoomOccupancy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RoomRates" EntityType="Self.RoomRates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoomReservation" EntityType="Self.RoomReservation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rooms" EntityType="Self.Rooms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Transport" EntityType="Self.Transport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransportRate" EntityType="Self.TransportRate" Schema="dbo" store:Type="Tables" />
@@ -652,13 +663,14 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySet Name="Clients" EntityType="conferencedbModel.Client" />
           <EntitySet Name="Configurations" EntityType="conferencedbModel.Configuration" />
           <EntitySet Name="Currencies" EntityType="conferencedbModel.Currency" />
+          <EntitySet Name="Deligates" EntityType="conferencedbModel.Deligate" />
           <EntitySet Name="Excursions" EntityType="conferencedbModel.Excursion" />
           <EntitySet Name="Hotels" EntityType="conferencedbModel.Hotel" />
           <EntitySet Name="Payments" EntityType="conferencedbModel.Payment" />
-          <EntitySet Name="Registrations" EntityType="conferencedbModel.Registration" />
           <EntitySet Name="RoomAllotments" EntityType="conferencedbModel.RoomAllotment" />
           <EntitySet Name="RoomOccupancies" EntityType="conferencedbModel.RoomOccupancy" />
           <EntitySet Name="RoomRates" EntityType="conferencedbModel.RoomRate" />
+          <EntitySet Name="RoomReservations" EntityType="conferencedbModel.RoomReservation" />
           <EntitySet Name="Rooms" EntityType="conferencedbModel.Room" />
           <EntitySet Name="Transports" EntityType="conferencedbModel.Transport" />
           <EntitySet Name="TransportRates" EntityType="conferencedbModel.TransportRate" />
@@ -771,7 +783,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             <PropertyRef Name="ConferenceID" />
           </Key>
           <Property Name="ConferenceID" Type="Int32" Nullable="false" />
-          <Property Name="BookingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookingID" Type="Int32" />
           <NavigationProperty Name="Configuration" Relationship="conferencedbModel.ConferenceID_BookingConfig" FromRole="BookingConfig" ToRole="Configuration" />
         </EntityType>
         <EntityType Name="Client">
@@ -833,6 +845,27 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <NavigationProperty Name="Excursions" Relationship="conferencedbModel.CurID_Excursion_fk" FromRole="Currency" ToRole="Excursion" />
           <NavigationProperty Name="Rooms" Relationship="conferencedbModel.CurID_fk_Currency" FromRole="Currency" ToRole="Room" />
         </EntityType>
+        <EntityType Name="Deligate">
+          <Key>
+            <PropertyRef Name="AUTOID" />
+          </Key>
+          <Property Name="BookingID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="title" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="passportNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="nationality" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="arrivalDate" Type="DateTime" Precision="0" />
+          <Property Name="arrivalFlightNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="depatureDate" Type="DateTime" Precision="0" />
+          <Property Name="depatureFlightNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="AUTOID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="address" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="city" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="Excursion">
           <Key>
             <PropertyRef Name="ExcursionsID" />
@@ -880,27 +913,6 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="PartialPaymentAmount" Type="Double" />
           <Property Name="PayLater" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="Registration">
-          <Key>
-            <PropertyRef Name="AUTOID" />
-          </Key>
-          <Property Name="BookingID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="title" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="passportNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="nationality" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="arrivalDate" Type="DateTime" Precision="0" />
-          <Property Name="arrivalFlightNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="depatureDate" Type="DateTime" Precision="0" />
-          <Property Name="depatureFlightNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="AUTOID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="address" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="city" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="RoomAllotment">
           <Key>
             <PropertyRef Name="AUTOID" />
@@ -942,6 +954,16 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <NavigationProperty Name="Configuration" Relationship="conferencedbModel.Convention_fk_RoomRates" FromRole="RoomRate" ToRole="Configuration" />
           <NavigationProperty Name="RoomAllotments" Relationship="conferencedbModel.RoomRate_fk" FromRole="RoomRate" ToRole="RoomAllotment" />
           <NavigationProperty Name="Room" Relationship="conferencedbModel.RoomID_fk_RoomRates" FromRole="RoomRate" ToRole="Room" />
+        </EntityType>
+        <EntityType Name="RoomReservation">
+          <Key>
+            <PropertyRef Name="AUTOID" />
+          </Key>
+          <Property Name="AUTOID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeligateID" Type="Int32" />
+          <Property Name="RoomID" Type="Int32" />
+          <Property Name="CheckInDate" Type="DateTime" Precision="0" />
+          <Property Name="CheckOutDate" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="Room">
           <Key>
@@ -1384,6 +1406,28 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Deligates">
+            <EntityTypeMapping TypeName="conferencedbModel.Deligate">
+              <MappingFragment StoreEntitySet="Deligates">
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="AUTOID" ColumnName="AUTOID" />
+                <ScalarProperty Name="depatureFlightNo" ColumnName="depatureFlightNo" />
+                <ScalarProperty Name="depatureDate" ColumnName="depatureDate" />
+                <ScalarProperty Name="arrivalFlightNo" ColumnName="arrivalFlightNo" />
+                <ScalarProperty Name="arrivalDate" ColumnName="arrivalDate" />
+                <ScalarProperty Name="country" ColumnName="country" />
+                <ScalarProperty Name="nationality" ColumnName="nationality" />
+                <ScalarProperty Name="passportNo" ColumnName="passportNo" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Excursions">
             <EntityTypeMapping TypeName="conferencedbModel.Excursion">
               <MappingFragment StoreEntitySet="Excursions">
@@ -1429,28 +1473,6 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Registrations">
-            <EntityTypeMapping TypeName="conferencedbModel.Registration">
-              <MappingFragment StoreEntitySet="Registrations">
-                <ScalarProperty Name="city" ColumnName="city" />
-                <ScalarProperty Name="address" ColumnName="address" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
-                <ScalarProperty Name="AUTOID" ColumnName="AUTOID" />
-                <ScalarProperty Name="depatureFlightNo" ColumnName="depatureFlightNo" />
-                <ScalarProperty Name="depatureDate" ColumnName="depatureDate" />
-                <ScalarProperty Name="arrivalFlightNo" ColumnName="arrivalFlightNo" />
-                <ScalarProperty Name="arrivalDate" ColumnName="arrivalDate" />
-                <ScalarProperty Name="country" ColumnName="country" />
-                <ScalarProperty Name="nationality" ColumnName="nationality" />
-                <ScalarProperty Name="passportNo" ColumnName="passportNo" />
-                <ScalarProperty Name="lastName" ColumnName="lastName" />
-                <ScalarProperty Name="firstName" ColumnName="firstName" />
-                <ScalarProperty Name="title" ColumnName="title" />
-                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="RoomAllotments">
             <EntityTypeMapping TypeName="conferencedbModel.RoomAllotment">
               <MappingFragment StoreEntitySet="RoomAllotment">
@@ -1483,6 +1505,17 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
                 <ScalarProperty Name="RateDate" ColumnName="RateDate" />
                 <ScalarProperty Name="ConventionID" ColumnName="ConventionID" />
                 <ScalarProperty Name="RateID" ColumnName="RateID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoomReservations">
+            <EntityTypeMapping TypeName="conferencedbModel.RoomReservation">
+              <MappingFragment StoreEntitySet="RoomReservation">
+                <ScalarProperty Name="CheckOutDate" ColumnName="CheckOutDate" />
+                <ScalarProperty Name="CheckInDate" ColumnName="CheckInDate" />
+                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
+                <ScalarProperty Name="DeligateID" ColumnName="DeligateID" />
+                <ScalarProperty Name="AUTOID" ColumnName="AUTOID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

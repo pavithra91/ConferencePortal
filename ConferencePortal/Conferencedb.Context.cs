@@ -30,13 +30,14 @@ namespace ConferencePortal
         public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<Configuration> Configurations { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
+        public virtual DbSet<Deligate> Deligates { get; set; }
         public virtual DbSet<Excursion> Excursions { get; set; }
         public virtual DbSet<Hotel> Hotels { get; set; }
         public virtual DbSet<Payment> Payments { get; set; }
-        public virtual DbSet<Registration> Registrations { get; set; }
         public virtual DbSet<RoomAllotment> RoomAllotments { get; set; }
         public virtual DbSet<RoomOccupancy> RoomOccupancies { get; set; }
         public virtual DbSet<RoomRate> RoomRates { get; set; }
+        public virtual DbSet<RoomReservation> RoomReservations { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<Transport> Transports { get; set; }
         public virtual DbSet<TransportRate> TransportRates { get; set; }

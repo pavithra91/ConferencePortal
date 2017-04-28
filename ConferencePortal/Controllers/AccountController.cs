@@ -16,7 +16,7 @@ namespace ConferencePortal.Controllers
         public ActionResult Index()
         {
             ViewBag.ConventionID = "1";
-            
+             
             return View();
         }
 
@@ -64,7 +64,7 @@ namespace ConferencePortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult RegisterDelegates(IEnumerable<Registration> reg)
+        public ActionResult RegisterDelegates(IEnumerable<Deligate> reg)
         {
             TempData["Deligates"] = reg;
 

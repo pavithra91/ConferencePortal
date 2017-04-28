@@ -369,7 +369,7 @@ namespace ConferencePortal.Controllers
 
         public ActionResult ServiceList(string ConventionID)
         {
-            IEnumerable<Registration> Deligates = TempData["Deligates"] as IEnumerable<Registration>;
+            IEnumerable<Deligate> Deligates = TempData["Deligates"] as IEnumerable<Deligate>;
             ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
 
             if (cart != null)

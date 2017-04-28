@@ -1,4 +1,5 @@
-﻿using ConferencePortal.App_Code;
+﻿using ConferencePortal;
+using ConferencePortal.App_Code;
 using ConferencePortal.Models;
 using System;
 using System.Collections.Generic;
@@ -14,15 +15,17 @@ namespace ConferencePortal.Controllers
         // GET: Payment
         public ActionResult Index(FormCollection form)
         {
-            IEnumerable<Registration> Deligates = TempData["Deligates"] as IEnumerable<Registration>;
+            IEnumerable<Deligate> Deligates = TempData["Deligates"] as IEnumerable<Deligate>;
             ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
 
             List<DeligateMapping> delMapList = new List<DeligateMapping>();
 
-            string BookingID = (from config in en.Configurations
-                                                  where config.ConventionID == 1
-                                                  select config.ConventionCode + config.BookingConfig.BookingID).ToString();
-            
+            var ID = (from config in en.Configurations
+                             where config.ConventionID == 1
+                             select new { BookingID = config.ConventionCode + config.BookingConfig.BookingID, AUTOID = config.BookingConfig.BookingID }).FirstOrDefault();
+
+            string BookingID = ID.BookingID;
+
             Client cl = new Client();
             cl = cart.client;
             cl.ConventionID = 1;
@@ -30,9 +33,19 @@ namespace ConferencePortal.Controllers
             en.Clients.Add(cl);
             en.SaveChanges();
 
-            foreach(Registration del in Deligates)
-            {
+            BookingConfig bookingconfig = en.BookingConfigs.Where(s => s.ConferenceID == 1).FirstOrDefault<BookingConfig>();
 
+            bookingconfig.BookingID = ID.AUTOID + 1;
+            en.Entry(bookingconfig).State = System.Data.Entity.EntityState.Modified;
+            en.SaveChanges();            
+
+            foreach (Deligate del in Deligates)
+            {
+                Deligate d = new Deligate();
+                d = del;
+                d.BookingID = BookingID;
+                en.Deligates.Add(d);
+                en.SaveChanges();
             }
 
             foreach (string items in form.AllKeys)
@@ -43,8 +56,10 @@ namespace ConferencePortal.Controllers
                 string[] arr = items.Split('-');
                 if(arr[0]=="AC")
                 {
-                    var del = Deligates.Where(w => w.firstName == value);
-                    delMap.Deligate = 1;
+                    var id = (from saveDel in en.Deligates
+                              where saveDel.BookingID == BookingID && saveDel.firstName == value select saveDel.AUTOID).FirstOrDefault();
+
+                    delMap.Deligate = Convert.ToInt32(id);
                     delMap.RoomID = Convert.ToInt32(arr[1]);
                     delMapList.Add(delMap);
                 }

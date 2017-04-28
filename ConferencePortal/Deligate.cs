@@ -12,7 +12,7 @@ namespace ConferencePortal
     using System;
     using System.Collections.Generic;
     
-    public partial class Registration
+    public partial class Deligate
     {
         public string BookingID { get; set; }
         public string title { get; set; }

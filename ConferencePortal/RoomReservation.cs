@@ -12,11 +12,12 @@ namespace ConferencePortal
     using System;
     using System.Collections.Generic;
     
-    public partial class BookingConfig
+    public partial class RoomReservation
     {
-        public int ConferenceID { get; set; }
-        public Nullable<int> BookingID { get; set; }
-    
-        public virtual Configuration Configuration { get; set; }
+        public int AUTOID { get; set; }
+        public Nullable<int> DeligateID { get; set; }
+        public Nullable<int> RoomID { get; set; }
+        public Nullable<System.DateTime> CheckInDate { get; set; }
+        public Nullable<System.DateTime> CheckOutDate { get; set; }
     }
 }

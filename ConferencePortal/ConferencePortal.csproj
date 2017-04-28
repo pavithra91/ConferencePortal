@@ -1819,6 +1819,9 @@
     <Compile Include="Currency.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
+    <Compile Include="Deligate.cs">
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
     <Compile Include="Excursion.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
@@ -1837,9 +1840,6 @@
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Registration.cs">
-      <DependentUpon>Conferencedb.tt</DependentUpon>
-    </Compile>
     <Compile Include="Reservation.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
@@ -1853,6 +1853,9 @@
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
     <Compile Include="RoomRate.cs">
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RoomReservation.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
     <Compile Include="Transport.cs">
