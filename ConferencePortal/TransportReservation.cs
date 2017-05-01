@@ -12,16 +12,18 @@ namespace ConferencePortal
     using System;
     using System.Collections.Generic;
     
-    public partial class RoomReservation
+    public partial class TransportReservation
     {
         public int AUTOID { get; set; }
-        public Nullable<int> DeligateID { get; set; }
-        public Nullable<int> RoomID { get; set; }
-        public Nullable<System.DateTime> CheckInDate { get; set; }
-        public Nullable<System.DateTime> CheckOutDate { get; set; }
+        public Nullable<int> RateID { get; set; }
+        public Nullable<int> NoOfVehicles { get; set; }
         public Nullable<double> Price { get; set; }
+        public string TransportType { get; set; }
+        public Nullable<System.DateTime> PickUpDate { get; set; }
+        public Nullable<System.TimeSpan> PickUpTime { get; set; }
+        public Nullable<int> DeligateID { get; set; }
     
         public virtual Deligate Deligate { get; set; }
-        public virtual Room Room { get; set; }
+        public virtual Transport Transport { get; set; }
     }
 }

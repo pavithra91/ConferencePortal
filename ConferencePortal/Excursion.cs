@@ -14,6 +14,12 @@ namespace ConferencePortal
     
     public partial class Excursion
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Excursion()
+        {
+            this.ExcursionReservations = new HashSet<ExcursionReservation>();
+        }
+    
         public int ExcursionsID { get; set; }
         public Nullable<int> ConventionID { get; set; }
         public string ExcursionName { get; set; }
@@ -29,5 +35,7 @@ namespace ConferencePortal
     
         public virtual Configuration Configuration { get; set; }
         public virtual Currency Currency { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ExcursionReservation> ExcursionReservations { get; set; }
     }
 }

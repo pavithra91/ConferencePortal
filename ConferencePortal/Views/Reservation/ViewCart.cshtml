@@ -36,6 +36,10 @@
 
 @using (Html.BeginForm("DeligateRegistration", "Account", FormMethod.Post))
 {
+
+
+    @*<input type="hidden" name="ConventionID" value="@ViewBag.ConventionID" />*@
+
 <div class="container">
     <div class="row">
         <div class="col-md-3">
@@ -52,10 +56,10 @@
                     <li>
                         <a href="user-profile.html"><i class="fa fa-user"></i>Overview</a>
                     </li>
-                    <li>
+                    @*<li>
                         <a href="user-profile-settings.html"><i class="fa fa-cog"></i>Settings</a>
-                    </li>
-                    <li>
+                    </li>*@
+                    @*<li>
                         <a href="user-profile-photos.html"><i class="fa fa-camera"></i>My Travel Photos</a>
                     </li>
                     <li>
@@ -66,7 +70,7 @@
                     </li>
                     <li>
                         <a href="user-profile-wishlist.html"><i class="fa fa-heart-o"></i>Wishlist</a>
-                    </li>
+                    </li>*@
                 </ul>
             </aside>
                     break;
@@ -179,7 +183,7 @@
 
         <li>
             <span class="booking-item-wishlist-title"><i class="fa fa-bolt"></i> Excursions </span>
-            <a class="fa fa-times booking-item-wishlist-remove" href="@Url.Action("RemoveFromCart", "Reservation", new { ItemType = "TR", ItemID = items.Excursion.ExcursionsID }, null)" rel="tooltip" data-placement="top" title="remove from wishlist"></a>
+            <a class="fa fa-times booking-item-wishlist-remove" href="@Url.Action("RemoveFromCart", "Reservation", new { ItemType = "EX", ItemID = items.Excursion.ExcursionsID }, null)" rel="tooltip" data-placement="top" title="remove from wishlist"></a>
             <a class="booking-item" href="#">
                 <div class="row">
                     <div class="col-md-3">
@@ -210,7 +214,8 @@
                     
                 </div>
                 <div class="col-md-4">
-                    <button class="btn btn-primary btn-sm" type="submit">Add More Services</button> <button class="btn btn-primary btn-sm" type="submit">Proceed Next</button>
+                    <button class="btn btn-primary btn-sm" name="command" value="AddServices" type="submit">Add More Services</button> 
+                    <button class="btn btn-primary btn-sm" name="command" value="ProceedNext" type="submit">Proceed Next</button>
                 </div>
             </div>
 

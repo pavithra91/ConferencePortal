@@ -17,12 +17,13 @@ namespace ConferencePortal.Controllers
         {
             IEnumerable<Deligate> Deligates = TempData["Deligates"] as IEnumerable<Deligate>;
             ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
+            double TotalPrice = 0.0;
 
             List<DeligateMapping> delMapList = new List<DeligateMapping>();
 
             var ID = (from config in en.Configurations
                              where config.ConventionID == 1
-                             select new { BookingID = config.ConventionCode + config.BookingConfig.BookingID, AUTOID = config.BookingConfig.BookingID }).FirstOrDefault();
+                             select new { BookingID = config.ConventionCode + config.BookingConfig.BookingID, AUTOID = config.BookingConfig.BookingID, PaymentOption = config.PaymentOption }).FirstOrDefault();
 
             string BookingID = ID.BookingID;
 
@@ -31,7 +32,7 @@ namespace ConferencePortal.Controllers
             cl.ConventionID = 1;
             cl.BookingID = BookingID;
             en.Clients.Add(cl);
-            en.SaveChanges();
+            //en.SaveChanges();
 
             BookingConfig bookingconfig = en.BookingConfigs.Where(s => s.ConferenceID == 1).FirstOrDefault<BookingConfig>();
 
@@ -45,7 +46,7 @@ namespace ConferencePortal.Controllers
                 d = del;
                 d.BookingID = BookingID;
                 en.Deligates.Add(d);
-                en.SaveChanges();
+                //en.SaveChanges();
             }
 
             foreach (string items in form.AllKeys)
@@ -57,13 +58,98 @@ namespace ConferencePortal.Controllers
                 if(arr[0]=="AC")
                 {
                     var id = (from saveDel in en.Deligates
-                              where saveDel.BookingID == BookingID && saveDel.firstName == value select saveDel.AUTOID).FirstOrDefault();
+                              where saveDel.BookingID == BookingID && saveDel.firstName == value
+                              select saveDel.DeligateID).FirstOrDefault();
 
-                    delMap.Deligate = Convert.ToInt32(id);
-                    delMap.RoomID = Convert.ToInt32(arr[1]);
-                    delMapList.Add(delMap);
+                    RoomReservation roomReservation = new RoomReservation();
+                    roomReservation.DeligateID = Convert.ToInt32(id);
+
+                    foreach(var rmCart in cart.Rooms)
+                    {
+                        int RoomId = Convert.ToInt32(arr[1]);
+                        if (rmCart.room.RoomID== RoomId)
+                        {
+                            TotalPrice += (rmCart.Price/rmCart.NoofRooms);
+                            roomReservation.CheckInDate = rmCart.CheckInDate;
+                            roomReservation.CheckOutDate = rmCart.CheckOutDate;
+                            
+                            roomReservation.RoomID = RoomId;
+                            en.RoomReservations.Add(roomReservation);
+                            //en.SaveChanges();
+                        }
+                    }
                 }
+                if(arr[0] == "TR")
+                {
+                    var id = (from saveDel in en.Deligates
+                              where saveDel.BookingID == BookingID && saveDel.firstName == value
+                              select saveDel.DeligateID).FirstOrDefault();
+
+                    TransportReservation TRReservation = new TransportReservation();
+                    TRReservation.DeligateID = Convert.ToInt32(id);
+
+                    foreach (var trCart in cart.Transport)
+                    {
+                        int TRID = Convert.ToInt32(arr[1]);
+                        if (trCart.TR.TransportID == TRID)
+                        {
+                            TotalPrice += trCart.Price;
+                            
+                            TRReservation.PickUpDate = Convert.ToDateTime(trCart.PickUpDate);
+                            //TRReservation.PickUpTime = Convert.ToDateTime(trCart.PickUpTime);
+                            TRReservation.NoOfVehicles = trCart.NoOfVehicles;
+                            TRReservation.Price = trCart.Price;
+                            TRReservation.TransportType = trCart.TransportType;
+                            TRReservation.RateID = trCart.TR.RateID;
+                            en.TransportReservations.Add(TRReservation);
+                            //en.SaveChanges();
+                        }
+                    }
+                }
+                if (arr[0] == "EX")
+                {
+                    var id = (from saveDel in en.Deligates
+                              where saveDel.BookingID == BookingID && saveDel.firstName == value
+                              select saveDel.DeligateID).FirstOrDefault();
+
+                    ExcursionReservation ExReservation = new ExcursionReservation();
+                    ExReservation.DeligateID = Convert.ToInt32(id);
+
+                    foreach (var exCart in cart.Excursion)
+                    {
+                        int EXID = Convert.ToInt32(arr[1]);
+                        if (exCart.Excursion.ExcursionsID == EXID)
+                        {
+                            TotalPrice += exCart.Price;
+                            ExReservation.ExcursionDate = exCart.ExcursionDate;
+                            ExReservation.NoOfAdults = exCart.NoOfAdults;
+                            ExReservation.Price = exCart.Price;
+                            en.ExcursionReservations.Add(ExReservation);
+                            //en.SaveChanges();
+                        }
+                    }
+                }
+
             }
+
+            string PaymentOption = form.GetValues("PaymentOption").FirstOrDefault();
+
+            if(PaymentOption == "Pay Later")
+            {
+                TempData["Option"] = "Pay Later";
+                return RedirectToAction("PaymentComplete", "Payment");
+            }
+            else
+            {
+                
+            }
+
+            return View();
+        }
+
+        public ActionResult PaymentComplete()
+        {
+
             return View();
         }
     }

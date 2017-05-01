@@ -29,8 +29,10 @@ namespace ConferencePortal
         public virtual DbSet<BookingConfig> BookingConfigs { get; set; }
         public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<Configuration> Configurations { get; set; }
+        public virtual DbSet<ConventionImage> ConventionImages { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
         public virtual DbSet<Deligate> Deligates { get; set; }
+        public virtual DbSet<ExcursionReservation> ExcursionReservations { get; set; }
         public virtual DbSet<Excursion> Excursions { get; set; }
         public virtual DbSet<Hotel> Hotels { get; set; }
         public virtual DbSet<Payment> Payments { get; set; }
@@ -41,6 +43,7 @@ namespace ConferencePortal
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<Transport> Transports { get; set; }
         public virtual DbSet<TransportRate> TransportRates { get; set; }
+        public virtual DbSet<TransportReservation> TransportReservations { get; set; }
         public virtual DbSet<Vehicle> Vehicles { get; set; }
         public virtual DbSet<Reservation> Reservations { get; set; }
     }

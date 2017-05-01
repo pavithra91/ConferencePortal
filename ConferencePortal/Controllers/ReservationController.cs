@@ -218,7 +218,7 @@ namespace ConferencePortal.Controllers
             TempDates.StartDate = startdate;
             TempDates.EndDate = enddate;
 
-            TempData["TempDate"] = TempDates;
+            TempData["EXTempDate"] = TempDates;
 
             IEnumerable<Excursion> Excursion = en.Excursions
                 .Where(w => w.Location == Location);
@@ -240,6 +240,8 @@ namespace ConferencePortal.Controllers
 
                 List<Client> cl = new List<Client> { cart.client };
                 ViewBag.Client = cl;
+
+                ViewBag.ConventionID = cart.ConventionID;
 
                 TempData["ShoppingCart"] = cart;
             }
@@ -282,13 +284,15 @@ namespace ConferencePortal.Controllers
                 TRCart.NoOfVehicles = VehicleCount;
                 if(TR.Transport.Type=="A")
                 {
+                    TRCart.TransportType = "A";
                     TRCart.PickUpDate = TempDates.StartDate.ToShortDateString();
                     TRCart.PickUpTime = TempDates.PickUpTime;
                 }
                 else
                 {
-                    TRCart.DropOffDate = TempDates.EndDate.ToShortDateString();
-                    TRCart.DropOffTime = TempDates.DropOffTime;
+                    TRCart.TransportType = "D";
+                    TRCart.PickUpDate = TempDates.EndDate.ToShortDateString();
+                    TRCart.PickUpTime = TempDates.DropOffTime;
                 }
 
                 cart.Transport.Add(TRCart);
@@ -296,11 +300,14 @@ namespace ConferencePortal.Controllers
 
             else if (ItemType == "EX")
             {
+                TempDate TempDates = TempData["EXTempDate"] as TempDate;
+
                 int AdultCount = Convert.ToInt32(Count);
                 double Price = Convert.ToDouble(Rate);
-                Excursion TR = en.Excursions.Find(Convert.ToInt32(ItemID));
+                Excursion EX = en.Excursions.Find(Convert.ToInt32(ItemID));
                 ExcursionsInCart Excursions = new ExcursionsInCart();
-                Excursions.Excursion = TR;
+                Excursions.ExcursionDate = TempDates.StartDate;
+                Excursions.Excursion = EX;
                 Excursions.Price = Price * AdultCount;
                 Excursions.NoOfAdults = AdultCount;
 
@@ -362,6 +369,8 @@ namespace ConferencePortal.Controllers
             ViewBag.Transport = cart.Transport;
             ViewBag.Excursion = cart.Excursion;
 
+            ViewBag.ConventionID = cart.ConventionID;
+
             TempData["ShoppingCart"] = cart;
 
             return RedirectToAction("ViewCart", "Reservation");
@@ -380,12 +389,40 @@ namespace ConferencePortal.Controllers
 
                 List<Client> cl = new List<Client> { cart.client };
                 ViewBag.Client = cl;
+
+                int ConventionId = Convert.ToInt32(cart.ConventionID);
+
+                Configuration ID = en.Configurations
+                        .Where(w => w.ConventionID == ConventionId).FirstOrDefault();
+
+                string[] paymentOptionsArr = ID.PaymentOption.Split('-');
+                List<string> paymentOptions = new List<string>();
+
+                if (paymentOptionsArr[0] == "1")
+                {
+                    paymentOptions.Add("Pay Now");
+                }
+                if (paymentOptionsArr[1] == "1")
+                {
+                    paymentOptions.Add("Pay Later");
+                }
+                if (paymentOptionsArr[2] == "1")
+                {
+                    paymentOptions.Add("Partial Payment");
+                }
+
+                ViewBag.PaymentOptions = paymentOptions;
             }
 
             ViewBag.Deligates = Deligates;
 
             TempData["Deligates"] = Deligates;
             TempData["ShoppingCart"] = cart;
+
+
+            
+
+
 
             return View();
         }
@@ -416,8 +453,15 @@ namespace ConferencePortal.Controllers
             foreach(var items in Configurations)
             {
                DateTime newDate = Convert.ToDateTime(items.BookingPeriodStart);
-               
-                    string monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(newDate.Month);
+
+                DateTime today = DateTime.Now;
+
+                //if (newDate < today)
+                //{
+                //    newDate = today;
+                //}
+
+                string monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(newDate.Month);
                     BookingStartDate = monthName + " " + newDate.Day + ", " + newDate.Year + " 11:13:00";
 
             }
@@ -438,9 +482,15 @@ namespace ConferencePortal.Controllers
             foreach (var items in Configurations)
             {
                 DateTime newDate = Convert.ToDateTime(items.BookingPeriodEnd);
+                DateTime today = DateTime.Now;
+
+                //if(newDate<today)
+                //{
+                //    newDate = today;
+                //}
 
                 string monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(newDate.Month);
-                BookingEndDate = monthName + " " + newDate.Day + ", " + newDate.Year + " 11:13:00";
+                BookingEndDate = monthName + " " + newDate.Day + ", " + newDate.Year;
 
             }
 

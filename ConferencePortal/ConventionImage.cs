@@ -12,16 +12,10 @@ namespace ConferencePortal
     using System;
     using System.Collections.Generic;
     
-    public partial class RoomReservation
+    public partial class ConventionImage
     {
+        public string Name { get; set; }
+        public string ImageURL { get; set; }
         public int AUTOID { get; set; }
-        public Nullable<int> DeligateID { get; set; }
-        public Nullable<int> RoomID { get; set; }
-        public Nullable<System.DateTime> CheckInDate { get; set; }
-        public Nullable<System.DateTime> CheckOutDate { get; set; }
-        public Nullable<double> Price { get; set; }
-    
-        public virtual Deligate Deligate { get; set; }
-        public virtual Room Room { get; set; }
     }
 }

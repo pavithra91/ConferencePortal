@@ -2,6 +2,7 @@
 using ConferencePortal.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,34 +14,55 @@ namespace ConferencePortal.Controllers
     {
         conferencedbEntities en = new conferencedbEntities();
         // GET: Account
+
         public ActionResult Index()
         {
-            ViewBag.ConventionID = "1";
+            try
+            {
+                IEnumerable<ConventionImage> imgs = en.ConventionImages.Where(w => w.Name == "Slider");
+
+                ViewBag.Images = imgs;
+                ViewBag.ConventionID = "1";
+            }
+            catch(Exception ex)
+            {
+
+            }
              
             return View();
         }
 
-        public ActionResult DeligateRegistration(string ConventionID)
+        public ActionResult DeligateRegistration(string command)
         {
-            //ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
+            ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
+            
+            int ConventionId = Convert.ToInt32(cart.ConventionID);
 
-            int Convention = Convert.ToInt32(ConventionID);
+            TempData["ShoppingCart"] = cart;
 
-            var Configurations = from config in en.Configurations
-                                 where config.ConventionID == Convention
-                                 select config;
+            if (command == "AddServices")
+            {        
+                return RedirectToAction("Index", "Reservation", new { ConventionID = ConventionId });
+            }
+            else
+            {
+                var Configurations = from config in en.Configurations
+                                     where config.ConventionID == ConventionId
+                                     select config;
 
-            ViewBag.Configurations = Configurations.ToList();
 
-            ViewBag.NoOfDeligates = 2;
+                ViewBag.Configurations = Configurations.ToList();
 
-            //if (cart.client.Deligate == true)
-            //{
-            //    List<Client> cl = new List<Client> { cart.client };
-            //    ViewBag.Client = cl;
-            //}
+                ViewBag.NoOfDeligates = cart.NoofDelegates;
 
-            return View();
+                //if (cart.client.Deligate == true)
+                //{
+                //    List<Client> cl = new List<Client> { cart.client };
+                //    ViewBag.Client = cl;
+                //}
+
+                return View();
+            }
         }
 
         [HttpPost]
@@ -50,8 +72,9 @@ namespace ConferencePortal.Controllers
             ShoppingCart cart = new ShoppingCart();
             cart.ClientId = cl.ClientID;
             cart.NoofDelegates = noOfDeligate;
+            cart.ConventionID = "1";
 
-            if(Delegate != null)
+            if (Delegate != null)
             {
                 cl.Deligate = true;
             }
@@ -71,7 +94,7 @@ namespace ConferencePortal.Controllers
             ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
             TempData["ShoppingCart"] = cart;
 
-            return RedirectToAction("ServiceList", "Reservation", new { ConventionID = 1 });
+            return RedirectToAction("ServiceList", "Reservation", new { ConventionID = cart.ConventionID });
         }
 
         public ActionResult SignIn()
@@ -109,9 +132,14 @@ namespace ConferencePortal.Controllers
                             return RedirectToAction("Login", "Account");
                         }
 
-                        var User = from config in en.Clients
+                        Client User = (from config in en.Clients
                                              where config.email == Email
-                                             select config;
+                                             select config).FirstOrDefault();
+
+                        //foreach (var i in User)
+                        //{
+                        //    i.BookingID
+                        //}
 
                         //var User = entity.ExternalUserTBLs.SqlQuery("SELECT * FROM dbo.ExternalUserTBL WHERE dbo.ExternalUserTBL.UserName = '" + Email + "';").ToList();
 
@@ -120,11 +148,12 @@ namespace ConferencePortal.Controllers
 
                         if (status)
                         {
-                            return RedirectToAction("Index", "Account");
+                            return RedirectToAction("UserProfile", "Account", new { BookingId = User.BookingID });
+                            //return RedirectToAction("Index", "Account");
                         }
                         else
                         {
-                            return RedirectToAction("UserProfile", "Account");
+                            
                             //return RedirectToAction("Login", "Account");
                         }
                     }
@@ -138,19 +167,43 @@ namespace ConferencePortal.Controllers
             return RedirectToAction("Index", "Reservation", new { ConventionID = 1, HotelId = 0 });
         }
 
-        public bool UserAuthentication(IEnumerable<dynamic> list, string Password)
+
+        public ActionResult UserProfile(string BookingId)
         {
-            foreach (var result in list)
-            {
-                if (result == null)
+            IEnumerable<RoomReservation> RoomList = en.RoomReservations
+                        .Where(w => w.Deligate.BookingID == BookingId);
+
+            IEnumerable<TransportReservation> Transportlist = en.TransportReservations
+                        .Where(w => w.Deligate.BookingID == BookingId);
+
+            IEnumerable<ExcursionReservation> ExcursionList = en.ExcursionReservations
+                        .Where(w => w.Deligate.BookingID == BookingId);
+
+            IEnumerable<Client> Client = en.Clients
+                        .Where(w => w.BookingID == BookingId);
+
+            ViewBag.Client = Client;
+            ViewBag.RoomList = RoomList;
+            ViewBag.Transportlist = Transportlist;
+            ViewBag.ExcursionList = ExcursionList;
+
+            return View();
+        }
+
+
+        public bool UserAuthentication(Client client, string Password)
+        {
+            //foreach (var result in list)
+            //{
+                if (client == null)
                 {
                     return false;
                 }
-                else if (result.IsUserVerified == false)
+                else if (client.IsUserVerified == false)
                 {
                     return false;
                 }
-                else if (result.Password != Password)
+                else if (client.Password != Password)
                 {
                     return false;
                 }
@@ -158,8 +211,10 @@ namespace ConferencePortal.Controllers
                 {
                     return true;
                 }
-            }
-            return false;
+            //}
+            //return false;
         }
+
+        
     }
 }

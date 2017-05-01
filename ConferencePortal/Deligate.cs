@@ -14,6 +14,14 @@ namespace ConferencePortal
     
     public partial class Deligate
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Deligate()
+        {
+            this.ExcursionReservations = new HashSet<ExcursionReservation>();
+            this.RoomReservations = new HashSet<RoomReservation>();
+            this.TransportReservations = new HashSet<TransportReservation>();
+        }
+    
         public string BookingID { get; set; }
         public string title { get; set; }
         public string firstName { get; set; }
@@ -25,10 +33,17 @@ namespace ConferencePortal
         public string arrivalFlightNo { get; set; }
         public Nullable<System.DateTime> depatureDate { get; set; }
         public string depatureFlightNo { get; set; }
-        public int AUTOID { get; set; }
+        public int DeligateID { get; set; }
         public string phone { get; set; }
         public string email { get; set; }
         public string address { get; set; }
         public string city { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ExcursionReservation> ExcursionReservations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RoomReservation> RoomReservations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TransportReservation> TransportReservations { get; set; }
     }
 }

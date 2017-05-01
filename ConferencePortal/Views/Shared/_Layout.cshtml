@@ -30,69 +30,7 @@
                                 <img src="~/img/logo-invert.png" alt="Image Alternative text" title="Image Title" />
                             </a>
                         </div>
-
-                        <div class="col-md-4">
-                            <div class="top-user-area clearfix">
-                                <ul class="top-user-area-list list list-horizontal list-border">
-                                    @{
-
-                                        if (Context.User.Identity.Name.Equals(""))
-                                        {
-                                            <li>
-                                                <a href="#">Log In</a>
-                                            </li>
-                                            <li>
-                                            <a href="@Url.Action("ViewCart", "Reservation")">
-                                                    <img src="~/img/flags/32/cart-icon.png" width="25" height="25" alt="Shopping Cart" title="Shopping Cart" />
-                                            </a>
-                                                </li>
-                                        }
-                                        else
-                                        {
-                                            <li class="top-user-area-avatar">
-                                                <a href="user-profile.html">
-                                                    <img class="origin round" src="img/40x40.png" alt="Image Alternative text" title="AMaze" />Hi, @Context.User.Identity.Name
-                                                </a>
-                                            </li>
-                                            @*<li>
-                                                @Html.ActionLink("Home", "ViewCart", "Reservation")
-                                            </li>*@
-
-                                            @*<li>
-                                                <a href="#">@Context.User.Identity.Name</a>
-                                            </li>*@
-                                        }
-                                    }
-
-                                    <li class="nav-drop">
-                                        <a href="#">USD $<i class="fa fa-angle-down"></i><i class="fa fa-angle-up"></i></a>
-                                        <ul class="list nav-drop-menu">
-                                            <li>
-                                                <a href="#">EUR<span class="right">€</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="#">GBP<span class="right">£</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="#">JPY<span class="right">円</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="#">CAD<span class="right">$</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="#">AUD<span class="right">A$</span></a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="top-user-area-lang nav-drop" style="margin-left:2px">
-                                     
-                                          @*<a href="@Url.Action("ViewCart", "Reservation")">
-                                            <img src="~/img/flags/32/cart-icon.png" alt="Image Alternative text" title="Shopping Cart" />
-                                        </a>*@
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                        @Html.Partial("_HeaderView");
                     </div>
                 </div>
             </div>

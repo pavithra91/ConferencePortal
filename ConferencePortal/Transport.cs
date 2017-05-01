@@ -19,6 +19,7 @@ namespace ConferencePortal
         {
             this.Reservations = new HashSet<Reservation>();
             this.TransportRates = new HashSet<TransportRate>();
+            this.TransportReservations = new HashSet<TransportReservation>();
         }
     
         public int TransportID { get; set; }
@@ -34,5 +35,7 @@ namespace ConferencePortal
         public virtual ICollection<Reservation> Reservations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TransportRate> TransportRates { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TransportReservation> TransportReservations { get; set; }
     }
 }
