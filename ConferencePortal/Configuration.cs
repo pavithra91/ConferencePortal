@@ -43,6 +43,8 @@ namespace ConferencePortal
         public Nullable<System.DateTime> BookingPeriodEnd { get; set; }
         public string ConventionCode { get; set; }
         public string PaymentOption { get; set; }
+        public Nullable<double> PaymentPercentage { get; set; }
+        public Nullable<System.DateTime> LinkValidDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Allotment> Allotments { get; set; }

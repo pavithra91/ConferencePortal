@@ -63,6 +63,8 @@
           <Property Name="BookingPeriodEnd" Type="date" />
           <Property Name="ConventionCode" Type="varchar" MaxLength="10" />
           <Property Name="PaymentOption" Type="varchar" MaxLength="10" />
+          <Property Name="PaymentPercentage" Type="float" />
+          <Property Name="LinkValidDate" Type="date" />
         </EntityType>
         <EntityType Name="ConventionImages">
           <Key>
@@ -152,6 +154,9 @@
           <Property Name="PartialPayment" Type="varchar" MaxLength="1" />
           <Property Name="PartialPaymentAmount" Type="float" />
           <Property Name="PayLater" Type="varchar" MaxLength="1" />
+          <Property Name="PaymentStatus" Type="varchar" MaxLength="50" />
+          <Property Name="UpdateCount" Type="int" />
+          <Property Name="PaidDate" Type="date" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'conferencedb.dbo.Reservation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -991,6 +996,8 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="BookingPeriodEnd" Type="DateTime" Precision="0" />
           <Property Name="ConventionCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="PaymentOption" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentPercentage" Type="Double" />
+          <Property Name="LinkValidDate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Allotments" Relationship="conferencedbModel.ConferenceID_fk_Allotment" FromRole="Configuration" ToRole="Allotment" />
           <NavigationProperty Name="BookingConfig" Relationship="conferencedbModel.ConferenceID_BookingConfig" FromRole="Configuration" ToRole="BookingConfig" />
           <NavigationProperty Name="Clients" Relationship="conferencedbModel.conference_fk_Conference" FromRole="Configuration" ToRole="Client" />
@@ -1102,6 +1109,9 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="PartialPayment" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="PartialPaymentAmount" Type="Double" />
           <Property Name="PayLater" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UpdateCount" Type="Int32" />
+          <Property Name="PaidDate" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="RoomAllotment">
           <Key>
@@ -1665,6 +1675,8 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySetMapping Name="Configurations">
             <EntityTypeMapping TypeName="conferencedbModel.Configuration">
               <MappingFragment StoreEntitySet="Configurations">
+                <ScalarProperty Name="LinkValidDate" ColumnName="LinkValidDate" />
+                <ScalarProperty Name="PaymentPercentage" ColumnName="PaymentPercentage" />
                 <ScalarProperty Name="PaymentOption" ColumnName="PaymentOption" />
                 <ScalarProperty Name="ConventionCode" ColumnName="ConventionCode" />
                 <ScalarProperty Name="BookingPeriodEnd" ColumnName="BookingPeriodEnd" />
@@ -1772,6 +1784,9 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySetMapping Name="Payments">
             <EntityTypeMapping TypeName="conferencedbModel.Payment">
               <MappingFragment StoreEntitySet="Payment">
+                <ScalarProperty Name="PaidDate" ColumnName="PaidDate" />
+                <ScalarProperty Name="UpdateCount" ColumnName="UpdateCount" />
+                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
                 <ScalarProperty Name="PayLater" ColumnName="PayLater" />
                 <ScalarProperty Name="PartialPaymentAmount" ColumnName="PartialPaymentAmount" />
                 <ScalarProperty Name="PartialPayment" ColumnName="PartialPayment" />

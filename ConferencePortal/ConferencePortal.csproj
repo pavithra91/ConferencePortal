@@ -1911,6 +1911,7 @@
     <Content Include="Views\Account\UserProfile.cshtml" />
     <Content Include="Views\Payment\PaymentComplete.cshtml" />
     <Content Include="Views\Shared\_HeaderView.cshtml" />
+    <Content Include="Views\Account\Payment.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

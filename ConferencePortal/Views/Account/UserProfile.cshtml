@@ -38,7 +38,7 @@
                                     <a href="user-profile-booking-history.html"><i class="fa fa-clock-o"></i>Booking History</a>
                                 </li>*@
                                 <li>
-                                    <a href="user-profile-cards.html"><i class="fa fa-credit-card"></i>Payment</a>
+                                    <a href="@Url.Action("Payment", "Account" , new { BookingID = cl.BookingID })"><i class="fa fa-credit-card"></i>Payment</a>
                                 </li>
                                 @*<li>
                                     <a href="user-profile-wishlist.html"><i class="fa fa-heart-o"></i>Wishlist</a>
