@@ -190,6 +190,17 @@ namespace ConferencePortal.Controllers
             return View();
         }
 
+        public ActionResult Payment(string BookingID)
+        {
+            IEnumerable<Payment> pay = en.Payments.Where(w => w.BookingID == BookingID);
+            IEnumerable<Client> cl = en.Clients.Where(w => w.BookingID == BookingID);
+
+            ViewBag.PaymentHistory = pay;
+            ViewBag.Client = cl;
+
+            return View();
+        }
+
 
         public bool UserAuthentication(Client client, string Password)
         {

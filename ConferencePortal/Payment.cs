@@ -20,5 +20,8 @@ namespace ConferencePortal
         public string PartialPayment { get; set; }
         public Nullable<double> PartialPaymentAmount { get; set; }
         public string PayLater { get; set; }
+        public string PaymentStatus { get; set; }
+        public Nullable<int> UpdateCount { get; set; }
+        public Nullable<System.DateTime> PaidDate { get; set; }
     }
 }

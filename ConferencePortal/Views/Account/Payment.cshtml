@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "Payment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{ 
+    IEnumerable<Payment> payment = ViewBag.PaymentHistory;
+    IEnumerable<Client> client = ViewBag.Client;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+@if (client != null)
+{
+    foreach (var cl in client)
+    {
+        <aside class="user-profile-sidebar">
+            <div class="user-profile-avatar text-center">
+                <img src="~/img/300x300.png" alt="Image Alternative text" title="@cl.title" />
+                <h5>@cl.firstName</h5>
+            </div>
+            <ul class="list user-profile-nav">
+                <li>
+                    <a href="user-profile.html"><i class="fa fa-user"></i>Overview</a>
+                </li>
+                <li>
+                    <a href="user-profile-settings.html"><i class="fa fa-cog"></i>Settings</a>
+                </li>
+                @*<li>
+                        <a href="user-profile-photos.html"><i class="fa fa-camera"></i>My Travel Photos</a>
+                    </li>
+                    <li>
+                        <a href="user-profile-booking-history.html"><i class="fa fa-clock-o"></i>Booking History</a>
+                    </li>*@
+                <li>
+                    <a href="@Url.Action("Payment", "Account", new { BookingID = cl.BookingID })"><i class="fa fa-credit-card"></i>Payment</a>
+                </li>
+                @*<li>
+                        <a href="user-profile-wishlist.html"><i class="fa fa-heart-o"></i>Wishlist</a>
+                    </li>*@
+            </ul>
+        </aside>
+        break;
+    }
+}
+        </div>
+@{
+        <div class="col-md-9">
+            @if (payment != null)
+            {
+            <table class="table table-bordered table-striped table-booking-history">
+                <thead>
+                    <tr>
+                        <th>Payment Type</th>
+                        <th>Paid Date</th>
+                        <th>Total Cost</th>
+                        <th>Paid Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                       
+                            @foreach (Payment pay in payment)
+                            {
+                    <tr>
+                        <td class="booking-history-type">
+                            <i class="fa fa-money"></i><small>Payment</small>
+                        </td>
+                        <td class="booking-history-title">@pay.PaidDate</td>
+                        <td>@pay.TotalCost</td>
+                        <td>@pay.PartialPaymentAmount</td>
+                    </tr>
+                            }
+                        
+                        
+                </tbody>
+            </table>
+            }
+            else
+            {
+                                        <label>No Payment Made</label> 
+            }
+        </div>
+    }
+    </div>
+</div>
