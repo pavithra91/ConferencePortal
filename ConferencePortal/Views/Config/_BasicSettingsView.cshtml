@@ -1,0 +1,187 @@
+﻿@{
+    IEnumerable<Configuration> ConfigSettings = ViewBag.Configurations;
+}
+
+@using (Html.BeginForm("SaveSettings", "Config", FormMethod.Post))
+{
+    if (ConfigSettings != null)
+    {
+<div class="row row-wrap">
+    <div class="col-md-4">
+        <div class="form-group form-group-icon-left">
+            <i class="fa fa-rocket input-icon input-icon-hightlight"></i>
+            <label>Convention Name</label>
+            <input class="form-control" name="ConventionName" type="text" value="@ConfigSettings.FirstOrDefault().ConventionName">
+        </div>
+        <div class="form-group form-group-icon-left">
+            <i class="fa fa-rocket input-icon input-icon-hightlight"></i>
+            <label>Convention URL</label>
+            <input class="form-control" type="text" name="ConventionURL" value="@ConfigSettings.FirstOrDefault().ConventionURL">
+        </div>
+    </div>
+
+
+
+    <div class="col-md-8">
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <h5>General Options</h5>
+                <div class="form-group form-group-icon-left">
+                    <i class="fa fa-rocket input-icon input-icon-hightlight"></i>
+                    <label>Convention Code</label>
+                    <input class="form-control" type="text" name="ConventionCode" value="@ConfigSettings.FirstOrDefault().ConventionCode">
+                </div>
+                <div class="input-daterange" data-date-format="M d, yyyy">
+                    <div class="form-group form-group-icon-left">
+                        <i class="fa fa-calendar input-icon input-icon-highlight"></i>
+                        <label>Convention Start Date</label>
+                        <input class="form-control" name="start" id="start" readonly="readonly" type="text" value="@ConfigSettings.FirstOrDefault().ConventionStartDate" />
+                    </div>
+                </div>
+                <div class="input-daterange" data-date-format="M d, yyyy">
+                    <div class="form-group form-group-icon-left">
+                        <i class="fa fa-calendar input-icon input-icon-highlight"></i>
+                        <label>Booking Start Date</label>
+                        <input class="form-control" name="start" id="start" readonly="readonly" type="text" value="@ConfigSettings.FirstOrDefault().BookingPeriodStart" />
+                    </div>
+                </div>
+                <div class="input-daterange" data-date-format="M d, yyyy">
+                    <div class="form-group form-group-icon-left">
+                        <i class="fa fa-calendar input-icon input-icon-highlight"></i>
+                        <label>Last Payment Date</label>
+                        <input class="form-control" name="start" id="start" readonly="readonly" type="text" />
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="gap gap-small"></div>
+                <div class="form-group form-group-icon-right">
+                    <i class="fa fa-map-marker input-icon"></i>
+                    <label>Left Input Icon</label>
+                    <input class="form-control" placeholder="Write something" type="text">
+                </div>
+                <div class="input-daterange" data-date-format="M d, yyyy">
+                    <div class="form-group form-group-icon-left">
+                        <i class="fa fa-calendar input-icon input-icon-highlight"></i>
+                        <label>Convention End Date</label>
+                        <input class="form-control" name="end" id="end" readonly="readonly" type="text" />
+                    </div>
+                </div>
+                <div class="input-daterange" data-date-format="M d, yyyy">
+                    <div class="form-group form-group-icon-left">
+                        <i class="fa fa-calendar input-icon input-icon-highlight"></i>
+                        <label>Booking End Date</label>
+                        <input class="form-control" name="end" id="end" readonly="readonly" type="text" />
+                    </div>
+                </div>
+                <div class="form-group form-group-icon-left">
+                    <i class="fa fa-plane input-icon input-icon-shake"></i>
+                    <label>Icon Shake</label>
+                    <input class="form-control" type="text">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-8">
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Service Options</h5>
+                <div class="gap gap-small"></div>
+                <div class="checkbox-inline">
+                    <label>
+                        <input class="i-check" name="RegistrationRequired" type="checkbox" @(ConfigSettings.FirstOrDefault().RegistrationRequired=="Y" ? "checked" : "") />Registration Required
+                    </label>
+                </div>
+                <div class="gap gap-small"></div>
+                <div class="checkbox-inline">
+                    <label>
+                        <input class="i-check" name="AccommodationRequired" type="checkbox" @(ConfigSettings.FirstOrDefault().AccommodationRequired=="Y" ? "checked" : "")  />Accommodation Required
+                    </label>
+                </div>
+                <div class="gap gap-small"></div>
+                <div class="checkbox-inline">
+                    <label>
+                        <input class="i-check" name="ExcursionRequired" type="checkbox" @(ConfigSettings.FirstOrDefault().ExcursionRequired=="Y" ? "checked" : "")  />Excursion Required
+                    </label>
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="gap gap-small"></div>
+                @if (ConfigSettings.FirstOrDefault().RegistrationRequired == "Y")
+                {
+                <div class="form-group form-group-icon-left">
+                    <i class="fa fa-plane input-icon input-icon-shake"></i>
+                    <label>Registration Fees</label>
+                    <input class="form-control" type="text">
+                </div>
+                }
+                <div class="gap gap-small"></div>
+                <div class="checkbox-inline">
+                    <label>
+                        <input class="i-check" name="TransportRequired" type="checkbox" @(ConfigSettings.FirstOrDefault().TransportRequired=="Y" ? "checked" : "") />Transport Required
+                    </label>
+                </div>
+                <div class="gap gap-small"></div>
+                <div class="checkbox-inline">
+                    <label>
+                        <input class="i-check" name="PackagesRequired" type="checkbox" @(ConfigSettings.FirstOrDefault().PackagesRequired=="Y" ? "checked" : "") />Packages Required
+                    </label>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-8">
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Payment Options</h5>
+                <div class="gap gap-small"></div>
+                <div class="checkbox-inline">
+                    <label>
+                        <input class="i-check" type="checkbox" name="FullPayment" @(ConfigSettings.FirstOrDefault().PaymentOption.Split('-')[0] == "1" ? "checked" : "") />Full Payment Allowed
+                    </label>
+                </div>
+                <div class="gap gap-small"></div>
+                <div class="checkbox-inline">
+                    <label>
+                        <input class="i-check" type="checkbox" name="PartialPayment" @(ConfigSettings.FirstOrDefault().PaymentOption.Split('-')[1] == "1" ? "checked" : "") />Partial Payment Allowed
+                    </label>
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="gap gap-small"></div>
+                <div class="checkbox-inline">
+                    <label>
+                        <input class="i-check" name="PayLater" type="checkbox" @(ConfigSettings.FirstOrDefault().PaymentOption.Split('-')[2] == "1" ? "checked" : "") />Pay Later Allowd
+                    </label>
+                </div>
+                <div class="gap gap-small"></div>
+                @if (ConfigSettings.FirstOrDefault().PaymentOption.Split('-')[1] == "1") {
+                <div class="form-group form-group-icon-left">
+                    <i class="fa fa-rocket input-icon input-icon-hightlight"></i>
+                    <label>Parital Payment Percentage</label>
+                    <input class="form-control" name="ParitalPaymentPercentage" type="text">
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+
+</div>
+    }
+<button class="btn btn-primary btn-lg" name="BasicSettings" type="submit">Save</button>
+
+}

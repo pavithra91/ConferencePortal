@@ -1817,6 +1817,7 @@
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ConfigController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\ReservationController.cs" />
     <Compile Include="ConventionImage.cs">
@@ -1912,6 +1913,12 @@
     <Content Include="Views\Payment\PaymentComplete.cshtml" />
     <Content Include="Views\Shared\_HeaderView.cshtml" />
     <Content Include="Views\Account\Payment.cshtml" />
+    <Content Include="Views\Shared\_SystemLayout.cshtml" />
+    <Content Include="Views\Config\Index.cshtml" />
+    <Content Include="Views\Config\ConventionConfigurations.cshtml" />
+    <Content Include="Views\Config\_BasicSettingsView.cshtml" />
+    <Content Include="Views\Config\_ImageSettingsView.cshtml" />
+    <Content Include="Views\Config\_OtherSettingsView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1920,7 +1927,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\Images\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

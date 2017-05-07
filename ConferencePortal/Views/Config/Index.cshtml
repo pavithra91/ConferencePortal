@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_SystemLayout.cshtml";
+}
+
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <aside class="user-profile-sidebar">
+                <div class="user-profile-avatar text-center">
+                    <img src="img/300x300.png" alt="Image Alternative text" title="AMaze" />
+                    <h5>John Doe</h5>
+                    <p>Member Since May 2012</p>
+                </div>
+                <ul class="list user-profile-nav">
+                    <li>
+                        <a href="user-profile.html"><i class="fa fa-user"></i>Overview</a>
+                    </li>
+                    <li>
+                        <a href="user-profile-settings.html"><i class="fa fa-cog"></i>Settings</a>
+                    </li>
+                    <li>
+                        <a href="user-profile-photos.html"><i class="fa fa-camera"></i>My Travel Photos</a>
+                    </li>
+                    <li>
+                        <a href="user-profile-booking-history.html"><i class="fa fa-clock-o"></i>Booking History</a>
+                    </li>
+                    <li>
+                        <a href="user-profile-cards.html"><i class="fa fa-credit-card"></i>Credit/Debit Cards</a>
+                    </li>
+                    <li>
+                        <a href="user-profile-wishlist.html"><i class="fa fa-heart-o"></i>Wishlist</a>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+        <div class="col-md-9">
+            <ul class="booking-list booking-list-wishlist">
+                <li>
+                    <span class="booking-item-wishlist-title"><i class="fa fa-building-o"></i> hotel <span>added on July 15, 2014</span></span>
+                    <a class="fa fa-times booking-item-wishlist-remove" href="#" rel="tooltip" data-placement="top" title="remove from wishlist"></a>
+                    <a class="booking-item" href="#">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="booking-item-img-wrap">
+                                    <img src="img/800x600.png" alt="Image Alternative text" title="hotel 1" />
+                                    <div class="booking-item-img-num"><i class="fa fa-picture-o"></i>19</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="booking-item-rating">
+                                    <ul class="icon-group booking-item-rating-stars">
+                                        <li>
+                                            <i class="fa fa-star"></i>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-star"></i>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-star"></i>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-star"></i>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-star-o"></i>
+                                        </li>
+                                    </ul><span class="booking-item-rating-number"><b>3.9</b> of 5</span><small>(764 reviews)</small>
+                                </div>
+                                <h5 class="booking-item-title">InterContinental New York Barclay</h5>
+                                <p class="booking-item-address"><i class="fa fa-map-marker"></i> New York, NY (Times Square)</p><small class="booking-item-last-booked">Latest booking: Just now</small>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="booking-item-price-from">from</span><span class="booking-item-price">$188</span><span>/night</span><span class="btn btn-primary">Book Now</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
