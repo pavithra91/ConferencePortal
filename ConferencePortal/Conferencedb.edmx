@@ -65,6 +65,7 @@
           <Property Name="PaymentOption" Type="varchar" MaxLength="10" />
           <Property Name="PaymentPercentage" Type="float" />
           <Property Name="LastPaymentDate" Type="date" />
+          <Property Name="NoOfSliderImage" Type="int" />
         </EntityType>
         <EntityType Name="ConventionImages">
           <Key>
@@ -998,6 +999,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="PaymentOption" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="PaymentPercentage" Type="Double" />
           <Property Name="LastPaymentDate" Type="DateTime" Precision="0" />
+          <Property Name="NoOfSliderImage" Type="Int32" />
           <NavigationProperty Name="Allotments" Relationship="conferencedbModel.ConferenceID_fk_Allotment" FromRole="Configuration" ToRole="Allotment" />
           <NavigationProperty Name="BookingConfig" Relationship="conferencedbModel.ConferenceID_BookingConfig" FromRole="Configuration" ToRole="BookingConfig" />
           <NavigationProperty Name="Clients" Relationship="conferencedbModel.conference_fk_Conference" FromRole="Configuration" ToRole="Client" />
@@ -1675,6 +1677,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySetMapping Name="Configurations">
             <EntityTypeMapping TypeName="conferencedbModel.Configuration">
               <MappingFragment StoreEntitySet="Configurations">
+                <ScalarProperty Name="NoOfSliderImage" ColumnName="NoOfSliderImage" />
                 <ScalarProperty Name="LastPaymentDate" ColumnName="LastPaymentDate" />
                 <ScalarProperty Name="PaymentPercentage" ColumnName="PaymentPercentage" />
                 <ScalarProperty Name="PaymentOption" ColumnName="PaymentOption" />
