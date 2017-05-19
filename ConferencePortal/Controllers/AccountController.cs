@@ -55,11 +55,11 @@ namespace ConferencePortal.Controllers
 
                 ViewBag.NoOfDeligates = cart.NoofDelegates;
 
-                //if (cart.client.Deligate == true)
-                //{
-                //    List<Client> cl = new List<Client> { cart.client };
-                //    ViewBag.Client = cl;
-                //}
+                if (cart.client.Deligate == true)
+                {
+                    List<Client> cl = new List<Client> { cart.client };
+                    ViewBag.Client = cl;
+                }
 
                 return View();
             }

@@ -209,14 +209,11 @@ namespace ConferencePortal.Controllers
         {
             string Location = Request.Form["Location"];
             string start = Request.Form["start"];
-            string end = Request.Form["end"];
 
             DateTime startdate = Convert.ToDateTime(start);
-            DateTime enddate = Convert.ToDateTime(end);
 
             TempDate TempDates = new TempDate();
             TempDates.StartDate = startdate;
-            TempDates.EndDate = enddate;
 
             TempData["EXTempDate"] = TempDates;
 
@@ -269,6 +266,7 @@ namespace ConferencePortal.Controllers
                 rmCart.CheckInDate = start;
                 rmCart.CheckOutDate = end;
 
+                cart.TotalPrice += RoomPrice * roomCount;
                 cart.Rooms.Add(rmCart);
             }
             else if (ItemType == "TR")
@@ -295,6 +293,7 @@ namespace ConferencePortal.Controllers
                     TRCart.PickUpTime = TempDates.DropOffTime;
                 }
 
+                cart.TotalPrice += Price * VehicleCount;
                 cart.Transport.Add(TRCart);
             }
 
@@ -311,10 +310,12 @@ namespace ConferencePortal.Controllers
                 Excursions.Price = Price * AdultCount;
                 Excursions.NoOfAdults = AdultCount;
 
+                cart.TotalPrice += Price * AdultCount;
                 cart.Excursion.Add(Excursions);
             }
-
-            return RedirectToAction("Index", "Reservation", new { ConventionID = 1 });
+            
+            //return RedirectToAction("Index", "Reservation", new { ConventionID = 1 });
+            return RedirectToAction("ViewCart", "Reservation", new { ConventionID = cart.ConventionID });
         }
 
         public ActionResult RemoveFromCart(string ItemType, string ItemID)
@@ -386,6 +387,7 @@ namespace ConferencePortal.Controllers
                 ViewBag.Rooms = cart.Rooms;
                 ViewBag.Transport = cart.Transport;
                 ViewBag.Excursion = cart.Excursion;
+                ViewBag.TotalPrice = cart.TotalPrice;
 
                 List<Client> cl = new List<Client> { cart.client };
                 ViewBag.Client = cl;
@@ -397,18 +399,27 @@ namespace ConferencePortal.Controllers
 
                 string[] paymentOptionsArr = ID.PaymentOption.Split('-');
                 List<string> paymentOptions = new List<string>();
+                DateTime today = DateTime.Now;
 
-                if (paymentOptionsArr[0] == "1")
+                if (today > ID.LastPaymentDate)
                 {
                     paymentOptions.Add("Pay Now");
                 }
-                if (paymentOptionsArr[1] == "1")
+                else
                 {
-                    paymentOptions.Add("Pay Later");
-                }
-                if (paymentOptionsArr[2] == "1")
-                {
-                    paymentOptions.Add("Partial Payment");
+                    if (paymentOptionsArr[0] == "1")
+                    {
+                        paymentOptions.Add("Pay Now");
+                    }
+
+                    if (paymentOptionsArr[1] == "1")
+                    {
+                        paymentOptions.Add("Pay Later");
+                    }
+                    if (paymentOptionsArr[2] == "1")
+                    {
+                        paymentOptions.Add("Partial Payment");
+                    }
                 }
 
                 ViewBag.PaymentOptions = paymentOptions;
@@ -417,12 +428,7 @@ namespace ConferencePortal.Controllers
             ViewBag.Deligates = Deligates;
 
             TempData["Deligates"] = Deligates;
-            TempData["ShoppingCart"] = cart;
-
-
-            
-
-
+            TempData["ShoppingCart"] = cart;       
 
             return View();
         }

@@ -13,6 +13,7 @@
     List<transportInCart> transport = null;
     List<excursionInCart> excursion = null;
     IEnumerable<Client> client = null;
+    double GrandTotal = ViewBag.TotalPrice;
     List<string> PaymentOptions = ViewBag.PaymentOptions;
 
     if (ViewBag.Client != null)
@@ -165,7 +166,7 @@
                             {
                                 <li>
                                     <span class="booking-item-wishlist-title"><i class="fa fa-bolt"></i> Transport </span>
-                                    <a class="fa fa-times booking-item-wishlist-remove" href="@Url.Action("RemoveFromCart", "Reservation", new { ItemType = "TR", ItemID = items.TR.TransportID }, null)" rel="tooltip" data-placement="top" title="remove from wishlist"></a>
+                                    @*<a class="fa fa-times booking-item-wishlist-remove" href="@Url.Action("RemoveFromCart", "Reservation", new { ItemType = "TR", ItemID = items.TR.TransportID }, null)" rel="tooltip" data-placement="top" title="remove from wishlist"></a>*@
                                     <a class="booking-item" href="#">
                                         <div class="row">
                                             <div class="col-md-3">
@@ -238,7 +239,7 @@
                     {
                             <li>
                                 <span class="booking-item-wishlist-title"><i class="fa fa-bolt"></i> Excursions </span>
-                                <a class="fa fa-times booking-item-wishlist-remove" href="@Url.Action("RemoveFromCart", "Reservation", new { ItemType = "EX", ItemID = items.Excursion.ExcursionsID }, null)" rel="tooltip" data-placement="top" title="remove from wishlist"></a>
+                                @*<a class="fa fa-times booking-item-wishlist-remove" href="@Url.Action("RemoveFromCart", "Reservation", new { ItemType = "EX", ItemID = items.Excursion.ExcursionsID }, null)" rel="tooltip" data-placement="top" title="remove from wishlist"></a>*@
                                 <a class="booking-item" href="#">
                                     <div class="row">
                                         <div class="col-md-3">
@@ -277,14 +278,6 @@
                                         
                                          </div>
 
-
-
-                                        
-
-
-
-
-
                                         @*<div class="col-md-3">*@
                                             @*<span class="booking-item-price-from">average</span>*@@*<span class="booking-item-price">@items.Excursion.Currency.Currency1 @items.Price</span><span>/@items.NoOfAdults person</span>*@@*<span class="btn btn-primary">Add to Trip</span>*@
                                         @*</div>*@
@@ -299,6 +292,9 @@
                 <hr />
 
                 <div class="row">
+                    <div class="col-md-3">
+                        <label>Grand Total : @GrandTotal</label>
+                    </div>
                     <div class="col-md-3">
                         @if (PaymentOptions != null)
                         {

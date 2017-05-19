@@ -16,14 +16,13 @@ namespace ConferencePortal.Controllers
         public ActionResult Index(FormCollection form)
         {
             IEnumerable<Deligate> Deligates = TempData["Deligates"] as IEnumerable<Deligate>;
-            ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
-            double TotalPrice = 0.0;
+            ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;            
 
             List<DeligateMapping> delMapList = new List<DeligateMapping>();
 
             var ID = (from config in en.Configurations
                              where config.ConventionID == 1
-                             select new { BookingID = config.ConventionCode + config.BookingConfig.BookingID, AUTOID = config.BookingConfig.BookingID, PaymentOption = config.PaymentOption }).FirstOrDefault();
+                             select new { BookingID = config.ConventionCode + config.BookingConfig.BookingID, AUTOID = config.BookingConfig.BookingID, PaymentOption = config.PaymentOption,  }).FirstOrDefault();
 
             string BookingID = ID.BookingID;
 
@@ -69,7 +68,7 @@ namespace ConferencePortal.Controllers
                         int RoomId = Convert.ToInt32(arr[1]);
                         if (rmCart.room.RoomID== RoomId)
                         {
-                            TotalPrice += (rmCart.Price/rmCart.NoofRooms);
+                            //TotalPrice += (rmCart.Price/rmCart.NoofRooms);
                             roomReservation.CheckInDate = rmCart.CheckInDate;
                             roomReservation.CheckOutDate = rmCart.CheckOutDate;
                             
@@ -93,7 +92,7 @@ namespace ConferencePortal.Controllers
                         int TRID = Convert.ToInt32(arr[1]);
                         if (trCart.TR.TransportID == TRID)
                         {
-                            TotalPrice += trCart.Price;
+                            //TotalPrice += trCart.Price;
                             
                             TRReservation.PickUpDate = Convert.ToDateTime(trCart.PickUpDate);
                             //TRReservation.PickUpTime = Convert.ToDateTime(trCart.PickUpTime);
@@ -120,7 +119,7 @@ namespace ConferencePortal.Controllers
                         int EXID = Convert.ToInt32(arr[1]);
                         if (exCart.Excursion.ExcursionsID == EXID)
                         {
-                            TotalPrice += exCart.Price;
+                            //TotalPrice += exCart.Price;
                             ExReservation.ExcursionDate = exCart.ExcursionDate;
                             ExReservation.NoOfAdults = exCart.NoOfAdults;
                             ExReservation.Price = exCart.Price;
@@ -139,7 +138,7 @@ namespace ConferencePortal.Controllers
                 TempData["Option"] = "Pay Later";
                 return RedirectToAction("PaymentComplete", "Payment");
             }
-            else
+            if(PaymentOption == "Pay Later")
             {
                 
             }
