@@ -66,31 +66,31 @@
                             <div class="form-group form-group-icon-left">
                                 <i class="fa fa-user input-icon"></i>
                                 <label>Full Name</label>
-                                @Html.TextBoxFor(m => Model[i].firstName, new { @class = "typeahead form-control", @Value = items.firstName + " " + items.lastName, @required = "required" })
+                                @Html.TextBoxFor(m => Model[i].firstName, new { @class = "form-control", @Value = items.firstName + " " + items.lastName, @required = "required" })
                                 @*<input class="form-control" value="Doe" type="text" />*@
                             </div>
                             <div class="form-group form-group-icon-left">
                                 <i class="fa fa-envelope input-icon"></i>
                                 <label>Passport Number</label>
-                                @Html.TextBoxFor(m => Model[i].passportNo, new { @class = "typeahead form-control", @placeholder = "xxxxxxxx", @required = "required" })
+                                @Html.TextBoxFor(m => Model[i].passportNo, new { @class = "form-control", @placeholder = "xxxxxxxx", @required = "required" })
                                 @*<input class="form-control" value="xxxxxxxx" type="text" />*@
                             </div>
                             <div class="form-group form-group-icon-left">
                                 <i class="fa fa-envelope input-icon"></i>
                                 <label>Nationality</label>
-                                @Html.TextBoxFor(m => Model[i].nationality, new { @class = "typeahead form-control", @placeholder = "xxxxxxxx", @required = "required" })
+                                @Html.TextBoxFor(m => Model[i].nationality, new { @class = "form-control", @placeholder = "xxxxxxxx", @required = "required" })
                                 @*<input class="form-control" value="xxxxxxxx" type="text" />*@
                             </div>
                             <div class="form-group form-group-icon-left">
                                 <i class="fa fa-phone input-icon"></i>
                                 <label>Phone Number</label>
-                                @Html.TextBoxFor(m => Model[i].phone, new { @class = "typeahead form-control", @Value = items.ContactNumber, @required = "required" })
+                                @Html.TextBoxFor(m => Model[i].phone, new { @class = "form-control", @Value = items.ContactNumber, @required = "required" })
                                 @*<input class="form-control" value="+1 202 555 0113" type="text" />*@
                             </div>
                             <div class="form-group form-group-icon-left">
                                 <i class="fa fa-envelope input-icon"></i>
                                 <label>E-mail</label>
-                                @Html.TextBoxFor(m => Model[i].email, new { @class = "typeahead form-control", @Value = items.email, @required = "required" })
+                                @Html.TextBoxFor(m => Model[i].email, new { @class = "form-control", @Value = items.email, @required = "required" })
                                 @*<input class="form-control" value="johndoe@gmail.com" type="text" />*@
                             </div>
                         </div>
@@ -99,7 +99,7 @@
                             <div class="form-group form-group-icon-left">
                                 <i class="fa fa-plane input-icon"></i>
                                 <label>Address</label>
-                                @Html.TextBoxFor(m => Model[i].address, new { @class = "typeahead form-control", @Value = items.Address, @required = "required" })
+                                @Html.TextBoxFor(m => Model[i].address, new { @class = "form-control", @Value = items.Address, @required = "required" })
                                 @*<input class="form-control" value="London Heathrow Airport (LHR)" type="text" />*@
                             </div>
                             <div class="form-group">
@@ -118,7 +118,7 @@
                                 <div class="form-group form-group-icon-left">
                                     <i class="fa fa-globe input-icon"></i>
                                     <label>Country</label>
-                                    @Html.TextBoxFor(m => Model[i].country, new { @class = "typeahead form-control", @Value = items.country, @required = "required" })
+                                    @Html.TextBoxFor(m => Model[i].country, new { @class = "form-control", @Value = items.country, @required = "required" })
                                     @*<input class="form-control" value="United Kingdom" type="text" />*@
                                 </div>
                             </div>
@@ -141,7 +141,7 @@
                             <div class="form-group form-group-icon-left">
                                 <i class="fa fa-plane input-icon"></i>
                                 <label>Arrival Flight</label>
-                                @Html.TextBoxFor(m => Model[i].arrivalFlightNo, new { @class = "typeahead form-control", @placeholder = "UL 456", @required = "required" })
+                                @Html.TextBoxFor(m => Model[i].arrivalFlightNo, new { @class = "form-control", @placeholder = "UL 456", @required = "required" })
                                 @*<input class="form-control" value="John" type="text" />*@
                             </div>
                             <div class="input-daterange" data-date-format="M d, D">
@@ -154,7 +154,7 @@
                             <div class="form-group form-group-icon-left">
                                 <i class="fa fa-plane input-icon"></i>
                                 <label>Depature Flight</label>
-                                @Html.TextBoxFor(m => Model[i].arrivalFlightNo, new { @class = "typeahead form-control", @placeholder = "UL 456", @required = "required" })
+                                @Html.TextBoxFor(m => Model[i].arrivalFlightNo, new { @class = "form-control", @placeholder = "UL 456", @required = "required" })
                                 @*<input class="form-control" value="John" type="text" />*@
                             </div>
                             <hr />
@@ -203,31 +203,31 @@
                                         <div class="form-group form-group-icon-left">
                                             <i class="fa fa-user input-icon"></i>
                                             <label>Full Name</label>
-                                            @Html.TextBoxFor(m => Model[i].firstName, new { @class = "typeahead form-control", @placeholder = "Doe", @required = "required" })
+                                            @Html.TextBoxFor(m => Model[i].firstName, new { @class = "form-control", @placeholder = "Doe", @required = "required" })
                                             @*<input class="form-control" value="Doe" type="text" />*@
                                         </div>
                                         <div class="form-group form-group-icon-left">
                                             <i class="fa fa-envelope input-icon"></i>
                                             <label>Passport Number</label>
-                                            @Html.TextBoxFor(m => Model[i].passportNo, new { @class = "typeahead form-control", @placeholder = "xxxxxxxx", @required = "required" })
+                                            @Html.TextBoxFor(m => Model[i].passportNo, new { @class = "form-control", @placeholder = "xxxxxxxx", @required = "required" })
                                             @*<input class="form-control" value="xxxxxxxx" type="text" />*@
                                         </div>
                                         <div class="form-group form-group-icon-left">
                                             <i class="fa fa-envelope input-icon"></i>
                                             <label>Nationality</label>
-                                            @Html.TextBoxFor(m => Model[i].nationality, new { @class = "typeahead form-control", @placeholder = "xxxxxxxx", @required = "required" })
+                                            @Html.TextBoxFor(m => Model[i].nationality, new { @class = "form-control", @placeholder = "xxxxxxxx", @required = "required" })
                                             @*<input class="form-control" value="xxxxxxxx" type="text" />*@
                                         </div>
                                         <div class="form-group form-group-icon-left">
                                             <i class="fa fa-phone input-icon"></i>
                                             <label>Phone Number</label>
-                                            @Html.TextBoxFor(m => Model[i].phone, new { @class = "typeahead form-control", @placeholder = "+1 202 555 0113", @required = "required" })
+                                            @Html.TextBoxFor(m => Model[i].phone, new { @class = "form-control", @placeholder = "+1 202 555 0113", @required = "required" })
                                             @*<input class="form-control" value="+1 202 555 0113" type="text" />*@
                                         </div>
                                         <div class="form-group form-group-icon-left">
                                             <i class="fa fa-envelope input-icon"></i>
                                             <label>E-mail</label>
-                                            @Html.TextBoxFor(m => Model[i].email, new { type = "email", pattern = "[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})", @class = "typeahead form-control", @placeholder = "johndoe@gmail.com", @required = "required" })
+                                            @Html.TextBoxFor(m => Model[i].email, new { type = "email", pattern = "[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})", @class = "form-control", @placeholder = "johndoe@gmail.com", @required = "required" })
                                             @*<input class="form-control" value="johndoe@gmail.com" type="text" />*@
                                         </div>
                                     </div>
@@ -236,7 +236,7 @@
                                         <div class="form-group form-group-icon-left">
                                             <i class="fa fa-plane input-icon"></i>
                                             <label>Address</label>
-                                            @Html.TextBoxFor(m => Model[i].address, new { @class = "typeahead form-control", @placeholder = "London Heathrow Airport (LHR)", @required = "required" })
+                                            @Html.TextBoxFor(m => Model[i].address, new { @class = "form-control", @placeholder = "London Heathrow Airport (LHR)", @required = "required" })
                                             @*<input class="form-control" value="London Heathrow Airport (LHR)" type="text" />*@
                                         </div>
                                         <div class="form-group">
@@ -255,7 +255,7 @@
                                             <div class="form-group form-group-icon-left">
                                                 <i class="fa fa-globe input-icon"></i>
                                                 <label>Country</label>
-                                                @Html.TextBoxFor(m => Model[i].country, new { @class = "typeahead form-control", @placeholder = "United Kingdom", @required = "required" })
+                                                @Html.TextBoxFor(m => Model[i].country, new { @class = "form-control", @placeholder = "United Kingdom", @required = "required" })
                                                 @*<input class="form-control" value="United Kingdom" type="text" />*@
                                             </div>
                                         </div>
@@ -278,7 +278,7 @@
                                         <div class="form-group form-group-icon-left">
                                             <i class="fa fa-plane input-icon"></i>
                                             <label>Arrival Flight</label>
-                                            @Html.TextBoxFor(m => Model[i].arrivalFlightNo, new { @class = "typeahead form-control", @placeholder = "UL 456", @required = "required" })
+                                            @Html.TextBoxFor(m => Model[i].arrivalFlightNo, new { @class = "form-control", @placeholder = "UL 456", @required = "required" })
                                             @*<input class="form-control" value="John" type="text" />*@
                                         </div>
                                         <div class="input-daterange" data-date-format="M d, D">
@@ -291,7 +291,7 @@
                                         <div class="form-group form-group-icon-left">
                                             <i class="fa fa-plane input-icon"></i>
                                             <label>Depature Flight</label>
-                                            @Html.TextBoxFor(m => Model[i].arrivalFlightNo, new { @class = "typeahead form-control", @placeholder = "UL 456", @required = "required" })
+                                            @Html.TextBoxFor(m => Model[i].arrivalFlightNo, new { @class = "form-control", @placeholder = "UL 456", @required = "required" })
                                             @*<input class="form-control" value="John" type="text" />*@
                                         </div>
                                         <hr />

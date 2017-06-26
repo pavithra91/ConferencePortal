@@ -15,5 +15,6 @@ namespace ConferencePortal.App_Code
         public List<RoomsInCart> Rooms = new List<RoomsInCart>();
         public List<TransportInCart> Transport = new List<TransportInCart>();
         public List<ExcursionsInCart> Excursion = new List<ExcursionsInCart>();
+        public double TotalPrice { get; set; }
     }
 }

@@ -53,7 +53,7 @@
                                             <div class="form-group form-group-icon-left">
                                                 <i class="fa fa-user input-icon"></i>
                                                 <label>Last Name : </label>
-                                                @Html.TextBoxFor(m => m.lastName, new { @class = "typeahead form-control", @placeholder = "ex -: White", @required = "required" })
+                                                @Html.TextBoxFor(m => m.lastName, new { @class = "form-control", @placeholder = "ex -: White", @required = "required" })
                                                 @*<input class="typeahead form-control" placeholder="ex -: White" type="text" />*@
                                             </div>
 
@@ -66,7 +66,7 @@
                                             <div class="form-group form-group-icon-left">
                                                 <i class="fa fa-phone input-icon"></i>
                                                 <label>Contact Number : </label>
-                                                @Html.TextBoxFor(m => m.ContactNumber, new { @class = "typeahead form-control", @placeholder = "ex -: xxxxxxxxx", @required = "required" })
+                                                @Html.TextBoxFor(m => m.ContactNumber, new { @class = "form-control", @placeholder = "ex -: xxxxxxxxx", @required = "required" })
                                                 @*<input class="typeahead form-control" placeholder="ex -: xxxxxxxxx" type="text" />*@
                                             </div>
 
@@ -91,25 +91,25 @@
                                             <div class="form-group form-group-icon-left">
                                                 <i class="fa fa-user input-icon"></i>
                                                 <label>First Name : </label>
-                                                @Html.TextBoxFor(m => m.firstName, new { @class = "typeahead form-control", @placeholder = "ex -: Joe" })
+                                                @Html.TextBoxFor(m => m.firstName, new { @class = "form-control", @placeholder = "ex -: Joe" })
                                                 @*<input class="typeahead form-control" placeholder="ex -: Joe" type="text" />*@
                                             </div>
                                             <div class="form-group form-group-icon-left">
                                                 <i class="fa fa-location-arrow input-icon"></i>
                                                 <label>Address : </label>
-                                                @Html.TextBoxFor(m => m.Address, new { @class = "typeahead form-control", @placeholder = "ex -: Street, City, Zip, Country" })
+                                                @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @placeholder = "ex -: Street, City, Zip, Country" })
                                                 @*<input class="typeahead form-control" placeholder="ex -: Street, City, Zip, Country" type="text" />*@
                                             </div>
                                             <div class="form-group form-group-icon-left">
                                                 <i class="fa fa-globe input-icon"></i>
                                                 <label>Country : </label>
 
-                                                <input class="typeahead form-control" placeholder="ex -: United States" type="text" />
+                                                <input class="form-control" placeholder="ex -: United States" type="text" />
                                             </div>
                                             <div class="form-group form-group-icon-left">
                                                 <i class="fa fa-envelope-o input-icon"></i>
                                                 <label>Email : </label>
-                                                @Html.TextBoxFor(m => m.email, new { type="email", pattern = "[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})", @class = "typeahead form-control", @placeholder = "ex -: someone@example.com", @required = "required" })
+                                                @Html.TextBoxFor(m => m.email, new { type="email", pattern = "[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})", @class = "form-control", @placeholder = "ex -: someone@example.com", @required = "required" })
                                             </div>
 
                                             @*<div class="form-group form-group-icon-left">
