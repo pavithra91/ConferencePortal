@@ -90,7 +90,7 @@
         var dd = $.ajax(
                      {
                          type: "GET",
-                         url: "http://localhost:55185/Reservation/GetPickUpLocations?ConventionID=" + ConventionID,
+                         url: "http://localhost:55185/Reservationapi/GetPickUpLocations?ConventionID=" + ConventionID,
                          dataType: "json",
                          async: false,
                          success: function (result) {
@@ -98,14 +98,13 @@
                          },
                          error: function (x, e) {
                              alert(x + " " + e);
-                             data = ["hello", "world"];
                          }
                      });
 
         var dd2 = $.ajax(
              {
                  type: "GET",
-                 url: "http://localhost:55185/Reservation/GetDropOffLocations?ConventionID=" + ConventionID,
+                 url: "http://localhost:55185/Reservationapi/GetDropOffLocations?ConventionID=" + ConventionID,
                  dataType: "json",
                  async: false,
                  success: function (result) {
@@ -113,7 +112,6 @@
                  },
                  error: function (x, e) {
                      alert(x + " " + e);
-                     data2 = ["hello", "world"];
                  }
              });
 

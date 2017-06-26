@@ -1417,8 +1417,8 @@
 
         var dd = $.ajax(
          {
-             type: "POST",
-             url: "http://localhost:55185/Reservation/GetBookingStartPeriod?ConventionID=" + ConventionID,
+             type: "GET",
+             url: "http://localhost:55185/Reservationapi/GetBookingStartPeriod?ConventionID=" + ConventionID,
              dataType: "text",
              async: false,
              success: function (result) {
@@ -1442,8 +1442,8 @@
 
         var dd = $.ajax(
          {
-             type: "POST",
-             url: "http://localhost:55185/Reservation/GetBookingEndPeriod?ConventionID=" + ConventionID,
+             type: "GET",
+             url: "http://localhost:55185/Reservationapi/GetBookingEndPeriod?ConventionID=" + ConventionID,
              dataType: "text",
              async: false,
              success: function (result) {

@@ -65,6 +65,60 @@ namespace ConferencePortal.Controllers
             }
         }
 
+        public ActionResult UserProfile(string BookingId)
+        {
+            IEnumerable<RoomReservation> RoomList = en.RoomReservations
+                        .Where(w => w.Deligate.BookingID == BookingId);
+
+            IEnumerable<TransportReservation> Transportlist = en.TransportReservations
+                        .Where(w => w.Deligate.BookingID == BookingId);
+
+            IEnumerable<ExcursionReservation> ExcursionList = en.ExcursionReservations
+                        .Where(w => w.Deligate.BookingID == BookingId);
+
+            IEnumerable<Client> Client = en.Clients
+                        .Where(w => w.BookingID == BookingId);
+
+            ViewBag.Client = Client;
+            ViewBag.RoomList = RoomList;
+            ViewBag.Transportlist = Transportlist;
+            ViewBag.ExcursionList = ExcursionList;
+
+            return View();
+        }
+
+        public ActionResult Payment(string BookingID)
+        {
+            IEnumerable<Payment> pay = en.Payments.Where(w => w.BookingID == BookingID);
+            IEnumerable<Client> cl = en.Clients.Where(w => w.BookingID == BookingID);
+
+            ViewBag.PaymentHistory = pay;
+            ViewBag.Client = cl;
+
+            return View();
+        }
+
+        public ActionResult AccountActivation(string ID)
+        {
+            int ClientID = Convert.ToInt32(ID);
+            var client = en.Clients.Where(w => w.ClientID == ClientID);
+
+            if (client != null)
+            {
+                client.FirstOrDefault().IsUserVerified = true;
+
+                en.Entry(client).State = System.Data.Entity.EntityState.Modified;
+                en.SaveChanges();
+            }
+
+            return RedirectToAction("SignIn", "Account");
+        }
+
+        public ActionResult SignIn()
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult RegisterClient(Client cl, int noOfDeligate, string[] Delegate)
@@ -95,11 +149,6 @@ namespace ConferencePortal.Controllers
             TempData["ShoppingCart"] = cart;
 
             return RedirectToAction("ServiceList", "Reservation", new { ConventionID = cart.ConventionID });
-        }
-
-        public ActionResult SignIn()
-        {
-            return View();
         }
 
         [HttpPost]
@@ -136,14 +185,6 @@ namespace ConferencePortal.Controllers
                                              where config.email == Email
                                              select config).FirstOrDefault();
 
-                        //foreach (var i in User)
-                        //{
-                        //    i.BookingID
-                        //}
-
-                        //var User = entity.ExternalUserTBLs.SqlQuery("SELECT * FROM dbo.ExternalUserTBL WHERE dbo.ExternalUserTBL.UserName = '" + Email + "';").ToList();
-
-
                         bool status = UserAuthentication(User, Passwrod);
 
                         if (status)
@@ -168,64 +209,26 @@ namespace ConferencePortal.Controllers
         }
 
 
-        public ActionResult UserProfile(string BookingId)
+        #region Private Methods
+        private bool UserAuthentication(Client client, string Password)
         {
-            IEnumerable<RoomReservation> RoomList = en.RoomReservations
-                        .Where(w => w.Deligate.BookingID == BookingId);
-
-            IEnumerable<TransportReservation> Transportlist = en.TransportReservations
-                        .Where(w => w.Deligate.BookingID == BookingId);
-
-            IEnumerable<ExcursionReservation> ExcursionList = en.ExcursionReservations
-                        .Where(w => w.Deligate.BookingID == BookingId);
-
-            IEnumerable<Client> Client = en.Clients
-                        .Where(w => w.BookingID == BookingId);
-
-            ViewBag.Client = Client;
-            ViewBag.RoomList = RoomList;
-            ViewBag.Transportlist = Transportlist;
-            ViewBag.ExcursionList = ExcursionList;
-
-            return View();
+            if (client == null)
+            {
+                return false;
+            }
+            else if (client.IsUserVerified == false)
+            {
+                return false;
+            }
+            else if (client.Password != Password)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
-
-        public ActionResult Payment(string BookingID)
-        {
-            IEnumerable<Payment> pay = en.Payments.Where(w => w.BookingID == BookingID);
-            IEnumerable<Client> cl = en.Clients.Where(w => w.BookingID == BookingID);
-
-            ViewBag.PaymentHistory = pay;
-            ViewBag.Client = cl;
-
-            return View();
-        }
-
-
-        public bool UserAuthentication(Client client, string Password)
-        {
-            //foreach (var result in list)
-            //{
-                if (client == null)
-                {
-                    return false;
-                }
-                else if (client.IsUserVerified == false)
-                {
-                    return false;
-                }
-                else if (client.Password != Password)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            //}
-            //return false;
-        }
-
-        
+        #endregion
     }
 }

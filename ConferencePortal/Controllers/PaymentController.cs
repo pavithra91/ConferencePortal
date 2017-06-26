@@ -132,6 +132,8 @@ namespace ConferencePortal.Controllers
 
             }
 
+            en.SaveChanges();
+
             string PaymentOption = form.GetValues("PaymentOption").FirstOrDefault();
 
             if(PaymentOption == "Pay Later")

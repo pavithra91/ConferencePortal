@@ -39,7 +39,7 @@
         var dd = $.ajax(
                      {
                          type: "GET",
-                         url: "http://localhost:55185/Reservation/GetLocations?ConventionID=" + ConventionID,
+                         url: "http://localhost:55185/Reservationapi/GetLocations?ConventionID=" + ConventionID,
                          dataType: "json",
                          async: false,
                          success: function (result) {
@@ -47,7 +47,6 @@
                          },
                          error: function (x, e) {
                              alert(x + " " + e);
-                             data3 = ["hello", "world"];
                          }
                      });
 
