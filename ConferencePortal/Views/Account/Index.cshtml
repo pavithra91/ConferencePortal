@@ -118,7 +118,7 @@
                                                 <input class="typeahead form-control" hidden="hidden" placeholder="City, Airport, U.S. Zip" type="text" />
                                             </div>*@
 
-                                            <div class="checkbox checkbox-stroke" style="margin-top:45px;">
+                                            <div class="checkbox checkbox-stroke" style="margin-top:45px">
                                                 <label>
                                                     @*@Html.CheckBoxFor(x => x.Deligate)*@
                                                     <input class="i-check" name="Delegate" type="checkbox" />I am also a deligate for this Convention
@@ -143,7 +143,7 @@
                 foreach (ConventionImage img in imgs)
                 {
                     <div class="bg-holder full">
-                        <div class="bg-img" style="background-image:url(@img.ImageURL);"></div>
+                        <div class="bg-img" style="background-image:url(@img.ImageURL)"></div>
                     </div>
 
                     @*<div class="bg-holder full">
@@ -157,7 +157,7 @@
                 }
             }
         </div>
-        <div class="bg-img hidden-lg" style="background-image:url(img/2048x1365.png);"></div>
+        <div class="bg-img hidden-lg" style="background-image:url(img/2048x1365.png)"></div>
         <div class="bg-mask hidden-lg"></div>
     </div>
 </div>

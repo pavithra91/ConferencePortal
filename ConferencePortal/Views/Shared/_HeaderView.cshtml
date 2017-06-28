@@ -7,7 +7,7 @@
                 if (Context.User.Identity.Name.Equals(""))
                 {
                     <li>
-                        <a href="#">Log In</a>
+                        <a href="@Url.Action("SignIn", "Account")">Log In</a>
                     </li>
                                             <li>
                                                 <a href="@Url.Action("ViewCart", "Reservation", new { ConventionID = 1 })">
@@ -66,7 +66,6 @@
 @Html.Script(
     @<script>
         function myFunction(a) {
-            alert(a);
         }
     </script>
 )
