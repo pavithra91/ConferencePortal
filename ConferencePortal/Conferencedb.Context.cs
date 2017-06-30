@@ -45,6 +45,7 @@ namespace ConferencePortal
         public virtual DbSet<TransportRate> TransportRates { get; set; }
         public virtual DbSet<TransportReservation> TransportReservations { get; set; }
         public virtual DbSet<Vehicle> Vehicles { get; set; }
+        public virtual DbSet<Cancellation> Cancellations { get; set; }
         public virtual DbSet<Reservation> Reservations { get; set; }
     }
 }

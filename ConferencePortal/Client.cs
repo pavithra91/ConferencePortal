@@ -17,8 +17,7 @@ namespace ConferencePortal
         public int ClientID { get; set; }
         public Nullable<int> ConventionID { get; set; }
         public string title { get; set; }
-        public string firstName { get; set; }
-        public string lastName { get; set; }
+        public string fullName { get; set; }
         public string Address { get; set; }
         public string country { get; set; }
         public string BookingID { get; set; }

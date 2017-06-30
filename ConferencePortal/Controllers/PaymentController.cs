@@ -15,6 +15,8 @@ namespace ConferencePortal.Controllers
         // GET: Payment
         public ActionResult Index(FormCollection form)
         {
+            System.Data.Entity.DbContextTransaction dbTran = en.Database.BeginTransaction();
+
             IEnumerable<Deligate> Deligates = TempData["Deligates"] as IEnumerable<Deligate>;
             ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;            
 
@@ -68,13 +70,17 @@ namespace ConferencePortal.Controllers
                         int RoomId = Convert.ToInt32(arr[1]);
                         if (rmCart.room.RoomID== RoomId)
                         {
-                            //TotalPrice += (rmCart.Price/rmCart.NoofRooms);
-                            roomReservation.CheckInDate = rmCart.CheckInDate;
-                            roomReservation.CheckOutDate = rmCart.CheckOutDate;
-                            
-                            roomReservation.RoomID = RoomId;
-                            en.RoomReservations.Add(roomReservation);
-                            //en.SaveChanges();
+                            bool Status = ChangeAllotment(rmCart.room, rmCart.CheckInDate, rmCart.CheckOutDate);
+                            if (Status)
+                            {
+                                //TotalPrice += (rmCart.Price/rmCart.NoofRooms);
+                                roomReservation.CheckInDate = rmCart.CheckInDate;
+                                roomReservation.CheckOutDate = rmCart.CheckOutDate;
+
+                                roomReservation.RoomID = RoomId;
+                                en.RoomReservations.Add(roomReservation);
+                                //en.SaveChanges();
+                            }
                         }
                     }
                 }
@@ -132,6 +138,8 @@ namespace ConferencePortal.Controllers
             }
 
             en.SaveChanges();
+            dbTran.Commit();
+
 
             string PaymentOption = form.GetValues("PaymentOption").FirstOrDefault();
 
@@ -140,7 +148,7 @@ namespace ConferencePortal.Controllers
                 TempData["Option"] = "Pay Later";
                 return RedirectToAction("PaymentComplete", "Payment");
             }
-            if(PaymentOption == "Pay Later")
+            if(PaymentOption == "Pay Now")
             {
                 
             }
@@ -154,6 +162,61 @@ namespace ConferencePortal.Controllers
             return View();
         }
 
+        public ActionResult RoomCheckTest()
+        {
+            System.Data.Entity.DbContextTransaction dbTran = en.Database.BeginTransaction();
 
+            Room rm = en.Rooms.Find(1);
+            DateTime CheckInDate = new DateTime(2017, 4, 18);
+            DateTime CheckOutDate = new DateTime(2017, 4, 19); 
+
+            bool Status = ChangeAllotment(rm, CheckInDate, CheckOutDate);
+
+            en.SaveChanges();
+
+            dbTran.Commit();
+            return null;
+        }
+
+
+        #region Private Methods
+        private bool ChangeAllotment(Room _room, DateTime _checkInDate, DateTime _checkOutDate)
+        {
+            var _roomRateAllotment = en.RoomRates.Where(w => w.RoomID == _room.RoomID);
+
+            var _roomAllotment = en.RoomAllotments.Where(w => w.RoomID == _room.RoomID);
+
+            double NoOfDays = (_checkOutDate - _checkInDate).TotalDays;
+
+            for(int i=0; i <= NoOfDays; i++)
+            {
+                RoomRate rate = _roomRateAllotment.Where(w => w.RateDate == _checkInDate).FirstOrDefault();
+                if(rate.Allotment > 0)
+                {
+                    rate.Allotment = rate.Allotment - 1;
+                    en.Entry(rate).State = System.Data.Entity.EntityState.Modified;
+                    //en.RoomRates.Attach(rate);
+                }
+                else
+                {
+                    RoomAllotment rooomAllotment = _roomAllotment.Where(w => w.Date == _checkInDate).FirstOrDefault();
+                    if(rooomAllotment.AvailableRooms > 0)
+                    {
+                        rooomAllotment.AvailableRooms = rooomAllotment.AvailableRooms - 1;
+                        en.Entry(rooomAllotment).State = System.Data.Entity.EntityState.Modified;
+                        //en.RoomAllotments.Attach(rooomAllotment);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+
+                _checkInDate = _checkInDate.AddDays(1);
+            }
+
+            return true;
+        }
+        #endregion
     }
 }

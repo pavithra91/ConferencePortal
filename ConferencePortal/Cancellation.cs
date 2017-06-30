@@ -12,11 +12,13 @@ namespace ConferencePortal
     using System;
     using System.Collections.Generic;
     
-    public partial class ConventionImage
+    public partial class Cancellation
     {
-        public string Name { get; set; }
-        public string ImageURL { get; set; }
         public int AUTOID { get; set; }
-        public Nullable<int> ConventionCode { get; set; }
+        public Nullable<int> ConventionID { get; set; }
+        public string Cancellation1 { get; set; }
+        public string ChargeType { get; set; }
+        public Nullable<double> Unit { get; set; }
+        public string CancellationNote { get; set; }
     }
 }

@@ -1747,6 +1747,7 @@
     <Content Include="img\Volkswagen-Polo-BlueGT.png" />
     <Content Include="img\Volkswagen-Touareg-Edition-X.png" />
     <Content Include="img\Volvo-V40.png" />
+    <Content Include="img\walkers-tours-logo.png" />
     <Content Include="img\Wildlife-Adventure-Tours-2.jpg" />
     <Content Include="js\bootstrap-datepicker.js" />
     <Content Include="js\bootstrap-select.js" />
@@ -1785,7 +1786,9 @@
     <Content Include="img\flags\.DS_Store" />
     <Content Include="img\patterns\Thumbs.db" />
     <Content Include="img\payment\Thumbs.db" />
+    <None Include="Properties\PublishProfiles\conventionportal - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\conventionportal - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\conventionportal - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\conventionportal - Web Deploy.pubxml" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
@@ -1803,6 +1806,9 @@
     <Compile Include="App_Code\TempRoom.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="BookingConfig.cs">
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Cancellation.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
     <Compile Include="Client.cs">

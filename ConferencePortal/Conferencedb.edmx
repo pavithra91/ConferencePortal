@@ -23,6 +23,19 @@
           <Property Name="ConferenceID" Type="int" Nullable="false" />
           <Property Name="BookingID" Type="int" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'conferencedb.dbo.Cancellation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Cancellation">
+          <Key>
+            <PropertyRef Name="AUTOID" />
+          </Key>
+          <Property Name="AUTOID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ConventionID" Type="int" />
+          <Property Name="Cancellation" Type="nvarchar" MaxLength="50" />
+          <Property Name="ChargeType" Type="nvarchar" MaxLength="10" />
+          <Property Name="Unit" Type="float" />
+          <Property Name="CancellationNote" Type="nvarchar" MaxLength="500" />
+        </EntityType>
         <EntityType Name="Clients">
           <Key>
             <PropertyRef Name="ClientID" />
@@ -30,8 +43,7 @@
           <Property Name="ClientID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ConventionID" Type="int" />
           <Property Name="title" Type="varchar" MaxLength="100" />
-          <Property Name="firstName" Type="varchar" MaxLength="100" />
-          <Property Name="lastName" Type="varchar" MaxLength="100" />
+          <Property Name="fullName" Type="varchar" MaxLength="100" />
           <Property Name="Address" Type="varchar" MaxLength="500" />
           <Property Name="country" Type="varchar" MaxLength="50" />
           <Property Name="BookingID" Type="varchar" MaxLength="20" Nullable="false" />
@@ -74,6 +86,7 @@
           <Property Name="Name" Type="varchar" MaxLength="50" />
           <Property Name="ImageURL" Type="varchar" MaxLength="500" />
           <Property Name="AUTOID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ConventionCode" Type="int" />
         </EntityType>
         <EntityType Name="Currency">
           <Key>
@@ -671,6 +684,16 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySet Name="TransportRate" EntityType="Self.TransportRate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransportReservation" EntityType="Self.TransportReservation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cancellation" EntityType="Self.Cancellation" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Cancellation].[AUTOID] AS [AUTOID], 
+    [Cancellation].[ConventionID] AS [ConventionID], 
+    [Cancellation].[Cancellation] AS [Cancellation], 
+    [Cancellation].[ChargeType] AS [ChargeType], 
+    [Cancellation].[Unit] AS [Unit], 
+    [Cancellation].[CancellationNote] AS [CancellationNote]
+    FROM [dbo].[Cancellation] AS [Cancellation]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="Reservation" EntityType="Self.Reservation" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [Reservation].[BookingID] AS [BookingID], 
@@ -821,6 +844,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySet Name="TransportRates" EntityType="conferencedbModel.TransportRate" />
           <EntitySet Name="TransportReservations" EntityType="conferencedbModel.TransportReservation" />
           <EntitySet Name="Vehicles" EntityType="conferencedbModel.Vehicle" />
+          <EntitySet Name="Cancellations" EntityType="conferencedbModel.Cancellation" />
           <EntitySet Name="Reservations" EntityType="conferencedbModel.Reservation" />
           <AssociationSet Name="Allotment_fk" Association="conferencedbModel.Allotment_fk">
             <End Role="Allotment" EntitySet="Allotments" />
@@ -963,8 +987,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="ClientID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ConventionID" Type="Int32" />
           <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="firstName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="lastName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="fullName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="BookingID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
@@ -1016,6 +1039,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ImageURL" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="AUTOID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConventionCode" Type="Int32" />
         </EntityType>
         <EntityType Name="Currency">
           <Key>
@@ -1250,6 +1274,17 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="NoOfDoors" Type="Int32" />
           <Property Name="NoOfBaggages" Type="Int32" />
           <NavigationProperty Name="TransportRates" Relationship="conferencedbModel.VehicleCategoryID_TransportRate_fk" FromRole="Vehicle" ToRole="TransportRate" />
+        </EntityType>
+        <EntityType Name="Cancellation">
+          <Key>
+            <PropertyRef Name="AUTOID" />
+          </Key>
+          <Property Name="AUTOID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConventionID" Type="Int32" />
+          <Property Name="Cancellation1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ChargeType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Unit" Type="Double" />
+          <Property Name="CancellationNote" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Reservation">
           <Key>
@@ -1666,8 +1701,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
                 <ScalarProperty Name="BookingID" ColumnName="BookingID" />
                 <ScalarProperty Name="country" ColumnName="country" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="lastName" ColumnName="lastName" />
-                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="fullName" ColumnName="fullName" />
                 <ScalarProperty Name="title" ColumnName="title" />
                 <ScalarProperty Name="ConventionID" ColumnName="ConventionID" />
                 <ScalarProperty Name="ClientID" ColumnName="ClientID" />
@@ -1703,6 +1737,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySetMapping Name="ConventionImages">
             <EntityTypeMapping TypeName="conferencedbModel.ConventionImage">
               <MappingFragment StoreEntitySet="ConventionImages">
+                <ScalarProperty Name="ConventionCode" ColumnName="ConventionCode" />
                 <ScalarProperty Name="AUTOID" ColumnName="AUTOID" />
                 <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1911,6 +1946,18 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
                 <ScalarProperty Name="NoOfPassengers" ColumnName="NoOfPassengers" />
                 <ScalarProperty Name="VehicleCategory" ColumnName="VehicleCategory" />
                 <ScalarProperty Name="VehicleID" ColumnName="VehicleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cancellations">
+            <EntityTypeMapping TypeName="conferencedbModel.Cancellation">
+              <MappingFragment StoreEntitySet="Cancellation">
+                <ScalarProperty Name="CancellationNote" ColumnName="CancellationNote" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="ChargeType" ColumnName="ChargeType" />
+                <ScalarProperty Name="Cancellation1" ColumnName="Cancellation" />
+                <ScalarProperty Name="ConventionID" ColumnName="ConventionID" />
+                <ScalarProperty Name="AUTOID" ColumnName="AUTOID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

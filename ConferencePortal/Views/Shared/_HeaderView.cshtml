@@ -1,19 +1,33 @@
 ﻿
-<div class="col-md-4">
+<div class="col-md-32">
     <div class="top-user-area clearfix">
         <ul class="top-user-area-list list list-horizontal list-border">
             @{
 
                 if (Context.User.Identity.Name.Equals(""))
                 {
-                    <li>
+                    <li class="top-user-area-avatar">
+                        <a href="user-profile.html">
+                            <a href="@Url.Action("ViewCart", "Reservation", new { ConventionID = 1 })">
+                                <img class="origin round" src="img/40x40.png" alt="Image Alternative text" title="AMaze" />Hi, John 
+                            </a>
+                            </a>
+                    </li>
+                                    <li>
+                                        <a href="@Url.Action("SignIn", "Account")">Log In</a>
+                                    </li>
+
+
+
+                    @*<li>
                         <a href="@Url.Action("SignIn", "Account")">Log In</a>
                     </li>
-                                            <li>
-                                                <a href="@Url.Action("ViewCart", "Reservation", new { ConventionID = 1 })">
-                                                    <img src="~/img/flags/32/cart-icon.png" width="25" height="25" alt="Shopping Cart" title="Shopping Cart" />
-                                                </a>
-                                            </li>
+                    <li>
+                        <a href="@Url.Action("ViewCart", "Reservation", new { ConventionID = 1 })">
+
+                            <img src="~/img/flags/32/cart-icon.png" width="25" height="25" alt="Shopping Cart" title="Shopping Cart" />
+                        </a>
+                    </li>*@
                 }
                 else
                 {
@@ -22,13 +36,13 @@
                             <img class="origin round" src="img/40x40.png" alt="Image Alternative text" title="AMaze" />Hi, @Context.User.Identity.Name
                         </a>
                     </li>
-                                            @*<li>
-                                                    @Html.ActionLink("Home", "ViewCart", "Reservation")
-                                                </li>*@
+                    @*<li>
+                            @Html.ActionLink("Home", "ViewCart", "Reservation")
+                        </li>*@
 
-                                            @*<li>
-                                                    <a href="#">@Context.User.Identity.Name</a>
-                                                </li>*@
+                    @*<li>
+                            <a href="#">@Context.User.Identity.Name</a>
+                        </li>*@
                 }
             }
 

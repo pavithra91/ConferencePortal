@@ -8,35 +8,30 @@
 
 @model Client
 
+
+
+
+        <!-- TOP AREA -->
 <div class="top-area show-onload">
     <div class="bg-holder full">
         <div class="bg-front bg-front-mob-rel">
             <div class="container">
-                <div class="search-tabs search-tabs-bg search-tabs-abs mt50">
-                    <h1 style="width: 1000px;">ආයුබෝවන් | Ayubowan | வணக்கம்</h1>
-                    <div class="tabbable">
-                        @*<ul class="nav nav-tabs" id="myTab">
-                                <li class="active">
-                                    <a href="#tab-4" data-toggle="tab"><i class="fa fa-car"></i> <span>Cars</span></a>
-                                </li>
-                            </ul>*@
-                        <div class="tab-content">
-                            <div class="tab-pane fade in active" id="tab-4">
-
-                                @using (Html.BeginForm("RegisterClient", "Account", FormMethod.Post))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    @*<form>*@
-                                    <div class="row">
-                                        <div class="col-md-6">
-
-                                            <div class="input-daterange" data-date-format="M d, D">
-                                                <div class="row">
-                                                    <div class="col-md-8">
-                                                        <div class="form-group form-group-select-plus">
-                                                            <label>Title</label>
-
-                                                            @Html.DropDownListFor(m => m.title, new List<SelectListItem>
+                <div class="container2">
+                    <div class="row" data-gutter="60">
+                        <div class="col-md-4">
+                            <h3>Welcome to Traveler</h3>
+                            <p>Euismod nunc porta magna elementum penatibus amet gravida sit ligula odio id nunc proin sem augue quis posuere interdum in sapien congue rutrum scelerisque sociosqu cubilia ridiculus et luctus mollis</p>
+                            <p>Praesent est semper massa lobortis quisque lectus ridiculus hac eget</p>
+                        </div>
+@using (Html.BeginForm("RegisterClient", "Account", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+                        <div class="col-md-4">
+                            <h3></h3>
+                                <div class="form-group form-group-icon-left">
+                                    <i class="fa fa-user input-icon input-icon-show"></i>
+                                    <label>Title</label>
+                                    @Html.DropDownListFor(m => m.title, new List<SelectListItem>
                    { new SelectListItem{Text="Mr.", Value="Mr."},
                      new SelectListItem{Text="Mrs.", Value="Mrs."},
                      new SelectListItem{Text="Ms.", Value="Ms."},
@@ -44,99 +39,73 @@
                      new SelectListItem{Text="Mr.", Value="Mr."},
                      new SelectListItem{Text="Prof.", Value="Prof."},
                      new SelectListItem{Text="Rev.", Value="Rev."}}, "Please select", new { @class = "form-control", @required = "required" })
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group form-group-icon-left">
-                                                <i class="fa fa-user input-icon"></i>
-                                                <label>Last Name : </label>
-                                                @Html.TextBoxFor(m => m.lastName, new { @class = "form-control", @placeholder = "ex -: White", @required = "required" })
-                                                @*<input class="typeahead form-control" placeholder="ex -: White" type="text" />*@
-                                            </div>
-
-                                            <div class="form-group form-group-icon-left">
-                                                <i class="fa fa-map-marker input-icon"></i>
-                                                <label>City : </label>
-                                                @Html.TextBoxFor(m => m.City, new { @class = "typeahead form-control", @placeholder = "ex -: London", @required = "required" })
-                                                @*<input class="typeahead form-control" placeholder="ex -: London" type="text" />*@
-                                            </div>
-                                            <div class="form-group form-group-icon-left">
-                                                <i class="fa fa-phone input-icon"></i>
-                                                <label>Contact Number : </label>
-                                                @Html.TextBoxFor(m => m.ContactNumber, new { @class = "form-control", @placeholder = "ex -: xxxxxxxxx", @required = "required" })
-                                                @*<input class="typeahead form-control" placeholder="ex -: xxxxxxxxx" type="text" />*@
-                                            </div>
-
-                                            <div class="form-group form-group-icon-left">
-                                                <i class="fa fa-users input-icon"></i>
-                                                <label>Reservation for No of Deligate : </label>
-
-                                                <select class="form-control" name="noOfDeligate">
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
-                                                    <option>6</option>
-                                                </select>
-
-                                                @*<input class="typeahead form-control" name="noOfDeligate" placeholder="ex -: 1" type="text" />*@
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group form-group-icon-left">
-                                                <i class="fa fa-user input-icon"></i>
-                                                <label>First Name : </label>
-                                                @Html.TextBoxFor(m => m.firstName, new { @class = "form-control", @placeholder = "ex -: Joe" })
-                                                @*<input class="typeahead form-control" placeholder="ex -: Joe" type="text" />*@
-                                            </div>
-                                            <div class="form-group form-group-icon-left">
-                                                <i class="fa fa-location-arrow input-icon"></i>
-                                                <label>Address : </label>
-                                                @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @placeholder = "ex -: Street, City, Zip, Country" })
-                                                @*<input class="typeahead form-control" placeholder="ex -: Street, City, Zip, Country" type="text" />*@
-                                            </div>
-                                            <div class="form-group form-group-icon-left">
-                                                <i class="fa fa-globe input-icon"></i>
-                                                <label>Country : </label>
-
-                                                <input class="form-control" placeholder="ex -: United States" type="text" />
-                                            </div>
-                                            <div class="form-group form-group-icon-left">
-                                                <i class="fa fa-envelope-o input-icon"></i>
-                                                <label>Email : </label>
-                                                @Html.TextBoxFor(m => m.email, new { type="email", pattern = "[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})", @class = "form-control", @placeholder = "ex -: someone@example.com", @required = "required" })
-                                            </div>
-
-                                            @*<div class="form-group form-group-icon-left">
-                                                <i class="fa fa-map-marker input-icon"></i>
-                                                <label>Email : </label>
-                                                <input class="typeahead form-control" hidden="hidden" placeholder="City, Airport, U.S. Zip" type="text" />
-                                            </div>*@
-
-                                            <div class="checkbox checkbox-stroke" style="margin-top:45px">
-                                                <label>
-                                                    @*@Html.CheckBoxFor(x => x.Deligate)*@
-                                                    <input class="i-check" name="Delegate" type="checkbox" />I am also a deligate for this Convention
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <button class="btn btn-primary" type="submit">Register</button>
-                                    @*</form>*@
-
-                                }
+                                </div>
+                                <div class="form-group form-group-icon-left">
+                                    <i class="fa fa-location-arrow input-icon"></i>
+                                    <label>Address</label>
+                                    @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @placeholder = "ex -: Street, City, Zip, Country" })                                    
+                                </div>
+                                <div class="form-group form-group-icon-left">
+                                    <i class="fa fa-globe input-icon"></i>
+                                    <label>Country</label>
+                                    <input class="form-control" placeholder="ex -: United States" type="text" />
+                                </div>
+                                <div class="form-group form-group-icon-left">
+                                    <i class="fa fa-envelope-o input-icon"></i>
+                                    <label>Email</label>
+                                    @Html.TextBoxFor(m => m.email, new { type = "email", pattern = "[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})", @class = "form-control", @placeholder = "ex -: someone@example.com", @required = "required" })
+                                </div>
+                            <div class="checkbox checkbox-stroke" style="margin-top:45px">
+                                <label>
+                                    @*@Html.CheckBoxFor(x => x.Deligate)*@
+                                    <input class="i-check" name="Delegate" type="checkbox" />I am also a deligate for this Convention
+                                </label>
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <h3></h3>
+                            @*<form>*@
+
+                                <div class="form-group form-group-icon-left">
+                                    <i class="fa fa-user input-icon input-icon-show"></i>
+                                    <label>Full Name</label>
+                                    @Html.TextBoxFor(m => m.fullName, new { @class = "form-control", @placeholder = "ex -: Joe" })
+                                </div>
+                                <div class="form-group form-group-icon-left">
+                                    <i class="fa fa-map-marker input-icon"></i>
+                                    <label>City</label>
+                                    @Html.TextBoxFor(m => m.City, new { @class = "typeahead form-control", @placeholder = "ex -: London", @required = "required" })                                    
+                                </div>
+                                <div class="form-group form-group-icon-left">
+                                    <i class="fa fa-phone input-icon"></i>
+                                    <label>Contact Number</label>
+                                    @Html.TextBoxFor(m => m.ContactNumber, new { @class = "form-control", @placeholder = "ex -: xxxxxxxxx", @required = "required" })
+                                </div>
+                                <div class="form-group form-group-icon-left">
+                                    <i class="fa fa-users input-icon"></i>
+                                    <label>Reservation for No of Deligate : </label>
+
+                                    <select class="form-control" name="noOfDeligate">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                    </select>
+                                </div>
+                                <div class="form-group form-group-icon-left" style="padding-top:20px">
+                                    <input class="btn btn-primary" type="submit" value="Sign up for Traveler" />
+                                </div>
+                                
+                            @*</form>*@
+                        </div>
+}
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="owl-carousel owl-slider owl-carousel-area visible-lg" id="owl-carousel-slider">
             @if (imgs != null)
             {
@@ -144,24 +113,25 @@
                 {
                     <div class="bg-holder full">
                         <div class="bg-img" style="background-image:url(@img.ImageURL)"></div>
-                    </div>
+                        <div class="bg-content">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-5 col-md-offset-7">
 
-                    @*<div class="bg-holder full">
-                            <div class="bg-mask"></div>
-                            <div class="bg-blur" style="background-image:url(@img.ImageURL);"></div>
-                        </div>*@
-                    @*<div class="bg-holder full">
-                            <div class="bg-mask"></div>
-                            <div class="bg-blur" style="background-image:url(img/2048x1365.png);"></div>
-                        </div>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 }
             }
         </div>
-        <div class="bg-img hidden-lg" style="background-image:url(img/2048x1365.png)"></div>
-        <div class="bg-mask hidden-lg"></div>
+
+        <div class="bg-img hidden-lg" style="background-image: url(img/backgrounds/flowers.jpg);"></div>
     </div>
 </div>
 <!-- END TOP AREA  -->
+
 
 @Html.Script(
     @<script>

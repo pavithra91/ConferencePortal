@@ -19,29 +19,28 @@
     <script src="~/js/modernizr.js"></script>
 </head>
 <body>
-
     <div class="global-wrap">
         <header id="main-header">
             <div class="header-top">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-3 col-lg-4">
+                        <div class="col-md-3">
                             <a class="logo" href="index.html">
-                                <img src="~/img/logo-invert.png" alt="Image Alternative text" title="Image Title" />
+                                <img src="~/img/walkers-tours-logo.png" alt="Image Alternative text" title="Image Title" />
                             </a>
                         </div>
-                        @Html.Partial("_HeaderView");
+                        @Html.Partial("_HeaderView")
                     </div>
                 </div>
             </div>
-           </header>
-
-
-        </div>
+        </header>
 
 
 
-            @*<div class="navbar navbar-inverse navbar-fixed-top">
+
+
+
+        @*<div class="navbar navbar-inverse navbar-fixed-top">
                 <div class="container">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -57,13 +56,55 @@
                 </div>
             </div>*@
 
-            <div class="container body-content">
-                @RenderBody()
-                <hr />
-                <footer>
-                    <p>&copy; @DateTime.Now.Year - Convention Portal</p>
-                </footer>
+        @*<div class="container body-content">*@
+        @RenderBody()
+
+        <footer id="main-footer">
+            <div class="container">
+                <div class="row row-wrap">
+                    <div class="col-md-3">
+                        <a class="logo" href="index.html">
+                            <img src="img/logo-invert.png" alt="Image Alternative text" title="Image Title" />
+                        </a>
+                        <p class="mb20">Booking, reviews and advices on hotels, resorts, flights, vacation rentals, travel packages, and lots more!</p>
+                        <ul class="list list-horizontal list-space">
+                            <li>
+                                <a class="fa fa-facebook box-icon-normal round animate-icon-bottom-to-top" href="#"></a>
+                            </li>
+                            <li>
+                                <a class="fa fa-twitter box-icon-normal round animate-icon-bottom-to-top" href="#"></a>
+                            </li>
+                            <li>
+                                <a class="fa fa-google-plus box-icon-normal round animate-icon-bottom-to-top" href="#"></a>
+                            </li>
+                            <li>
+                                <a class="fa fa-linkedin box-icon-normal round animate-icon-bottom-to-top" href="#"></a>
+                            </li>
+                            <li>
+                                <a class="fa fa-pinterest box-icon-normal round animate-icon-bottom-to-top" href="#"></a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+                    <div class="col-md-footer">
+                        <h4>Have Questions?</h4>
+                        <h4 class="text-color">+1-202-555-0173</h4>
+                        <h4><a href="#" class="text-color">support@traveler.com</a></h4>
+                        <p>24/7 Dedicated Customer Support</p>
+                    </div>
+
+                </div>
             </div>
+        </footer>
+
+    </div>
+
+        @*<footer>
+            <p>&copy; @DateTime.Now.Year - Convention Portal</p>
+        </footer>*@
+    @*</div>*@
 
     <script src="~/js/jquery.js"></script>
     <script src="~/js/bootstrap.js"></script>
@@ -95,7 +136,7 @@
     <script src="~/js/custom.js"></script>
 
 
-    @RenderSection("scriptLocation", false);
-    @Html.RenderScripts();
+    @RenderSection("scriptLocation", false)
+    @Html.RenderScripts()
 </body>
 </html>
