@@ -1,6 +1,5 @@
-﻿@{
-    List<Hotel> hotels = ViewBag.Hotels;
-}
+﻿@model ConferencePortal.Models.SearchViewModel
+
 
 @using (Html.BeginForm("SearchHotel", "Reservation", FormMethod.Post))
 {
@@ -10,7 +9,7 @@
                 <label>Conference Hotels</label>
 
                 <select name="HotelList" id="HotelList" class="form-control">
-                    @foreach (var hotel in hotels)
+                    @foreach (var hotel in Model._hotel)
                     {
                         <option value="@hotel.HotelID">@hotel.HotelName</option>
                     }

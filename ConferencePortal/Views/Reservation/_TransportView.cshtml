@@ -1,13 +1,13 @@
-﻿@{
-    IEnumerable<TransportRate> TrRates = ViewBag.Transport;
-    
+﻿@model ConferencePortal.Models.SearchViewModel
+
+@{   
     int VehicleCount = 1;
 }
 
 <input type="hidden" name="VehicleCount" id="VehicleCount" value="1" />
 
 <ul class="booking-list">
-    @foreach (TransportRate items in TrRates)
+    @foreach (TransportRate items in Model._transportRate)
     {
         <li>
             @*<a class="booking-item">*@

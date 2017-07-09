@@ -16,57 +16,29 @@ namespace ConferencePortal.Controllers
         public ActionResult Index(string ConventionID)
         {
             //TempDate TempDates = TempData["TempDate"] as TempDate;
+            Session["ConventionID"] = ConventionID;
 
             ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;            
 
             int Convention = Convert.ToInt32(ConventionID);
 
-            var hotelResult = from st in en.Hotels
-                              where st.ConventionID == Convention
-                              select st;
-
-            //IEnumerable<Transport> transport = en.Transports.Where(w => w.ShowInSearch=="Y");
-
-            List<Configuration> Configurations = (from config in en.Configurations
-                              where config.ConventionID == Convention
-                              select config).ToList();
-           
-
-            ViewBag.Configurations = Configurations;
-            ViewBag.Hotels = hotelResult.ToList();
+            SearchViewModel _objModel = new SearchViewModel();
+            _objModel._hotel = en.Hotels.Where(w => w.ConventionID == Convention);           
             
-            //ViewBag.Transport = transport;
-
-            IEnumerable<Room> testRooms = TempData["HotelRooms"] as IEnumerable<Room>;
-            IEnumerable<RoomAllotment> allotmentListRooms = TempData["Allotments"] as IEnumerable<RoomAllotment>;
-            IEnumerable<TransportRate> TrRates = TempData["Transport"] as IEnumerable<TransportRate>;
-            IEnumerable<Excursion> Excursion = TempData["Excursion"] as IEnumerable<Excursion>;
-
-            if (testRooms != null)
-            {
-                ViewBag.Rooms = testRooms;
-                ViewBag.Allotments = allotmentListRooms;
-
-                //ViewBag.StartDate = TempDates.StartDate;
-                //ViewBag.EndDate = TempDates.EndDate;
-            }
-            else if(TrRates != null)
-            {
-                ViewBag.Transport = TrRates;
-            }
-            else if(Excursion != null)
-            {
-                ViewBag.Excursion = Excursion;
-            }
+            _objModel._configuration = en.Configurations.Where(w => w.ConventionID == Convention);
+            _objModel._room = TempData["HotelRooms"] as IEnumerable<Room>;
+            _objModel._roomAllotment = TempData["Allotments"] as IEnumerable<RoomAllotment>;
+            _objModel._transportRate = TempData["Transport"] as IEnumerable<TransportRate>;
+            _objModel._excursion = TempData["Excursion"] as IEnumerable<Excursion>;
 
             TempData["ShoppingCart"] = cart;
 
-            return View();
+            return View(_objModel);
         }
 
-        public ActionResult HotelView(string ConventionID, int HotelId)
+        public ActionResult HotelView(int HotelId)
         {
-            int Convention = Convert.ToInt32(ConventionID);
+            int ConventionID = (Session["ConventionID"].ToString() != null) ? Convert.ToInt32(Session["ConventionID"].ToString()) : 0;
 
             if (HotelId != 0)
             {
@@ -78,9 +50,9 @@ namespace ConferencePortal.Controllers
                     DateTime end = TempDates.EndDate;
 
                     IEnumerable<RoomAllotment> allotmentListRooms = en.RoomAllotments
-                        .Where(w => w.Date >= start && w.Date <= end && w.Room.ConventionID == Convention);
+                        .Where(w => w.Date >= start && w.Date <= end && w.Room.ConventionID == ConventionID);
 
-                    IEnumerable<Room> testRooms = allotmentListRooms.Select(w => w.Room);
+                    IEnumerable<Room> testRooms = allotmentListRooms.Select(w => w.Room).Where(w=>w.HotelID==HotelId);
                     IEnumerable<Room> roomsToBeRemoved = allotmentListRooms.Where(w => (w.AvailableRooms.HasValue ? w.AvailableRooms.Value : 0) <= 0).Select(w => w.Room);
                     testRooms = testRooms.Except(roomsToBeRemoved);
 
@@ -135,12 +107,12 @@ namespace ConferencePortal.Controllers
                 }
             }
 
-            return RedirectToAction("Index", "Reservation", new { ConventionID = 1});
+            return RedirectToAction("Index", "Reservation", new { ConventionID = ConventionID });
         }
 
         [HttpPost]
         public ActionResult SearchHotel(FormCollection fomr)
-        {
+        {          
             string HotelList = Request.Form["HotelList"];
             string start = Request.Form["start"];
             string end = Request.Form["end"];
@@ -154,12 +126,14 @@ namespace ConferencePortal.Controllers
 
             TempData["TempDate"] = TempDates;
 
-            return RedirectToAction("HotelView", "Reservation", new { ConventionID = 1, HotelId = Convert.ToInt32(HotelList) });
+            return RedirectToAction("HotelView", "Reservation", new { HotelId = Convert.ToInt32(HotelList) });
         }
 
         [HttpPost]
         public ActionResult SearchTransport(FormCollection fomr)
         {
+            int ConventionID = (Session["ConventionID"].ToString() != null) ? Convert.ToInt32(Session["ConventionID"].ToString()) : 0;
+
             string TRType = fomr["myRadios"].ToString();
             if (TRType != "3")
             {
@@ -185,7 +159,7 @@ namespace ConferencePortal.Controllers
                 }     
 
                 IEnumerable<TransportRate> TrRates = en.TransportRates
-        .Where(w => w.Transport.StartLocation == StartLocation && w.Transport.DropOffLocation == EndLocation && w.Transport.ConventionID == 1);
+        .Where(w => w.Transport.StartLocation == StartLocation && w.Transport.DropOffLocation == EndLocation && w.Transport.ConventionID == ConventionID);
 
                 TempData["Transport"] = TrRates;
 
@@ -196,12 +170,14 @@ namespace ConferencePortal.Controllers
 
             }
 
-            return RedirectToAction("Index", "Reservation", new { ConventionID = 1});
+            return RedirectToAction("Index", "Reservation", new { ConventionID = ConventionID });
         }
 
         [HttpPost]
         public ActionResult SearchExcursion(FormCollection fomr)
         {
+            int ConventionID = (Session["ConventionID"].ToString() != null) ? Convert.ToInt32(Session["ConventionID"].ToString()) : 0;
+
             string Location = Request.Form["Location"];
             string start = Request.Form["start"];
 
@@ -217,7 +193,7 @@ namespace ConferencePortal.Controllers
 
             TempData["Excursion"] = Excursion;
 
-            return RedirectToAction("Index", "Reservation", new { ConventionID = 1 });
+            return RedirectToAction("Index", "Reservation", new { ConventionID = ConventionID });
         }
 
         public ActionResult ViewCart()
@@ -226,18 +202,9 @@ namespace ConferencePortal.Controllers
 
             if (cart != null)
             {
-                ViewBag.Rooms = cart.Rooms;
-                ViewBag.Transport = cart.Transport;
-                ViewBag.Excursion = cart.Excursion;
-
-                List<Client> cl = new List<Client> { cart.client };
-                ViewBag.Client = cl;
-
-                ViewBag.ConventionID = cart.ConventionID;
-
                 TempData["ShoppingCart"] = cart;
             }
-            return View();
+            return View(cart);
         }
 
         public ActionResult AddtoCart(string ItemType, string ItemID, string Rate, string Count)
@@ -256,12 +223,12 @@ namespace ConferencePortal.Controllers
                 Room room = en.Rooms.Find(Convert.ToInt32(ItemID));
                 RoomsInCart rmCart = new RoomsInCart();
                 rmCart.room = room;
-                rmCart.Price = RoomPrice * roomCount;
+                rmCart.Price = RoomPrice;
                 rmCart.NoofRooms = roomCount;
                 rmCart.CheckInDate = start;
                 rmCart.CheckOutDate = end;
 
-                cart.TotalPrice += RoomPrice * roomCount;
+                //cart.TotalPrice += RoomPrice * roomCount;
                 cart.Rooms.Add(rmCart);
             }
             else if (ItemType == "TR")
@@ -273,7 +240,7 @@ namespace ConferencePortal.Controllers
                 TransportRate TR = en.TransportRates.Find(Convert.ToInt32(ItemID));
                 TransportInCart TRCart = new TransportInCart();
                 TRCart.TR = TR;
-                TRCart.Price = Price * VehicleCount;
+                TRCart.Price = Price;// * VehicleCount;
                 TRCart.NoOfVehicles = VehicleCount;
                 if(TR.Transport.Type=="A")
                 {
@@ -288,7 +255,7 @@ namespace ConferencePortal.Controllers
                     TRCart.PickUpTime = TempDates.DropOffTime;
                 }
 
-                cart.TotalPrice += Price * VehicleCount;
+                cart.TotalPrice += Price;// * VehicleCount;
                 cart.Transport.Add(TRCart);
             }
 
@@ -302,14 +269,13 @@ namespace ConferencePortal.Controllers
                 ExcursionsInCart Excursions = new ExcursionsInCart();
                 Excursions.ExcursionDate = TempDates.StartDate;
                 Excursions.Excursion = EX;
-                Excursions.Price = Price * AdultCount;
+                Excursions.Price = Price; // * AdultCount;
                 Excursions.NoOfAdults = AdultCount;
 
-                cart.TotalPrice += Price * AdultCount;
+                cart.TotalPrice += Price; // * AdultCount;
                 cart.Excursion.Add(Excursions);
             }
             
-            //return RedirectToAction("Index", "Reservation", new { ConventionID = 1 });
             return RedirectToAction("ViewCart", "Reservation", new { ConventionID = cart.ConventionID });
         }
 

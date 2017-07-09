@@ -78,6 +78,7 @@ warning 6002: The table/view 'conferencedb.dbo.Cancellation' does not have a pri
           <Property Name="PaymentPercentage" Type="float" />
           <Property Name="LastPaymentDate" Type="date" />
           <Property Name="NoOfSliderImage" Type="int" />
+          <Property Name="Email" Type="int" />
         </EntityType>
         <EntityType Name="ConventionImages">
           <Key>
@@ -115,6 +116,17 @@ warning 6002: The table/view 'conferencedb.dbo.Cancellation' does not have a pri
           <Property Name="email" Type="varchar" MaxLength="50" />
           <Property Name="address" Type="varchar" MaxLength="500" />
           <Property Name="city" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="EmailConfiguration">
+          <Key>
+            <PropertyRef Name="AUTOID" />
+          </Key>
+          <Property Name="AUTOID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ConventionID" Type="int" />
+          <Property Name="EmailTemplate" Type="nvarchar" MaxLength="50" />
+          <Property Name="FromEmail" Type="nvarchar" MaxLength="100" />
+          <Property Name="EmailCC" Type="nvarchar" MaxLength="300" />
+          <Property Name="EmailBCC" Type="nvarchar" MaxLength="300" />
         </EntityType>
         <EntityType Name="ExcursionReservation">
           <Key>
@@ -395,6 +407,18 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="ConventionID_EmailConfiguration">
+          <End Role="Configurations" Type="Self.Configurations" Multiplicity="0..1" />
+          <End Role="EmailConfiguration" Type="Self.EmailConfiguration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Configurations">
+              <PropertyRef Name="ConventionID" />
+            </Principal>
+            <Dependent Role="EmailConfiguration">
+              <PropertyRef Name="ConventionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="ConventionID_fk_Convention">
           <End Role="Configurations" Type="Self.Configurations" Multiplicity="0..1" />
           <End Role="Excursions" Type="Self.Excursions" Multiplicity="*" />
@@ -490,6 +514,18 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             </Principal>
             <Dependent Role="TransportReservation">
               <PropertyRef Name="DeligateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EmailID_Configuration">
+          <End Role="EmailConfiguration" Type="Self.EmailConfiguration" Multiplicity="0..1" />
+          <End Role="Configurations" Type="Self.Configurations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmailConfiguration">
+              <PropertyRef Name="AUTOID" />
+            </Principal>
+            <Dependent Role="Configurations">
+              <PropertyRef Name="Email" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -671,6 +707,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySet Name="ConventionImages" EntityType="Self.ConventionImages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Deligates" EntityType="Self.Deligates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmailConfiguration" EntityType="Self.EmailConfiguration" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExcursionReservation" EntityType="Self.ExcursionReservation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Excursions" EntityType="Self.Excursions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hotel" EntityType="Self.Hotel" Schema="dbo" store:Type="Tables" />
@@ -734,6 +771,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             <End Role="Configurations" EntitySet="Configurations" />
             <End Role="RoomRates" EntitySet="RoomRates" />
           </AssociationSet>
+          <AssociationSet Name="ConventionID_EmailConfiguration" Association="Self.ConventionID_EmailConfiguration">
+            <End Role="Configurations" EntitySet="Configurations" />
+            <End Role="EmailConfiguration" EntitySet="EmailConfiguration" />
+          </AssociationSet>
           <AssociationSet Name="ConventionID_fk_Convention" Association="Self.ConventionID_fk_Convention">
             <End Role="Configurations" EntitySet="Configurations" />
             <End Role="Excursions" EntitySet="Excursions" />
@@ -765,6 +806,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <AssociationSet Name="DeligateID_TransportReservation" Association="Self.DeligateID_TransportReservation">
             <End Role="Deligates" EntitySet="Deligates" />
             <End Role="TransportReservation" EntitySet="TransportReservation" />
+          </AssociationSet>
+          <AssociationSet Name="EmailID_Configuration" Association="Self.EmailID_Configuration">
+            <End Role="EmailConfiguration" EntitySet="EmailConfiguration" />
+            <End Role="Configurations" EntitySet="Configurations" />
           </AssociationSet>
           <AssociationSet Name="ExcursionID_ExcursionReservation_fk" Association="Self.ExcursionID_ExcursionReservation_fk">
             <End Role="Excursions" EntitySet="Excursions" />
@@ -831,6 +876,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySet Name="ConventionImages" EntityType="conferencedbModel.ConventionImage" />
           <EntitySet Name="Currencies" EntityType="conferencedbModel.Currency" />
           <EntitySet Name="Deligates" EntityType="conferencedbModel.Deligate" />
+          <EntitySet Name="EmailConfigurations" EntityType="conferencedbModel.EmailConfiguration" />
           <EntitySet Name="ExcursionReservations" EntityType="conferencedbModel.ExcursionReservation" />
           <EntitySet Name="Excursions" EntityType="conferencedbModel.Excursion" />
           <EntitySet Name="Hotels" EntityType="conferencedbModel.Hotel" />
@@ -874,6 +920,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             <End Role="Configuration" EntitySet="Configurations" />
             <End Role="RoomRate" EntitySet="RoomRates" />
           </AssociationSet>
+          <AssociationSet Name="ConventionID_EmailConfiguration" Association="conferencedbModel.ConventionID_EmailConfiguration">
+            <End Role="Configuration" EntitySet="Configurations" />
+            <End Role="EmailConfiguration" EntitySet="EmailConfigurations" />
+          </AssociationSet>
           <AssociationSet Name="ConventionID_fk_Convention" Association="conferencedbModel.ConventionID_fk_Convention">
             <End Role="Configuration" EntitySet="Configurations" />
             <End Role="Excursion" EntitySet="Excursions" />
@@ -881,6 +931,10 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <AssociationSet Name="ConventionID_fk_Hotel" Association="conferencedbModel.ConventionID_fk_Hotel">
             <End Role="Configuration" EntitySet="Configurations" />
             <End Role="Hotel" EntitySet="Hotels" />
+          </AssociationSet>
+          <AssociationSet Name="EmailID_Configuration" Association="conferencedbModel.EmailID_Configuration">
+            <End Role="EmailConfiguration" EntitySet="EmailConfigurations" />
+            <End Role="Configuration" EntitySet="Configurations" />
           </AssociationSet>
           <AssociationSet Name="CurCode_Currency_fk" Association="conferencedbModel.CurCode_Currency_fk">
             <End Role="Currency" EntitySet="Currencies" />
@@ -1023,14 +1077,17 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="PaymentPercentage" Type="Double" />
           <Property Name="LastPaymentDate" Type="DateTime" Precision="0" />
           <Property Name="NoOfSliderImage" Type="Int32" />
+          <Property Name="Email" Type="Int32" />
           <NavigationProperty Name="Allotments" Relationship="conferencedbModel.ConferenceID_fk_Allotment" FromRole="Configuration" ToRole="Allotment" />
           <NavigationProperty Name="BookingConfig" Relationship="conferencedbModel.ConferenceID_BookingConfig" FromRole="Configuration" ToRole="BookingConfig" />
           <NavigationProperty Name="Clients" Relationship="conferencedbModel.conference_fk_Conference" FromRole="Configuration" ToRole="Client" />
           <NavigationProperty Name="Transports" Relationship="conferencedbModel.ConferenceID_fk_Conference" FromRole="Configuration" ToRole="Transport" />
           <NavigationProperty Name="Rooms" Relationship="conferencedbModel.ConferenceID_fk_Rooms" FromRole="Configuration" ToRole="Room" />
           <NavigationProperty Name="RoomRates" Relationship="conferencedbModel.Convention_fk_RoomRates" FromRole="Configuration" ToRole="RoomRate" />
+          <NavigationProperty Name="EmailConfigurations" Relationship="conferencedbModel.ConventionID_EmailConfiguration" FromRole="Configuration" ToRole="EmailConfiguration" />
           <NavigationProperty Name="Excursions" Relationship="conferencedbModel.ConventionID_fk_Convention" FromRole="Configuration" ToRole="Excursion" />
           <NavigationProperty Name="Hotels" Relationship="conferencedbModel.ConventionID_fk_Hotel" FromRole="Configuration" ToRole="Hotel" />
+          <NavigationProperty Name="EmailConfiguration" Relationship="conferencedbModel.EmailID_Configuration" FromRole="Configuration" ToRole="EmailConfiguration" />
         </EntityType>
         <EntityType Name="ConventionImage">
           <Key>
@@ -1074,6 +1131,19 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <NavigationProperty Name="ExcursionReservations" Relationship="conferencedbModel.DeligateID_ExcursionReservation_fk" FromRole="Deligate" ToRole="ExcursionReservation" />
           <NavigationProperty Name="RoomReservations" Relationship="conferencedbModel.DeligateID_RoomReservation" FromRole="Deligate" ToRole="RoomReservation" />
           <NavigationProperty Name="TransportReservations" Relationship="conferencedbModel.DeligateID_TransportReservation" FromRole="Deligate" ToRole="TransportReservation" />
+        </EntityType>
+        <EntityType Name="EmailConfiguration">
+          <Key>
+            <PropertyRef Name="AUTOID" />
+          </Key>
+          <Property Name="AUTOID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConventionID" Type="Int32" />
+          <Property Name="EmailTemplate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FromEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="EmailCC" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="EmailBCC" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Configuration" Relationship="conferencedbModel.ConventionID_EmailConfiguration" FromRole="EmailConfiguration" ToRole="Configuration" />
+          <NavigationProperty Name="Configurations" Relationship="conferencedbModel.EmailID_Configuration" FromRole="EmailConfiguration" ToRole="Configuration" />
         </EntityType>
         <EntityType Name="ExcursionReservation">
           <Key>
@@ -1395,6 +1465,18 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="ConventionID_EmailConfiguration">
+          <End Type="conferencedbModel.Configuration" Role="Configuration" Multiplicity="0..1" />
+          <End Type="conferencedbModel.EmailConfiguration" Role="EmailConfiguration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Configuration">
+              <PropertyRef Name="ConventionID" />
+            </Principal>
+            <Dependent Role="EmailConfiguration">
+              <PropertyRef Name="ConventionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="ConventionID_fk_Convention">
           <End Type="conferencedbModel.Configuration" Role="Configuration" Multiplicity="0..1" />
           <End Type="conferencedbModel.Excursion" Role="Excursion" Multiplicity="*" />
@@ -1416,6 +1498,18 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             </Principal>
             <Dependent Role="Hotel">
               <PropertyRef Name="ConventionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EmailID_Configuration">
+          <End Type="conferencedbModel.EmailConfiguration" Role="EmailConfiguration" Multiplicity="0..1" />
+          <End Type="conferencedbModel.Configuration" Role="Configuration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmailConfiguration">
+              <PropertyRef Name="AUTOID" />
+            </Principal>
+            <Dependent Role="Configuration">
+              <PropertyRef Name="Email" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1711,6 +1805,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySetMapping Name="Configurations">
             <EntityTypeMapping TypeName="conferencedbModel.Configuration">
               <MappingFragment StoreEntitySet="Configurations">
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="NoOfSliderImage" ColumnName="NoOfSliderImage" />
                 <ScalarProperty Name="LastPaymentDate" ColumnName="LastPaymentDate" />
                 <ScalarProperty Name="PaymentPercentage" ColumnName="PaymentPercentage" />
@@ -1771,6 +1866,18 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
                 <ScalarProperty Name="firstName" ColumnName="firstName" />
                 <ScalarProperty Name="title" ColumnName="title" />
                 <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmailConfigurations">
+            <EntityTypeMapping TypeName="conferencedbModel.EmailConfiguration">
+              <MappingFragment StoreEntitySet="EmailConfiguration">
+                <ScalarProperty Name="EmailBCC" ColumnName="EmailBCC" />
+                <ScalarProperty Name="EmailCC" ColumnName="EmailCC" />
+                <ScalarProperty Name="FromEmail" ColumnName="FromEmail" />
+                <ScalarProperty Name="EmailTemplate" ColumnName="EmailTemplate" />
+                <ScalarProperty Name="ConventionID" ColumnName="ConventionID" />
+                <ScalarProperty Name="AUTOID" ColumnName="AUTOID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

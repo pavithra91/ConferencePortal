@@ -1801,7 +1801,8 @@
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
     <Compile Include="App_Code\DeligateMapping.cs" />
-    <Compile Include="App_Code\ShoppingCart.cs" />
+    <Compile Include="Models\SearchViewModel.cs" />
+    <Compile Include="Models\ShoppingCart.cs" />
     <Compile Include="App_Code\TempDate.cs" />
     <Compile Include="App_Code\TempRoom.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -1837,6 +1838,7 @@
     <Compile Include="Controllers\ConfigController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\ReservationController.cs" />
+    <Compile Include="Controllers\service\Common.cs" />
     <Compile Include="ConventionImage.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
@@ -1844,6 +1846,9 @@
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
     <Compile Include="Deligate.cs">
+      <DependentUpon>Conferencedb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmailConfiguration.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
     <Compile Include="Excursion.cs">
@@ -1859,10 +1864,7 @@
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
     <Compile Include="HtmlExtensions.cs" />
-    <Compile Include="Models\ExcursionsInCart.cs" />
     <Compile Include="Models\LoginDataModel.cs" />
-    <Compile Include="Models\RoomsInCart.cs" />
-    <Compile Include="Models\TransportInCart.cs" />
     <Compile Include="Payment.cs">
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>

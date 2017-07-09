@@ -1,12 +1,13 @@
-﻿@{
-    IEnumerable<Excursion> Excursion = ViewBag.Excursion;
+﻿@model ConferencePortal.Models.SearchViewModel
+
+@{
     int AdultsCount = 1;
 }
 
 <input type="hidden" name="AdultCount" id="AdultCount" value="0" />
 
 <ul class="booking-list">
-    @foreach (Excursion items in Excursion)
+    @foreach (Excursion items in Model._excursion)
     {
         <li>
                 <div class="row">

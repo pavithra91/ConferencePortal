@@ -1,33 +1,6 @@
-﻿
+﻿@model ConferencePortal.Models.SearchViewModel
 @{
     ViewBag.Title = "Index";
-
-    IEnumerable<Room> rooms = null;
-    IEnumerable<RoomAllotment> allotment = null;
-
-    //var prod = ViewData["RoomList"];
-
-    if (ViewBag.Rooms != null)
-    {
-        rooms = ViewBag.Rooms;
-        allotment = ViewBag.Allotments;
-    }
-
-    IEnumerable<TransportRate> transport = null;
-    if (ViewBag.Transport != null)
-    {
-        transport = ViewBag.Transport;
-    }
-
-    IEnumerable<Excursion> Excursion = null;
-    if (ViewBag.Excursion != null)
-    {
-        Excursion = ViewBag.Excursion;
-    }
-
-    List<Hotel> hotels = ViewBag.Hotels;
-    List<Configuration> Configurations = ViewBag.Configurations;
-
     string HotelDescription = "";
 }
 
@@ -42,7 +15,7 @@
 
                         <div class="col-md-8" style="width:100%">
                             <div class="search-tabs search-tabs-bg mt50">
-                                @foreach (var config in Configurations)
+                                @foreach (var config in Model._configuration)
                                 {
                                     <div class="tabbable" id="ttt">
                                         <ul class="nav nav-tabs" id="myTab">
@@ -90,7 +63,7 @@
                                             {
                                                 <div class="tab-pane fade in active" id="tab-1">
 
-                                                    @Html.Partial("_RoomSearchView", hotels)
+                                                    @Html.Partial("_RoomSearchView", Model)
 
                                                 </div>
                                             }
@@ -102,7 +75,7 @@
 
                                                     @*@Html.Partial("_TransportSearchView", ViewBag.Arrival as SelectList)*@
 
-                                                    @Html.Partial("_TransportSearchView", transport)
+                                                    @Html.Partial("_TransportSearchView", Model._transportRate)
 
                                                 </div>
 
@@ -111,7 +84,7 @@
                                             {
                                                 <div class="tab-pane fade" id="tab-5">
 
-                                                    @Html.Partial("_ExcursionSearchView", Excursion)
+                                                    @Html.Partial("_ExcursionSearchView", Model._excursion)
                                                 </div>
                                             }
                                         </div>
@@ -131,35 +104,35 @@
 
 
 <div class="container">
-    @foreach (var config in Configurations)
+    @foreach (var config in Model._configuration)
     {
         <div class="row row-wrap" data-gutter="60">
             <div class="col-md-9">
 
                 @{
-                    if (rooms != null && config.AccommodationRequired == "Y")
+                    if (Model._room != null && config.AccommodationRequired == "Y")
                     {
-                        @Html.Partial("_RoomView", new { rooms, allotment });
+                        @Html.Partial("_RoomView", Model);
                     }
-                    else if (transport != null && config.TransportRequired == "Y")
+                    else if (Model._transportRate != null && config.TransportRequired == "Y")
                     {
-                        @Html.Partial("_TransportView", new { transport });
+                        @Html.Partial("_TransportView", Model);
                     }
-                    else if (Excursion != null && config.ExcursionRequired == "Y")
+                    else if (Model._excursion != null && config.ExcursionRequired == "Y")
                     {
-                        @Html.Partial("_ExcursionView", new { Excursion });
+                        @Html.Partial("_ExcursionView", Model);
                     }
                 }
             </div>
 
 
             <div class="col-md-3">
-                @if (rooms != null && config.AccommodationRequired == "Y")
+                @if (Model._room != null && config.AccommodationRequired == "Y")
                 {
                     <h4>About the Hotel</h4>
                     <p class="mb30">
 
-                        @foreach (Room items in rooms)
+                        @foreach (Room items in Model._room)
                         {
                         HotelDescription = items.Hotel.ShortDescription;
                         break;
@@ -170,7 +143,7 @@
                 }
 
                 @{
-                    if (rooms != null && config.AccommodationRequired == "Y")
+                    if (Model._room != null && config.AccommodationRequired == "Y")
                     {
                         <h4>Hotel Facilities</h4>
                                         <ul class="booking-item-features booking-item-features-expand mb30 clearfix">

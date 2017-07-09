@@ -1,56 +1,23 @@
-﻿@using roomsInCart = ConferencePortal.Models.RoomsInCart;
-
-@using transportInCart = ConferencePortal.Models.TransportInCart;
-
-@using excursionInCart = ConferencePortal.Models.ExcursionsInCart;
+﻿@model ConferencePortal.Models.ShoppingCart
 
 @{
     ViewBag.Title = "ViewCart";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-    List<roomsInCart> rooms = null;
-    List<transportInCart> transport = null;
-    List<excursionInCart> excursion = null;
-    IEnumerable<Client> client = null;
-
-    if(ViewBag.Client != null)
-    {
-        client = ViewBag.Client;
-    }
-
-    if (ViewBag.Rooms != null)
-    {
-        rooms = ViewBag.Rooms;
-
-    }
-    if(ViewBag.Transport != null)
-    {
-        transport = ViewBag.Transport;
-
-    }
-    if(ViewBag.Excursion != null)
-    {
-        excursion = ViewBag.Excursion;
-    }
 }
 
 @using (Html.BeginForm("DeligateRegistration", "Account", FormMethod.Post))
 {
 
 
-    @*<input type="hidden" name="ConventionID" value="@ViewBag.ConventionID" />*@
-
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            @if (client != null)
+            @if (Model.client != null)
             {
-                foreach (var cl in client)
-                {
             <aside class="user-profile-sidebar">
                 <div class="user-profile-avatar text-center">
-                    <img src="~/img/300x300.png" alt="Image Alternative text" title="@cl.firstName" />
-                    <h5>@cl.firstName</h5>
+                    <img src="~/img/300x300.png" alt="Image Alternative text" title="@Model.client.fullName" />
+                    <h5>@Model.client.fullName</h5>
                 </div>
                 <ul class="list user-profile-nav">
                     <li>
@@ -73,17 +40,15 @@
                     </li>*@
                 </ul>
             </aside>
-                    break;
-                }
             }
         </div>
 
         <div class="col-md-9">
 
             <ul class="booking-list booking-list-wishlist">
-                @if (rooms != null)
+                @if (Model.Rooms != null)
                 {
-                    foreach (var items in rooms)
+                    foreach (var items in Model.Rooms)
                     {
 
                 <li>
@@ -133,9 +98,9 @@
                 }
                 
 
-                @if (transport != null)
+                @if (Model.Transport != null)
                 {
-                    foreach (var items in transport)
+                    foreach (var items in Model.Transport)
                     {
 
                         <li>
@@ -176,9 +141,9 @@
 
 
 
-@if (excursion != null)
+@if (Model.Excursion != null)
 {
-    foreach (var items in excursion)
+    foreach (var items in Model.Excursion)
     {
 
         <li>

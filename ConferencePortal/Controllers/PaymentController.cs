@@ -1,5 +1,6 @@
 ﻿using ConferencePortal;
 using ConferencePortal.App_Code;
+using ConferencePortal.Controllers.service;
 using ConferencePortal.Models;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,13 @@ namespace ConferencePortal.Controllers
 {
     public class PaymentController : Controller
     {
+        Common com = new Common();
         conferencedbEntities en = new conferencedbEntities();
         // GET: Payment
         public ActionResult Index(FormCollection form)
         {
+            int ConventionID = (Session["ConventionID"].ToString() != null) ? Convert.ToInt32(Session["ConventionID"].ToString()) : 0;
+
             System.Data.Entity.DbContextTransaction dbTran = en.Database.BeginTransaction();
 
             IEnumerable<Deligate> Deligates = TempData["Deligates"] as IEnumerable<Deligate>;
@@ -23,7 +27,7 @@ namespace ConferencePortal.Controllers
             List<DeligateMapping> delMapList = new List<DeligateMapping>();
 
             var ID = (from config in en.Configurations
-                             where config.ConventionID == 1
+                             where config.ConventionID == ConventionID
                              select new { BookingID = config.ConventionCode + config.BookingConfig.BookingID, AUTOID = config.BookingConfig.BookingID, PaymentOption = config.PaymentOption,  }).FirstOrDefault();
 
             string BookingID = ID.BookingID;
@@ -35,7 +39,7 @@ namespace ConferencePortal.Controllers
             en.Clients.Add(cl);
             //en.SaveChanges();
 
-            BookingConfig bookingconfig = en.BookingConfigs.Where(s => s.ConferenceID == 1).FirstOrDefault<BookingConfig>();
+            BookingConfig bookingconfig = en.BookingConfigs.Where(s => s.ConferenceID == ConventionID).FirstOrDefault<BookingConfig>();
 
             bookingconfig.BookingID = ID.AUTOID + 1;
             en.Entry(bookingconfig).State = System.Data.Entity.EntityState.Modified;
@@ -80,6 +84,10 @@ namespace ConferencePortal.Controllers
                                 roomReservation.RoomID = RoomId;
                                 en.RoomReservations.Add(roomReservation);
                                 //en.SaveChanges();
+                            }
+                            else
+                            {
+
                             }
                         }
                     }
@@ -134,17 +142,36 @@ namespace ConferencePortal.Controllers
                         }
                     }
                 }
-
             }
 
-            en.SaveChanges();
-            dbTran.Commit();
-
-
+            Payment _payment = new Payment();
+            _payment.BookingID = BookingID;
+            _payment.TotalCost = 0;
+            
             string PaymentOption = form.GetValues("PaymentOption").FirstOrDefault();
 
-            if(PaymentOption == "Pay Later")
+            EmailConfiguration _emailConfig = com.GetEmailConfiguration(ConventionID);
+            EmailModel _email = new EmailModel();
+            _email.BookingRef = BookingID;
+            _email.ClientName = cl.fullName;
+            _email.EmailTo = cl.email;
+            _email.EmailCC = _emailConfig.EmailCC;
+            _email.EmailBCC = _emailConfig.EmailBCC;
+
+            if (PaymentOption == "Pay Later")
             {
+                _payment.PayLater = "Y";
+                _payment.PaymentStatus = "Incomplete";
+                en.Payments.Add(_payment);
+
+                en.SaveChanges();
+                dbTran.Commit();
+                
+                _email.EmailTemplete = "";
+                _email.UserName = cl.email;
+                _email.Password = com.GenerateRandomPassword();
+
+                TempData["Email"] = _email;
                 TempData["Option"] = "Pay Later";
                 return RedirectToAction("PaymentComplete", "Payment");
             }
@@ -158,7 +185,6 @@ namespace ConferencePortal.Controllers
 
         public ActionResult PaymentComplete()
         {
-
             return View();
         }
 
@@ -214,7 +240,6 @@ namespace ConferencePortal.Controllers
 
                 _checkInDate = _checkInDate.AddDays(1);
             }
-
             return true;
         }
         #endregion

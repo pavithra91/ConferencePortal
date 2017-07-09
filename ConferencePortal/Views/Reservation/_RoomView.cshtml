@@ -1,12 +1,9 @@
-﻿@{ 
-    //List<Room> rm = ViewBag.Rooms;
+﻿@model ConferencePortal.Models.SearchViewModel
 
-    IEnumerable<Room> rooms = ViewBag.Rooms;
+@{ 
     int RoomCount = 1;
 
     double rate = 0.0;
-
-    IEnumerable<RoomAllotment> allotment = ViewBag.Allotments;
 }
 
 
@@ -16,7 +13,7 @@
 <input type="hidden" name="roomCount" id="roomCount" value="1" />
 
 <ul class="booking-list">
-    @foreach (Room items in rooms)
+    @foreach (Room items in Model._room)
     {
         <li>
             @*<a class="booking-item">*@
@@ -60,7 +57,7 @@
                         <span class="booking-item-price"> 
                         
                         @{ 
-                            rate = (double)allotment.Where(w => w.RoomID == items.RoomID).Sum(w=>w.RoomRate.Rate) / allotment.Where(w => w.RoomID == items.RoomID).Count();
+                            rate = (double)Model._roomAllotment.Where(w => w.RoomID == items.RoomID).Sum(w=>w.RoomRate.Rate) / Model._roomAllotment.Where(w => w.RoomID == items.RoomID).Count();
                         }
 
                             @rate @items.Currency.Currency1 </span><span>/night</span>
@@ -70,7 +67,7 @@
                         <div class="form-group form-group-select-plus">
             <label>Rooms</label>
                             <select name="test" id="@items.RoomID" class="form-control" onchange="myFunction(@items.RoomID)">                                
-                                @for (int i = 0; i < allotment.Where(w => w.RoomID == items.RoomID).Min(w => w.AvailableRooms); i++)
+                                @for (int i = 0; i < Model._roomAllotment.Where(w => w.RoomID == items.RoomID).Min(w => w.AvailableRooms); i++)
                                 {
                                     <option>@RoomCount</option>
 

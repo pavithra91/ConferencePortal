@@ -32,6 +32,7 @@ namespace ConferencePortal
         public virtual DbSet<ConventionImage> ConventionImages { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
         public virtual DbSet<Deligate> Deligates { get; set; }
+        public virtual DbSet<EmailConfiguration> EmailConfigurations { get; set; }
         public virtual DbSet<ExcursionReservation> ExcursionReservations { get; set; }
         public virtual DbSet<Excursion> Excursions { get; set; }
         public virtual DbSet<Hotel> Hotels { get; set; }

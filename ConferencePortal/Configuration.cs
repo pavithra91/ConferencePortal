@@ -22,6 +22,7 @@ namespace ConferencePortal
             this.Transports = new HashSet<Transport>();
             this.Rooms = new HashSet<Room>();
             this.RoomRates = new HashSet<RoomRate>();
+            this.EmailConfigurations = new HashSet<EmailConfiguration>();
             this.Excursions = new HashSet<Excursion>();
             this.Hotels = new HashSet<Hotel>();
         }
@@ -46,6 +47,7 @@ namespace ConferencePortal
         public Nullable<double> PaymentPercentage { get; set; }
         public Nullable<System.DateTime> LastPaymentDate { get; set; }
         public Nullable<int> NoOfSliderImage { get; set; }
+        public Nullable<int> Email { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Allotment> Allotments { get; set; }
@@ -59,8 +61,11 @@ namespace ConferencePortal
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RoomRate> RoomRates { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmailConfiguration> EmailConfigurations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Excursion> Excursions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Hotel> Hotels { get; set; }
+        public virtual EmailConfiguration EmailConfiguration { get; set; }
     }
 }

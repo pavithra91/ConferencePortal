@@ -121,14 +121,14 @@ namespace ConferencePortal.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RegisterClient(Client cl, int noOfDeligate, string[] Delegate)
+        public ActionResult RegisterClient(Client cl, int noOfDeligate, string[] IsUserDelegate)
         {
             ShoppingCart cart = new ShoppingCart();
             cart.ClientId = cl.ClientID;
             cart.NoofDelegates = noOfDeligate;
             cart.ConventionID = "1";
 
-            if (Delegate != null)
+            if (IsUserDelegate != null)
             {
                 cl.Deligate = true;
             }

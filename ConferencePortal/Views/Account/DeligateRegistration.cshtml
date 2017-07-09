@@ -27,7 +27,7 @@
     {
         for (int i = 0; i < deligateCount; i++)
         {
-            if (client != null)
+            if (client != null && client.FirstOrDefault().Deligate == true)
             {
                 foreach (var items in client)
                 {
@@ -162,11 +162,10 @@
                     </div>
 
                     <hr>
-                                        break;
-                                    }
-                                    continue;
-
-                                }
+                    break;
+                 }
+               continue;
+              }
 
                                 <div class="row">
                                     <div class="col-sm-4 ">
