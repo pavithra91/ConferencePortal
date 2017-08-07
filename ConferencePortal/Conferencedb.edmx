@@ -169,6 +169,7 @@ warning 6002: The table/view 'conferencedb.dbo.Cancellation' does not have a pri
           <Property Name="Image" Type="varchar" MaxLength="100" />
           <Property Name="Address" Type="varchar" MaxLength="500" />
           <Property Name="StarRaing" Type="float" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Payment">
           <Key>
@@ -183,6 +184,8 @@ warning 6002: The table/view 'conferencedb.dbo.Cancellation' does not have a pri
           <Property Name="PaymentStatus" Type="varchar" MaxLength="50" />
           <Property Name="UpdateCount" Type="int" />
           <Property Name="PaidDate" Type="date" />
+          <Property Name="UpdateDate" Type="date" />
+          <Property Name="UpdateBy" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'conferencedb.dbo.Reservation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1194,6 +1197,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <NavigationProperty Name="Configuration" Relationship="conferencedbModel.ConventionID_fk_Hotel" FromRole="Hotel" ToRole="Configuration" />
           <NavigationProperty Name="Rooms" Relationship="conferencedbModel.HotelID_fk_Hotel" FromRole="Hotel" ToRole="Room" />
           <NavigationProperty Name="Reservations" Relationship="conferencedbModel.HotelID_fk_Reservation" FromRole="Hotel" ToRole="Reservation" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Payment">
           <Key>
@@ -1208,6 +1212,8 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <Property Name="PaymentStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="UpdateCount" Type="Int32" />
           <Property Name="PaidDate" Type="DateTime" Precision="0" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="0" />
+          <Property Name="UpdateBy" Type="Int32" />
         </EntityType>
         <EntityType Name="RoomAllotment">
           <Key>
@@ -1914,6 +1920,7 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySetMapping Name="Hotels">
             <EntityTypeMapping TypeName="conferencedbModel.Hotel">
               <MappingFragment StoreEntitySet="Hotel">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="StarRaing" ColumnName="StarRaing" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Image" ColumnName="Image" />
@@ -1929,6 +1936,8 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           <EntitySetMapping Name="Payments">
             <EntityTypeMapping TypeName="conferencedbModel.Payment">
               <MappingFragment StoreEntitySet="Payment">
+                <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="PaidDate" ColumnName="PaidDate" />
                 <ScalarProperty Name="UpdateCount" ColumnName="UpdateCount" />
                 <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />

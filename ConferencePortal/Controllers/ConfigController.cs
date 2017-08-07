@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConferencePortal.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,20 +10,77 @@ namespace ConferencePortal.Controllers
 {
     public class ConfigController : Controller
     {
-        conferencedbEntities en = new conferencedbEntities();
+        conferencedbEntities _context = new conferencedbEntities();
         // GET: Config
         public ActionResult Index()
+        {
+            Session["ConventionID"] = "1";
+            return View();
+        }
+
+        public ActionResult ConventionConfigurations()
+        {
+            Session["ConventionID"] = "1";
+            if (Session["ConventionID"] == null)
+            {
+                return null;
+            }
+
+            int ConventionId = Convert.ToInt32(Session["ConventionID"].ToString());
+
+            IEnumerable<Configuration> config = _context.Configurations.Where(w => w.ConventionID == ConventionId);
+
+            ViewBag.Configurations = config;
+            return View();
+        }
+
+        public ActionResult HotelManager()
+        {
+            Session["ConventionID"] = "1";
+            if (Session["ConventionID"] == null)
+            {
+                return null;
+            }
+
+            ConfigModel objModel = new ConfigModel();
+            objModel.hotelList = _context.Hotels.Where(w=>w.ConventionID == Convert.ToInt32(Session["ConventionID"].ToString())).ToList();
+            return View(objModel);
+        }
+
+        public ActionResult ManageHotel(int id)
+        {
+            //if (Session["UserID"] == null)
+            //{
+            //    return RedirectToAction("Index", "Account");
+            //}
+
+            if (id > 0)
+            {
+                Hotel _hotel = _context.Hotels.Where(m => m.HotelID == id).FirstOrDefault();
+                if (_hotel != null)
+                {
+                    ConfigModel objModel = new ConfigModel();
+                    objModel._hotel = _hotel;
+                    return View(objModel);
+                }
+            }
+            else
+            {
+                ConfigModel objModel = new ConfigModel();
+                objModel._hotel = new Hotel();
+
+                return View(objModel);
+            }
+            return null;
+        }
+
+        public ActionResult AllotmentManager()
         {
             return View();
         }
 
-        public ActionResult ConventionConfigurations(string ConventionID)
+        public ActionResult RateManager()
         {
-            int ConventionId = Convert.ToInt32(ConventionID);
-
-            IEnumerable<Configuration> config = en.Configurations.Where(w => w.ConventionID == ConventionId);
-
-            ViewBag.Configurations = config;
             return View();
         }
 

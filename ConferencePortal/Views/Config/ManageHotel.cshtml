@@ -1,0 +1,110 @@
+﻿@model ConferencePortal.Models.ConfigModel
+@{
+    ViewBag.Title = "ManageHotel";
+    Layout = "~/Views/Shared/_SystemLayout.cshtml";
+}
+
+@using (Html.BeginForm("SaveHotel", "Config"))
+{
+
+    <div style="float:left; width:100%; height:auto; padding-top:10px; padding-bottom:60px;">
+        <section class="common_section">
+            <div class="container">
+
+                @Html.HiddenFor(m => Model._hotel.HotelID)
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class='input-container'>
+                            <label for="txtHotelCode" class="labelcls">Hotel Code: </label>
+                            <div class="icon-ph"><i class="icon-envelope"></i></div>
+                            <section class="col col-6">
+                                <span id="spryHotelCode">
+                                       @Html.TextBoxFor(m => Model._hotel.HotelCode, new { @name = "txtHotelCode", @placeholder = "Hotel Code", @class = "form-control", @id = "txtHotelCode" })
+                                    <span class="selectRequiredMsg">Please select an item.</span>
+                                </span>
+                            </section>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class='input-container'>
+                            <label for="txtHotelName" class="labelcls">Hotel Name: </label>
+                            <div class="icon-ph"><i class="icon-envelope"></i></div>
+                            <section class="col col-6">
+                                <span id="spryHotelName">
+                                    @Html.TextBoxFor(m => Model._hotel.HotelName, new { @name = "txtHotelName", @placeholder = "Hotel Name", @class = "form-control", @id = "txtHotelName" })
+                                    <span class="selectRequiredMsg">Please select an item.</span>
+                                </span>
+                            </section>
+                        </div>
+                    </div>
+                   </div> 
+
+                <div class="gap gap-small"></div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class='input-container'>
+                            <label for="txtShortDescription" class="labelcls">Short Description: </label>
+                            <div class="icon-ph"><i class="icon-envelope"></i></div>
+                                    @Html.TextAreaFor(m => Model._hotel.ShortDescription, new { @name = "txtShortDescription", @placeholder = "Short Description", @class = "form-control", @id = "txtShortDescription", @style= "height:200px;" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class='input-container'>
+                            <label for="txtLongDescription" class="labelcls">Long Description: </label>
+                            <div class="icon-ph"><i class="icon-envelope"></i></div>
+                            @Html.TextAreaFor(m => Model._hotel.LongDescription, new { @name = "txtLongDescription", @placeholder = "Long Description", @class = "form-control", @id = "txtLongDescription", @style = "height:200px;" })
+                        </div>
+                    </div>
+                </div> 
+
+                <div class="gap gap-small"></div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class='input-container'>
+                            <label for="txtAddress" class="labelcls">Hotel Address : </label>
+                            <div class="icon-ph"><i class="icon-envelope"></i></div>
+                            <section class="col col-6">
+                                <span id="spryHotelName">
+                                    @Html.TextBoxFor(m => Model._hotel.Address, new { @name = "txtAddress", @placeholder = "Hotel Address", @class = "form-control", @id = "txtAddress" })
+                                    <span class="selectRequiredMsg">Please select an item.</span>
+                                </span>
+                            </section>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class='input-container'>
+                            <label for="txtStarRaing" class="labelcls">Star Raing: </label>
+                            <div class="icon-ph"><i class="icon-envelope"></i></div>
+                            @Html.TextBoxFor(m => Model._hotel.StarRaing, new { @name = "txtStarRaing", @placeholder = "StarRaing", @class = "form-control", @id = "txtStarRaing" })
+                        </div>
+                    </div>
+                </div> 
+
+                <div class='input-container'>
+                    <div class="gap gap-small"></div>
+                    <div class="checkbox-inline">                        
+                        <label>
+                            Active:  @Html.CheckBoxFor(m => Model._hotel.IsActive, new { @name = "checkbox", @class = "i-check",  @checked = "checked", @id = "checkbox3" })
+                        </label>
+                    </div>
+                </div>
+
+                <div class="container" style="padding-top:10px; padding-left:0px;">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                    <input type="button" class="btn btn-primary" value="Back" onclick="location.href='@Url.Action("HotelManager", "Config")'" />
+                </div>
+
+
+                </div>
+            </section>
+            </div>
+
+                }
+

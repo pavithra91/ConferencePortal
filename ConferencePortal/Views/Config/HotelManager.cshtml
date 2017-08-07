@@ -1,0 +1,51 @@
+﻿@model ConferencePortal.Models.ConfigModel
+@{
+    ViewBag.Title = "HotelManager";
+    Layout = "~/Views/Shared/_SystemLayout.cshtml";
+}
+
+<div class="container">
+    <div class="container" style="padding-bottom:20px;">
+        <input type="button" style="float:right;" class="btn btn-primary" value="Back" onclick="location.href='@Url.Action("Index", "Config")'" />
+
+        <input type="button" style="float:right; margin-right:10px;" class="btn btn-primary" value="Add Hotel" onclick="location.href='@Url.Action("ManageHotel", "Config", new { id = 0 })'" />
+    </div>
+
+    <table id="example" class="display nowrap" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Hotel Code</th>
+                <th>Hotel Name</th>
+                <th>Star Rating</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var items in Model.hotelList)
+        {
+        <tr>
+            <td>
+                @items.HotelCode
+            </td>
+            <td>
+                @items.HotelName
+            </td>
+            <td>
+                @items.StarRaing
+            </td>
+            <td>
+                <a href="@Url.Action("ManageHotel","Config", new { id = items.HotelID })" style="margin-left:20px;">
+                    <i class="fa fa-pencil-square-o"></i>
+                </a>
+            </td>
+        </tr>
+        }
+        </tbody>
+    </table>
+</div>
+    @section scriptLocation{
+        <script src="~/js/Config/HotelManaager.js"></script>
+    }
+
+
+

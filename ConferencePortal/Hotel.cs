@@ -30,6 +30,7 @@ namespace ConferencePortal
         public string Image { get; set; }
         public string Address { get; set; }
         public Nullable<double> StarRaing { get; set; }
+        public bool IsActive { get; set; }
     
         public virtual Configuration Configuration { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -1754,6 +1754,7 @@
     <Content Include="js\bootstrap-timepicker.js" />
     <Content Include="js\bootstrap.js" />
     <Content Include="js\card-payment.js" />
+    <Content Include="js\Config\HotelManaager.js" />
     <Content Include="js\countdown.js" />
     <Content Include="js\custom.js" />
     <Content Include="js\dropit.js" />
@@ -1801,6 +1802,8 @@
       <DependentUpon>Conferencedb.tt</DependentUpon>
     </Compile>
     <Compile Include="App_Code\DeligateMapping.cs" />
+    <Compile Include="App_Code\Encryption.cs" />
+    <Compile Include="Models\ConfigModel.cs" />
     <Compile Include="Models\SearchViewModel.cs" />
     <Compile Include="Models\ShoppingCart.cs" />
     <Compile Include="App_Code\TempDate.cs" />
@@ -1942,6 +1945,9 @@
     <Content Include="Views\Emails\Web.config" />
     <Content Include="Views\Emails\EmailTemplate_1.cshtml" />
     <Content Include="Views\Emails\EmailTemplate_2.cshtml" />
+    <Content Include="Views\Config\AllotmentManager.cshtml" />
+    <Content Include="Views\Config\HotelManager.cshtml" />
+    <Content Include="Views\Config\ManageHotel.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -23,5 +23,7 @@ namespace ConferencePortal
         public string PaymentStatus { get; set; }
         public Nullable<int> UpdateCount { get; set; }
         public Nullable<System.DateTime> PaidDate { get; set; }
+        public Nullable<System.DateTime> UpdateDate { get; set; }
+        public Nullable<int> UpdateBy { get; set; }
     }
 }
