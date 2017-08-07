@@ -74,6 +74,12 @@ namespace ConferencePortal.Controllers
             return null;
         }
 
+        [HttpPost]
+        public ActionResult SaveHotel(ConfigModel objModel)
+        {
+            return null;
+        }
+
         public ActionResult AllotmentManager()
         {
             return View();
