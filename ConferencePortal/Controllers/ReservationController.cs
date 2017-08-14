@@ -11,7 +11,7 @@ namespace ConferencePortal.Controllers
 {
     public class ReservationController : Controller
     {
-        conferencedbEntities en = new conferencedbEntities();
+        conferencedbEntities _context = new conferencedbEntities();
         // GET: Reservation
         public ActionResult Index(string ConventionID)
         {
@@ -23,9 +23,9 @@ namespace ConferencePortal.Controllers
             int Convention = Convert.ToInt32(ConventionID);
 
             SearchViewModel _objModel = new SearchViewModel();
-            _objModel._hotel = en.ConventionHotels.Where(w => w.ConventionID == Convention).Select(w=>w.Hotel);           
+            _objModel._conventionHotel = _context.ConventionHotels.Where(w => w.ConventionID == Convention);//.Select(w=>w.Hotel);           
             
-            _objModel._configuration = en.Configurations.Where(w => w.ConventionID == Convention);
+            _objModel._configuration = _context.Configurations.Where(w => w.ConventionID == Convention);
             _objModel._room = TempData["HotelRooms"] as IEnumerable<Room>;
             _objModel._roomAllotment = TempData["Allotments"] as IEnumerable<RoomAllotment>;
             _objModel._transportRate = TempData["Transport"] as IEnumerable<TransportRate>;
@@ -49,7 +49,7 @@ namespace ConferencePortal.Controllers
                     DateTime start = TempDates.StartDate;
                     DateTime end = TempDates.EndDate;
 
-                    IEnumerable<RoomAllotment> allotmentListRooms = en.RoomAllotments
+                    IEnumerable<RoomAllotment> allotmentListRooms = _context.RoomAllotments
                         .Where(w => w.Date >= start && w.Date <= end && w.Room.ConventionID == ConventionID);
 
                     IEnumerable<Room> testRooms = allotmentListRooms.Select(w => w.Room).Where(w=>w.HotelID==HotelId);
@@ -101,7 +101,7 @@ namespace ConferencePortal.Controllers
 
                     //    tmroom.Add(tm);
                     //}
-
+                    TempData["HotelDescription"] = _context.ConventionHotels.Where(w => w.ConventionID == ConventionID && w.HotelID == HotelId);
                     TempData["HotelRooms"] = testRooms;
                     TempData["Allotments"] = allotmentListRooms;
                 }
@@ -158,7 +158,7 @@ namespace ConferencePortal.Controllers
                     TempDates.StartDate = DropOffDate;
                 }     
 
-                IEnumerable<TransportRate> TrRates = en.TransportRates
+                IEnumerable<TransportRate> TrRates = _context.TransportRates
         .Where(w => w.Transport.StartLocation == StartLocation && w.Transport.DropOffLocation == EndLocation && w.Transport.ConventionID == ConventionID);
 
                 TempData["Transport"] = TrRates;
@@ -188,7 +188,7 @@ namespace ConferencePortal.Controllers
 
             TempData["EXTempDate"] = TempDates;
 
-            IEnumerable<Excursion> Excursion = en.Excursions
+            IEnumerable<Excursion> Excursion = _context.Excursions
                 .Where(w => w.Location == Location);
 
             TempData["Excursion"] = Excursion;
@@ -220,10 +220,10 @@ namespace ConferencePortal.Controllers
 
                 int roomCount = Convert.ToInt32(Count);
                 double RoomPrice = Convert.ToDouble(Rate);
-                Room room = en.Rooms.Find(Convert.ToInt32(ItemID));
+                Room room = _context.Rooms.Find(Convert.ToInt32(ItemID));
                 RoomsInCart rmCart = new RoomsInCart();
                 rmCart.room = room;
-                rmCart.Price = RoomPrice;
+                rmCart.Price = RoomPrice * roomCount;
                 rmCart.NoofRooms = roomCount;
                 rmCart.CheckInDate = start;
                 rmCart.CheckOutDate = end;
@@ -237,7 +237,7 @@ namespace ConferencePortal.Controllers
 
                 int VehicleCount = Convert.ToInt32(Count);
                 double Price = Convert.ToDouble(Rate);
-                TransportRate TR = en.TransportRates.Find(Convert.ToInt32(ItemID));
+                TransportRate TR = _context.TransportRates.Find(Convert.ToInt32(ItemID));
                 TransportInCart TRCart = new TransportInCart();
                 TRCart.TR = TR;
                 TRCart.Price = Price;// * VehicleCount;
@@ -265,7 +265,7 @@ namespace ConferencePortal.Controllers
 
                 int AdultCount = Convert.ToInt32(Count);
                 double Price = Convert.ToDouble(Rate);
-                Excursion EX = en.Excursions.Find(Convert.ToInt32(ItemID));
+                Excursion EX = _context.Excursions.Find(Convert.ToInt32(ItemID));
                 ExcursionsInCart Excursions = new ExcursionsInCart();
                 Excursions.ExcursionDate = TempDates.StartDate;
                 Excursions.Excursion = EX;
@@ -355,7 +355,7 @@ namespace ConferencePortal.Controllers
 
                 int ConventionId = Convert.ToInt32(cart.ConventionID);
 
-                Configuration ID = en.Configurations
+                Configuration ID = _context.Configurations
                         .Where(w => w.ConventionID == ConventionId).FirstOrDefault();
 
                 string[] paymentOptionsArr = ID.PaymentOption.Split('-');
@@ -397,7 +397,7 @@ namespace ConferencePortal.Controllers
         public JsonResult Test(string type)
         {
             List<string> team = new List<string>();
-            IEnumerable<Transport> transport = en.Transports.Where(w => w.ShowInSearch == "Y" && w.Type == "A");
+            IEnumerable<Transport> transport = _context.Transports.Where(w => w.ShowInSearch == "Y" && w.Type == "A");
 
             foreach (var items in transport)
             {

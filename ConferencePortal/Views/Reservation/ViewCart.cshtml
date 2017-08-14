@@ -63,24 +63,17 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                <strong><h4 class="booking-item-title" style="margin-bottom: 0px;">@items.room.Hotel.HotelName</h4>       </strong>                
                                 <div class="booking-item-rating">
+                                    Star Rating
                                     <ul class="icon-group booking-item-rating-stars">
+                                    @for (int i = 0; i < items.room.Hotel.StarRaing; i++)
+                                    {
                                         <li>
                                             <i class="fa fa-star"></i>
                                         </li>
-                                        <li>
-                                            <i class="fa fa-star"></i>
-                                        </li>
-                                        <li>
-                                            <i class="fa fa-star"></i>
-                                        </li>
-                                        <li>
-                                            <i class="fa fa-star"></i>
-                                        </li>
-                                        <li>
-                                            <i class="fa fa-star-o"></i>
-                                        </li>
-                                    </ul><span class="booking-item-rating-number"><b>@items.room.Hotel.StarRaing</b> of 5</span><small>(764 reviews)</small>
+                                    }                                                                           
+                                    </ul>@*<span class="booking-item-rating-number"><b>@items.room.Hotel.StarRaing</b> of 5</span><small>(764 reviews)</small>*@
                                 </div>
                                 <h5 class="booking-item-title">@items.room.RoomName</h5>
                                 <p class="booking-item-address"><i class="fa fa-map-marker"></i> @items.room.Hotel.Address</p>
@@ -88,7 +81,16 @@
                                 <p class="booking-item-address"><i class="fa fa-calendar"></i> Check Out Date : @items.CheckOutDate.ToShortDateString()</p>
                             </div>
                             <div class="col-md-3">
-                                @*<span class="booking-item-price-from">from</span>*@<span class="booking-item-price">@items.room.Currency.Currency1 @items.Price</span><span>/ @items.NoofRooms Rooms</span>@*<span class="btn btn-primary">Book Now</span>*@
+                                @*<span class="booking-item-price-from">from</span>*@
+
+                                <span class="booking-item-price">@items.room.Currency.Currency1 @items.Price</span><span>
+                                
+                                </span>@*<span class="btn btn-primary">Book Now</span>*@
+                                <div>
+                                    <i class="fa fa-building"></i> No of Rooms : @items.NoofRooms
+                                </div>
+                                <br />
+                                <button type="button" class="open-AddBookDialog btn btn-info" data-toggle="modal" data-target="#myModal">Cancellation Policy</button>
                             </div>
                         </div>
                     </a>
@@ -184,6 +186,31 @@
                 </div>
             </div>
 
+        </div>
+
+
+        <div class="container">
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Cancellation Policy</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 </div>

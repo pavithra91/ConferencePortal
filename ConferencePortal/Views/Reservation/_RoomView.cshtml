@@ -60,13 +60,15 @@
                             rate = (double)Model._roomAllotment.Where(w => w.RoomID == items.RoomID).Sum(w=>w.RoomRate.Rate) / Model._roomAllotment.Where(w => w.RoomID == items.RoomID).Count();
                         }
 
-                            @rate @items.Currency.Currency1 </span><span>/night</span>
+
+                            @rate @items.Currency.Currency1 
+                       
+                        </span><span>Night/Rooms</span>
                         
                         <br />
 
-                        <div class="form-group form-group-select-plus">
-            <label>Rooms</label>
-                            <select name="test" id="@items.RoomID" class="form-control" onchange="myFunction(@items.RoomID)">                                
+                        <div class="form-group form-group-select-plus" style="padding-top:10px;">
+                            <select name="test" id="@items.RoomID" class="form-control" style="width:66px;" onchange="myFunction(@items.RoomID)">                                
                                 @for (int i = 0; i < Model._roomAllotment.Where(w => w.RoomID == items.RoomID).Min(w => w.AvailableRooms); i++)
                                 {
                                     <option>@RoomCount</option>
@@ -81,32 +83,17 @@
                                 }
                             </select>
 
-
-
-            @*<div class="btn-group btn-group-select-num" data-toggle="buttons">
-                
-                <label class="btn btn-primary active">
-                    <input type="radio" name="options" />1
-                </label>
-                <label class="btn btn-primary">
-                    <input type="radio" name="options" />2
-                </label>
-                <label class="btn btn-primary">
-                    <input type="radio" name="options" />3
-                </label>
-                <label class="btn btn-primary">
-                    <input type="radio" name="options" />3+
-                </label>
-            </div>*@
-
-                            <a href="#" onclick="AddtoCartFunc(@items.RoomID, @rate)" aria-controls="@items.RoomID">
-                                <input type="button" class="btn btn-primary" value="Add to Cart" />
-                            </a>
+                            <div style="padding-top: 10px;">
+                                <a href="#" onclick="AddtoCartFunc(@items.RoomID, @rate)" aria-controls="@items.RoomID">
+                                    <input type="button" class="btn btn-primary" value="Book Now" style="padding-top:10px;" />
+                                </a>
+                            </div>
         </div>
                     </div>
                 </div>
             @*</a>*@
         </li>
+        <hr style="border-color:#e27513;" />
     }
 </ul>
 

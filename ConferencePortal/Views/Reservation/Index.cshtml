@@ -5,7 +5,7 @@
 }
 
 <div class="global-wrap">
-    <div class="top-area show-onload" style="height: auto; padding-top: 20px; padding-bottom: 50px;">
+    <div class="top-area show-onload" style="height: auto; padding-top: 0px; padding-bottom: 0px;">
         <div class="bg-holder full">
             <div class="bg-mask"></div>
             <div class="bg-parallax" style=""></div>
@@ -132,10 +132,10 @@
                     <h4>About the Hotel</h4>
                     <p class="mb30">
 
-                        @foreach (Room items in Model._room)
-                        {
-                        HotelDescription = items.Hotel.ShortDescription;
-                        break;
+                        @foreach (var items in Model._conventionHotel)
+                        {                            
+                            HotelDescription = items.HotelDescription.ShortDescription  ;
+                            break;
                         }
                         @HotelDescription
 
