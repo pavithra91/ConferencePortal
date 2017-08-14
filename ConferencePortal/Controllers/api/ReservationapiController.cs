@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConferencePortal.Models;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace ConferencePortal.Controllers.api
 {
     public class ReservationapiController : Controller
     {
-        conferencedbEntities en = new conferencedbEntities();
+        conferencedbEntities _context = new conferencedbEntities();
         // GET: Reservationapi
         public ActionResult Index()
         {
@@ -21,7 +22,7 @@ namespace ConferencePortal.Controllers.api
         {
             int Convention = Convert.ToInt32(1);
 
-            var Configurations = from config in en.Configurations
+            var Configurations = from config in _context.Configurations
                                  where config.ConventionID == Convention
                                  select config;
 
@@ -51,7 +52,7 @@ namespace ConferencePortal.Controllers.api
         {
             int Convention = Convert.ToInt32(1);
 
-            var Configurations = from config in en.Configurations
+            var Configurations = from config in _context.Configurations
                                  where config.ConventionID == Convention
                                  select config;
 
@@ -80,7 +81,7 @@ namespace ConferencePortal.Controllers.api
         {
             int Convention = Convert.ToInt32(1);
 
-            string[] transport = en.Transports.Where(w => w.ShowInSearch == "Y" && w.Type == "A" && w.ConventionID == Convention).Select(w => w.StartLocation).ToArray();
+            string[] transport = _context.Transports.Where(w => w.ShowInSearch == "Y" && w.Type == "A" && w.ConventionID == Convention).Select(w => w.StartLocation).ToArray();
             return Json(transport, JsonRequestBehavior.AllowGet);
         }
 
@@ -89,7 +90,7 @@ namespace ConferencePortal.Controllers.api
         {
             int Convention = Convert.ToInt32(ConventionID);
 
-            string[] transport = en.Transports.Where(w => w.ShowInSearch == "Y" && w.Type == "D" && w.ConventionID == Convention).Select(w => w.StartLocation).ToArray();
+            string[] transport = _context.Transports.Where(w => w.ShowInSearch == "Y" && w.Type == "D" && w.ConventionID == Convention).Select(w => w.StartLocation).ToArray();
             return Json(transport, JsonRequestBehavior.AllowGet);
         }
 
@@ -98,8 +99,61 @@ namespace ConferencePortal.Controllers.api
         {
             int Convention = Convert.ToInt32(ConventionID);
 
-            string[] excursion = en.Excursions.Where(w => w.ConventionID == Convention).Select(w => w.Location).Distinct().ToArray();
+            string[] excursion = _context.Excursions.Where(w => w.ConventionID == Convention).Select(w => w.Location).Distinct().ToArray();
             return Json(excursion, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public virtual JsonResult GetHotelDescription(string DescriptionID)
+        {
+            try
+            {
+                int ID = Convert.ToInt32(DescriptionID);
+
+                return Json(
+                    _context.HotelDescriptions.Where(w => w.DescID == ID).Select(x => new
+                    {
+                        shortdesc = x.ShortDescription,
+                        longdesc = x.LognDescription
+                    }), JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        [HttpPost]
+        public virtual int SaveHotelDescription(ConfigModel objModel)
+        {
+            try
+            {
+                if(objModel.DescID==0)
+                {
+                    HotelDescription objHotelDesc = new HotelDescription();
+                    objHotelDesc.HotelID = objModel.HotelID;
+                    objHotelDesc.ShortDescription = objModel.ShortDescription;
+                    objHotelDesc.LognDescription = objHotelDesc.LognDescription;
+
+                    _context.HotelDescriptions.Add(objHotelDesc);
+                    _context.SaveChanges();
+                    return 1;
+                }
+                else
+                {
+                    HotelDescription objHotelDesc = _context.HotelDescriptions.Where(w=>w.DescID == objModel.DescID).FirstOrDefault();
+                    objHotelDesc.ShortDescription = objModel.ShortDescription;
+                    objHotelDesc.LognDescription = objHotelDesc.LognDescription;
+
+                    _context.Entry(objHotelDesc).State = System.Data.Entity.EntityState.Modified;
+                    _context.SaveChanges();
+                    return 1;
+                }                
+            }
+            catch
+            {
+                return 0;
+            }
         }
     }
 }

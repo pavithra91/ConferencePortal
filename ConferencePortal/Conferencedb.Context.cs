@@ -25,10 +25,12 @@ namespace ConferencePortal
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<C_GEM_Payment> C_GEM_Payment { get; set; }
         public virtual DbSet<Allotment> Allotments { get; set; }
         public virtual DbSet<BookingConfig> BookingConfigs { get; set; }
         public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<Configuration> Configurations { get; set; }
+        public virtual DbSet<ConventionHotel> ConventionHotels { get; set; }
         public virtual DbSet<ConventionImage> ConventionImages { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
         public virtual DbSet<Deligate> Deligates { get; set; }
@@ -36,12 +38,16 @@ namespace ConferencePortal
         public virtual DbSet<ExcursionReservation> ExcursionReservations { get; set; }
         public virtual DbSet<Excursion> Excursions { get; set; }
         public virtual DbSet<Hotel> Hotels { get; set; }
+        public virtual DbSet<HotelDescription> HotelDescriptions { get; set; }
         public virtual DbSet<Payment> Payments { get; set; }
+        public virtual DbSet<Payment_History> Payment_History { get; set; }
         public virtual DbSet<RoomAllotment> RoomAllotments { get; set; }
+        public virtual DbSet<RoomDescription> RoomDescriptions { get; set; }
         public virtual DbSet<RoomOccupancy> RoomOccupancies { get; set; }
         public virtual DbSet<RoomRate> RoomRates { get; set; }
         public virtual DbSet<RoomReservation> RoomReservations { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }
+        public virtual DbSet<SystemUser> SystemUsers { get; set; }
         public virtual DbSet<Transport> Transports { get; set; }
         public virtual DbSet<TransportRate> TransportRates { get; set; }
         public virtual DbSet<TransportReservation> TransportReservations { get; set; }

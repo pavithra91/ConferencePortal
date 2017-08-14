@@ -1,0 +1,188 @@
+﻿@model ConferencePortal.Models.ConfigModel
+@{
+    ViewBag.Title = "ManageHotelDescription";
+    Layout = "~/Views/Shared/_SystemLayout.cshtml";
+}
+
+
+<div class="container">
+    <div class="container" style="padding-bottom:20px;">
+        <input type="button" style="float:right;" class="btn btn-primary" value="Back" onclick="location.href='@Url.Action("Index", "Config")'" />
+
+        <button type="button" class="open-AddBookDialog btn btn-primary" data-toggle="modal" data-id="0" data-target="#myModal">Add Description</button>
+    </div>
+
+    @Html.HiddenFor(m => Model._hotelDescription.DescID, new { @id="DescID" })
+    @Html.HiddenFor(m => Model._hotelDescription.HotelID, new { @id = "HotelID" })
+
+    <table id="example" class="display nowrap" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Hotel Code</th>
+                <th>Hotel Name</th>
+                <th>Short Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var items in Model._hotelDescriptionList)
+            {
+                <tr>
+                    <td>
+                        @items.Hotel.HotelCode
+                    </td>
+                    <td>
+                        @items.Hotel.HotelName
+                    </td>
+                    <td>
+                        @items.ShortDescription
+                    </td>
+                    <td>
+                        @items.HotelImage
+                    </td>
+                    <td>
+                        <button type="button" class="open-AddBookDialog btn btn-primary" data-toggle="modal" data-id="@items.DescID" data-target="#myModal">Edit</button>
+                    </td>
+                    @*<td>
+                        <a href="@Url.Action("ManageHotelDescription","Config", new { id = items.HotelID })" style="margin-left:20px;">
+                            <i class="fa fa-pencil-square-o"></i>
+                        </a>
+                    </td>*@
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="container">
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+@*@using (Html.BeginForm("SaveDescription", "Config"))
+{*@
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Hotel Description</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class='input-container'>
+                                    <label for="txtShortDescription" class="labelcls">Hotel Short Description: </label>
+                                    <div class="icon-ph"><i class="icon-envelope"></i></div>
+                                    <section class="col col-6">
+                                        <span id="spryHotelCode">
+                                            @Html.TextAreaFor(m => Model._hotelDescription.ShortDescription, new { @name = "txtShortDescription", @placeholder = "Hotel Short Description", @class = "form-control", @id = "txtShortDescription" })
+                                            <span class="selectRequiredMsg">Please select an item.</span>
+                                        </span>
+                                    </section>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class='input-container'>
+                                    <label for="txtLongDescription" class="labelcls">Hotel Long Description: </label>
+                                    <div class="icon-ph"><i class="icon-envelope"></i></div>
+                                    <section class="col col-6">
+                                        <span id="spryHotelName">
+                                            @Html.TextAreaFor(m => Model._hotelDescription.LognDescription, new { @name = "txtLongDescription", @placeholder = "Hotel Long Description", @class = "form-control", @id = "txtLongDescription" })
+                                            <span class="selectRequiredMsg">Please select an item.</span>
+                                        </span>
+                                    </section>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="modal-footer">
+                        @*<input type="button" class="btn btn-primary" value="Save" onclick="location.href='@Url.Action("SaveDescription", "Config")'" />*@
+                        <button type="button" id="btnSave" class="btn btn-primary" data-dismiss="modal">Save</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+@*}*@
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section scriptLocation{
+    <script src="~/js/Config/HotelManaager.js"></script>
+
+    <script>
+        $("#btnSave").click(function () {
+            debugger;
+            var _descID = $('#DescID').val();
+            var _hotelID = $('#HotelID').val();
+            var _shortDescription = $('#txtShortDescription').val();
+            var _longDescription = $('#txtLongDescription').val();
+            
+            var model = { HotelID: _hotelID, DescID: _descID, ShortDescription: _shortDescription, LongDescription: _longDescription };
+
+            $.ajax({
+                type: 'POST',
+                url: "http://localhost:55185/Reservationapi/SaveHotelDescription",
+                data: JSON.stringify(model),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    debugger;
+                    var r = result;
+
+                    //if (result != null) {
+                    //    $.each(result, function () {
+                    //        $(".modal-body #txtShortDescription").val(this['shortdesc']);
+                    //        $(".modal-body #txtLongDescription").val(this['shortdesc']);
+                    //    });
+
+                    //} else {
+                    //    alert("fail");
+                    //}
+                }
+            });
+        });
+    </script>
+
+<script>
+
+            $(document).on("click", ".open-AddBookDialog", function () {
+                var descID = $(this).data('id'); 
+                $('#DescID').val(descID);
+                if(descID == 0)
+                {
+                    $(".modal-body #txtShortDescription").val('');
+                    $(".modal-body #txtLongDescription").val('');
+                }
+                else
+                {
+                    $.ajax({
+                        type: 'GET',
+                        url: "http://localhost:55185/Reservationapi/GetHotelDescription?DescriptionID=" + descID,
+                        data: JSON.stringify({ "UnitTypeID": 1 }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (result) {
+                            var r = result;
+                            if (result != null) {
+                                $.each(result, function () {
+                                    $(".modal-body #txtShortDescription").val(this['shortdesc']);
+                                    $(".modal-body #txtLongDescription").val(this['longdesc']);
+                                });                           
+
+                            } else {
+                                alert("fail");
+                            }
+                        }
+                    });
+                }
+
+
+            });
+
+</script>
+}
+
+
+
+
+

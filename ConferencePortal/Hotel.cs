@@ -17,25 +17,26 @@ namespace ConferencePortal
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Hotel()
         {
+            this.ConventionHotels = new HashSet<ConventionHotel>();
             this.Rooms = new HashSet<Room>();
             this.Reservations = new HashSet<Reservation>();
+            this.HotelDescriptions = new HashSet<HotelDescription>();
         }
     
         public int HotelID { get; set; }
         public string HotelName { get; set; }
-        public int ConventionID { get; set; }
         public string HotelCode { get; set; }
-        public string ShortDescription { get; set; }
-        public string LongDescription { get; set; }
-        public string Image { get; set; }
         public string Address { get; set; }
         public Nullable<double> StarRaing { get; set; }
         public bool IsActive { get; set; }
     
-        public virtual Configuration Configuration { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ConventionHotel> ConventionHotels { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Room> Rooms { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reservation> Reservations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HotelDescription> HotelDescriptions { get; set; }
     }
 }

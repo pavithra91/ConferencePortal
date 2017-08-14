@@ -23,7 +23,7 @@ namespace ConferencePortal.Controllers
             int Convention = Convert.ToInt32(ConventionID);
 
             SearchViewModel _objModel = new SearchViewModel();
-            _objModel._hotel = en.Hotels.Where(w => w.ConventionID == Convention);           
+            _objModel._hotel = en.ConventionHotels.Where(w => w.ConventionID == Convention).Select(w=>w.Hotel);           
             
             _objModel._configuration = en.Configurations.Where(w => w.ConventionID == Convention);
             _objModel._room = TempData["HotelRooms"] as IEnumerable<Room>;

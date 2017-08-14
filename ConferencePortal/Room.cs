@@ -18,6 +18,7 @@ namespace ConferencePortal
         public Room()
         {
             this.RoomAllotments = new HashSet<RoomAllotment>();
+            this.RoomDescriptions = new HashSet<RoomDescription>();
             this.RoomRates = new HashSet<RoomRate>();
             this.RoomReservations = new HashSet<RoomReservation>();
             this.Reservations = new HashSet<Reservation>();
@@ -41,6 +42,8 @@ namespace ConferencePortal
         public virtual Hotel Hotel { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RoomAllotment> RoomAllotments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RoomDescription> RoomDescriptions { get; set; }
         public virtual RoomOccupancy RoomOccupancy { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RoomRate> RoomRates { get; set; }

@@ -43,7 +43,7 @@ namespace ConferencePortal.Controllers
             }
 
             ConfigModel objModel = new ConfigModel();
-            objModel.hotelList = _context.Hotels.Where(w=>w.ConventionID == Convert.ToInt32(Session["ConventionID"].ToString())).ToList();
+            objModel.hotelList = _context.ConventionHotels.Where(w=>w.ConventionID == 1).Select(w=>w.Hotel).ToList();
             return View(objModel);
         }
 
@@ -71,6 +71,20 @@ namespace ConferencePortal.Controllers
 
                 return View(objModel);
             }
+            return null;
+        }
+
+        public ActionResult ManageHotelDescription(string HotelID)
+        {
+            ConfigModel objModel = new ConfigModel();
+            objModel._hotelDescriptionList = new List<HotelDescription>();
+            objModel._hotelDescriptionList = _context.HotelDescriptions.Where(w => w.HotelID == 1).ToList();
+            return View(objModel);
+        }
+
+        public ActionResult SaveDescription(FormCollection objModel)
+        {
+
             return null;
         }
 

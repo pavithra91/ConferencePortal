@@ -12,19 +12,13 @@ namespace ConferencePortal
     using System;
     using System.Collections.Generic;
     
-    public partial class RoomAllotment
+    public partial class SystemUser
     {
         public int AUTOID { get; set; }
-        public int RoomID { get; set; }
-        public int AllotmentID { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
-        public int RateID { get; set; }
-        public Nullable<int> AvailableRooms { get; set; }
         public Nullable<int> ConventionID { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
     
-        public virtual Allotment Allotment { get; set; }
         public virtual Configuration Configuration { get; set; }
-        public virtual Room Room { get; set; }
-        public virtual RoomRate RoomRate { get; set; }
     }
 }

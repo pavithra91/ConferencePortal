@@ -12,27 +12,22 @@ namespace ConferencePortal
     using System;
     using System.Collections.Generic;
     
-    public partial class Payment
+    public partial class HotelDescription
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Payment()
+        public HotelDescription()
         {
-            this.Payment_History = new HashSet<Payment_History>();
+            this.ConventionHotels = new HashSet<ConventionHotel>();
         }
     
-        public int AUTOID { get; set; }
-        public string BookingID { get; set; }
-        public Nullable<double> TotalCost { get; set; }
-        public string PartialPayment { get; set; }
-        public Nullable<double> PartialPaymentAmount { get; set; }
-        public string PayLater { get; set; }
-        public string PaymentStatus { get; set; }
-        public Nullable<int> UpdateCount { get; set; }
-        public Nullable<System.DateTime> PaidDate { get; set; }
-        public Nullable<System.DateTime> UpdateDate { get; set; }
-        public Nullable<int> UpdateBy { get; set; }
+        public int DescID { get; set; }
+        public Nullable<int> HotelID { get; set; }
+        public string ShortDescription { get; set; }
+        public string LognDescription { get; set; }
+        public string HotelImage { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Payment_History> Payment_History { get; set; }
+        public virtual ICollection<ConventionHotel> ConventionHotels { get; set; }
+        public virtual Hotel Hotel { get; set; }
     }
 }
