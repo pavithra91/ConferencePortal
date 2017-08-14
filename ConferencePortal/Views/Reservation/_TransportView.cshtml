@@ -1,6 +1,6 @@
 ﻿@model ConferencePortal.Models.SearchViewModel
 
-@{   
+@{
     int VehicleCount = 1;
 }
 
@@ -39,7 +39,7 @@
                         <li rel="tooltip" data-placement="top" title="Meet and Greet">
                             <i class="im im-meet"></i>
                         </li>
-                       
+
                     </ul>
                 </div>
                 <div class="col-md-3">
@@ -49,9 +49,11 @@
 
                     <br />
 
-                    <div class="form-group form-group-select-plus">
-                        <label>No Of Vehicles</label>
-                        <select name="test" id="@items.TransportID" class="form-control" onchange="myFunction(@items.TransportID)">
+                    <label>No Of Vehicles</label>
+
+                    <div class="form-group form-group-select-plus" style="padding-top:10px;">
+
+                        <select name="test" id="@items.TransportID" class="form-control" style="width:66px;" onchange="myFunction(@items.TransportID)">
                             @for (int i = 0; i < 6; i++)
                             {
                                 <option>@VehicleCount</option>
@@ -65,47 +67,30 @@
                                 VehicleCount = 1;
                             }
                         </select>
-
-
-
-                        @*<div class="btn-group btn-group-select-num" data-toggle="buttons">
-
-                                <label class="btn btn-primary active">
-                                    <input type="radio" name="options" />1
-                                </label>
-                                <label class="btn btn-primary">
-                                    <input type="radio" name="options" />2
-                                </label>
-                                <label class="btn btn-primary">
-                                    <input type="radio" name="options" />3
-                                </label>
-                                <label class="btn btn-primary">
-                                    <input type="radio" name="options" />3+
-                                </label>
-                            </div>*@
-
-                        <a href="#" onclick="AddtoCartFunc(@items.RateID, @items.Price)" aria-controls="@items.RateID">
-                            <input type="button" class="btn btn-primary" value="Add to Cart" />
-                        </a>
+                        <div style="padding-top: 10px;">
+                            <a href="#" onclick="AddtoCartFunc(@items.RateID, @items.Price)" aria-controls="@items.RateID">
+                                <input type="button" class="btn btn-primary" value="Book Now" />
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
             @*</a>*@
         </li>
+        <hr style="border-color:#e27513;" />
                                 }
 </ul>
 
 @Html.Script(
     @<script>
-       function myFunction(a) {
-    var x = document.getElementById(a).value;
-    $("#VehicleCount").val(x);
-       }
+        function myFunction(a) {
+            var x = document.getElementById(a).value;
+            $("#VehicleCount").val(x);
+        }
 
-       function AddtoCartFunc(TransportID, Rate)
-       {
-           var VehicleCount = document.getElementById("VehicleCount").value;
-           window.location.href = '@Url.Action("AddtoCart", "Reservation")?ItemType=TR' + '&ItemID=' + TransportID + '&Rate=' + Rate + '&Count=' + VehicleCount;
-       }
+        function AddtoCartFunc(TransportID, Rate) {
+            var VehicleCount = document.getElementById("VehicleCount").value;
+            window.location.href = '@Url.Action("AddtoCart", "Reservation")?ItemType=TR' + '&ItemID=' + TransportID + '&Rate=' + Rate + '&Count=' + VehicleCount;
+        }
     </script>
 )

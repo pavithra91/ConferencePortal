@@ -1768,6 +1768,7 @@
     <Content Include="js\magnific.js" />
     <Content Include="js\modernizr.js" />
     <Content Include="js\nicescroll.js" />
+    <Content Include="js\Notify\notify.js" />
     <Content Include="js\owl-carousel.js" />
     <Content Include="js\slimmenu.js" />
     <Content Include="js\tweet.js" />
