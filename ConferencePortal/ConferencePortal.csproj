@@ -1749,6 +1749,8 @@
     <Content Include="img\Volvo-V40.png" />
     <Content Include="img\walkers-tours-logo.png" />
     <Content Include="img\Wildlife-Adventure-Tours-2.jpg" />
+    <Content Include="css\Alertify\alertify.min.css" />
+    <Content Include="js\Alertify\alertify.min.js" />
     <Content Include="js\bootstrap-datepicker.js" />
     <Content Include="js\bootstrap-select.js" />
     <Content Include="js\bootstrap-timepicker.js" />

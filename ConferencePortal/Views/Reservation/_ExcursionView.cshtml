@@ -28,7 +28,7 @@
 
                         <div class="form-group form-group-select-plus">
                             <label>Adults</label>
-                            <select name="AdultsSelect" id="@items.ExcursionsID" class="form-control" style="width:66px;" onchange="myFunction(@items.ExcursionsID)">
+                            <select name="AdultsSelect" id="@items.ExcursionsID" class="form-control" style="width:66px;" onchange="drpOnchange(@items.ExcursionsID)">
                                 @for (int i = 0; i < 6; i++)
                                 {
                                     <option>@i</option>
@@ -51,18 +51,12 @@
 
 @Html.Script(    
     @<script>
-        function myFunction(countVal) {
-            debugger;
-           var x = document.getElementById(countVal).value;
-            $("#AdultCount").val(x);
-       }
-
        function AddtoCartFunc(Excursion, Rate) {
-           debugger;
            var AdultCount = document.getElementById("AdultCount").value;
            if (AdultCount == 0) {
                //$.notify("Please Enter at Least One Adult", { position: "right bottom", className: 'error' ,style: 'bootstrap' });
-               Notify("Please Enter at Least One Adult", "danger");
+               //Notify("Please Enter at Least One Adult", "danger");
+               alertify.error('Please Enter at Least One Adult');
            }
            else {
                window.location.href = '@Url.Action("AddtoCart", "Reservation")?ItemType=EX' + '&ItemID=' + Excursion + '&Rate=' + Rate + '&Count=' + AdultCount;
@@ -72,7 +66,16 @@
 )
 
 @Html.Script(
-    @<script src="~/js/Notify/notify.js">       
+    @<script>
+        function drpOnchange(countVal) {
+            debugger;
+            var x = document.getElementById(countVal).value;
+            $("#AdultCount").val(x);
+        }
     </script>
     )
+
+@section scriptLocation{
+    <script src="~/js/Alertify/alertify.min.js"></script>
+}
 
