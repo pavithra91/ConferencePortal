@@ -207,77 +207,77 @@ namespace ConferencePortal.Controllers
             return View(cart);
         }
 
-        public ActionResult AddtoCart(string ItemType, string ItemID, string Rate, string Count)
-        {
-            ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
+        //public ActionResult AddtoCart(string ItemType, string ItemID, string Rate, string Count)
+        //{
+        //    ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
 
-            if (ItemType == "AC")
-            {
-                TempDate TempDates = TempData["TempDate"] as TempDate;
+        //    if (ItemType == "AC")
+        //    {
+        //        TempDate TempDates = TempData["TempDate"] as TempDate;
 
-                DateTime start = TempDates.StartDate;
-                DateTime end = TempDates.EndDate;
+        //        DateTime start = TempDates.StartDate;
+        //        DateTime end = TempDates.EndDate;
 
-                int roomCount = Convert.ToInt32(Count);
-                double RoomPrice = Convert.ToDouble(Rate);
-                Room room = _context.Rooms.Find(Convert.ToInt32(ItemID));
-                RoomsInCart rmCart = new RoomsInCart();
-                rmCart.room = room;
-                rmCart.Price = RoomPrice * roomCount;
-                rmCart.NoofRooms = roomCount;
-                rmCart.CheckInDate = start;
-                rmCart.CheckOutDate = end;
+        //        int roomCount = Convert.ToInt32(Count);
+        //        double RoomPrice = Convert.ToDouble(Rate);
+        //        Room room = _context.Rooms.Find(Convert.ToInt32(ItemID));
+        //        RoomsInCart rmCart = new RoomsInCart();
+        //        rmCart.room = room;
+        //        rmCart.Price = RoomPrice * roomCount;
+        //        rmCart.NoofRooms = roomCount;
+        //        rmCart.CheckInDate = start;
+        //        rmCart.CheckOutDate = end;
 
-                //cart.TotalPrice += RoomPrice * roomCount;
-                cart.Rooms.Add(rmCart);
-            }
-            else if (ItemType == "TR")
-            {
-                TempDate TempDates = TempData["TRTempDate"] as TempDate;
+        //        //cart.TotalPrice += RoomPrice * roomCount;
+        //        cart.Rooms.Add(rmCart);
+        //    }
+        //    else if (ItemType == "TR")
+        //    {
+        //        TempDate TempDates = TempData["TRTempDate"] as TempDate;
 
-                int VehicleCount = Convert.ToInt32(Count);
-                double Price = Convert.ToDouble(Rate);
-                TransportRate TR = _context.TransportRates.Find(Convert.ToInt32(ItemID));
-                TransportInCart TRCart = new TransportInCart();
-                TRCart.TR = TR;
-                TRCart.Price = Price;// * VehicleCount;
-                TRCart.NoOfVehicles = VehicleCount;
-                if(TR.Transport.Type=="A")
-                {
-                    TRCart.TransportType = "A";
-                    TRCart.PickUpDate = TempDates.StartDate.ToShortDateString();
-                    TRCart.PickUpTime = TempDates.PickUpTime;
-                }
-                else
-                {
-                    TRCart.TransportType = "D";
-                    TRCart.PickUpDate = TempDates.EndDate.ToShortDateString();
-                    TRCart.PickUpTime = TempDates.DropOffTime;
-                }
+        //        int VehicleCount = Convert.ToInt32(Count);
+        //        double Price = Convert.ToDouble(Rate);
+        //        TransportRate TR = _context.TransportRates.Find(Convert.ToInt32(ItemID));
+        //        TransportInCart TRCart = new TransportInCart();
+        //        TRCart.TR = TR;
+        //        TRCart.Price = Price;// * VehicleCount;
+        //        TRCart.NoOfVehicles = VehicleCount;
+        //        if(TR.Transport.Type=="A")
+        //        {
+        //            TRCart.TransportType = "A";
+        //            TRCart.PickUpDate = TempDates.StartDate.ToShortDateString();
+        //            TRCart.PickUpTime = TempDates.PickUpTime;
+        //        }
+        //        else
+        //        {
+        //            TRCart.TransportType = "D";
+        //            TRCart.PickUpDate = TempDates.EndDate.ToShortDateString();
+        //            TRCart.PickUpTime = TempDates.DropOffTime;
+        //        }
 
-                cart.TotalPrice += Price;// * VehicleCount;
-                cart.Transport.Add(TRCart);
-            }
+        //        cart.TotalPrice += Price;// * VehicleCount;
+        //        cart.Transport.Add(TRCart);
+        //    }
 
-            else if (ItemType == "EX")
-            {
-                TempDate TempDates = TempData["EXTempDate"] as TempDate;
+        //    else if (ItemType == "EX")
+        //    {
+        //        TempDate TempDates = TempData["EXTempDate"] as TempDate;
 
-                int AdultCount = Convert.ToInt32(Count);
-                double Price = Convert.ToDouble(Rate);
-                Excursion EX = _context.Excursions.Find(Convert.ToInt32(ItemID));
-                ExcursionsInCart Excursions = new ExcursionsInCart();
-                Excursions.ExcursionDate = TempDates.StartDate;
-                Excursions.Excursion = EX;
-                Excursions.Price = Price; // * AdultCount;
-                Excursions.NoOfAdults = AdultCount;
+        //        int AdultCount = Convert.ToInt32(Count);
+        //        double Price = Convert.ToDouble(Rate);
+        //        Excursion EX = _context.Excursions.Find(Convert.ToInt32(ItemID));
+        //        ExcursionsInCart Excursions = new ExcursionsInCart();
+        //        Excursions.ExcursionDate = TempDates.StartDate;
+        //        Excursions.Excursion = EX;
+        //        Excursions.Price = Price; // * AdultCount;
+        //        Excursions.NoOfAdults = AdultCount;
 
-                cart.TotalPrice += Price; // * AdultCount;
-                cart.Excursion.Add(Excursions);
-            }
+        //        cart.TotalPrice += Price; // * AdultCount;
+        //        cart.Excursion.Add(Excursions);
+        //    }
             
-            return RedirectToAction("ViewCart", "Reservation", new { ConventionID = cart.ConventionID });
-        }
+        //    return RedirectToAction("ViewCart", "Reservation", new { ConventionID = cart.ConventionID });
+        //}
 
         public ActionResult RemoveFromCart(string ItemType, string ItemID)
         {

@@ -74,13 +74,68 @@ namespace ConferencePortal.Controllers
             return null;
         }
 
-        public ActionResult ManageHotelDescription(string HotelID)
+        public ActionResult ManageHotelDescription(string id)
         {
+            int _hotelID = Convert.ToInt32(id);
             ConfigModel objModel = new ConfigModel();
             objModel._hotelDescriptionList = new List<HotelDescription>();
-            objModel._hotelDescriptionList = _context.HotelDescriptions.Where(w => w.HotelID == 1).ToList();
+            objModel._hotelDescriptionList = _context.HotelDescriptions.Where(w => w.HotelID == _hotelID).ToList();
             return View(objModel);
         }
+
+        public ActionResult RoomManager(int id)
+        {
+            //if (Session["UserID"] == null)
+            //{
+            //    return RedirectToAction("Index", "Account");
+            //}
+
+            List<Room> _rooms = _context.Rooms.Where(m => m.HotelID == id).ToList();
+            if (_rooms != null)
+            {
+                ConfigModel objModel = new ConfigModel();
+                objModel.roomList = _rooms;
+                return View(objModel);
+            }
+            return null;
+        }
+
+        public ActionResult ManageRoom(int id)
+        {
+            //if (Session["UserID"] == null)
+            //{
+            //    return RedirectToAction("Index", "Account");
+            //}
+
+            if (id > 0)
+            {
+                Room _room = _context.Rooms.Where(m => m.RoomID == id).FirstOrDefault();
+                if (_room != null)
+                {
+                    ConfigModel objModel = new ConfigModel();
+                    objModel._room = _room;
+                    return View(objModel);
+                }
+            }
+            else
+            {
+                ConfigModel objModel = new ConfigModel();
+                objModel._room = new Room();
+
+                return View(objModel);
+            }
+            return null;
+        }
+
+        public ActionResult ManageRoomDescription(string id)
+        {
+            int _roomID = Convert.ToInt32(id);
+            ConfigModel objModel = new ConfigModel();
+            objModel._roomDescriptionList = new List<RoomDescription>();
+            objModel._roomDescriptionList = _context.RoomDescriptions.Where(w => w.RoomID == _roomID).ToList();
+            return View(objModel);
+        }
+
 
         public ActionResult SaveDescription(FormCollection objModel)
         {
@@ -91,6 +146,35 @@ namespace ConferencePortal.Controllers
         [HttpPost]
         public ActionResult SaveHotel(ConfigModel objModel)
         {
+            if(objModel._hotel.HotelID==0)
+            {
+                Hotel _hotel = new Hotel();
+                _hotel.HotelCode = objModel._hotel.HotelCode;
+                _hotel.HotelName = objModel._hotel.HotelName;
+                _hotel.Address = objModel._hotel.Address;
+                _hotel.StarRaing = objModel._hotel.StarRaing;
+                _hotel.IsActive = true;
+
+                _context.Hotels.Add(_hotel);
+                _context.SaveChanges();
+
+                return RedirectToAction("HotelManager","Config");
+            }
+            else
+            {
+                Hotel _hotel = _context.Hotels.Where(w => w.HotelID == objModel._hotel.HotelID).FirstOrDefault();
+                if(_hotel != null)
+                {
+                    _hotel.HotelName = objModel._hotel.HotelName;
+                    _hotel.Address = objModel._hotel.Address;
+                    _hotel.StarRaing = objModel._hotel.StarRaing;
+                    _hotel.IsActive = objModel._hotel.IsActive;
+
+                    _context.Entry(_hotel).State = System.Data.Entity.EntityState.Modified;
+                    _context.SaveChanges();
+                    return RedirectToAction("HotelManager", "Config");
+                }
+            }
             return null;
         }
 

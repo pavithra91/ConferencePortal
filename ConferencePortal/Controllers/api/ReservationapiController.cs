@@ -158,9 +158,11 @@ namespace ConferencePortal.Controllers.api
         }
 
         [HttpPost]
-        public ActionResult AddtoCart(ShoppingCart objModel)
+        public int AddtoCart(ShoppingCart objModel)
         {
             ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
+
+            int _conventionID = Convert.ToInt32(cart.ConventionID);
 
             if (objModel.ItemType == "AC")
             {
@@ -181,6 +183,9 @@ namespace ConferencePortal.Controllers.api
 
                 //cart.TotalPrice += RoomPrice * roomCount;
                 cart.Rooms.Add(rmCart);
+                TempData["ShoppingCart"] = cart;
+
+                return _conventionID;
             }
             else if (objModel.ItemType == "TR")
             {
@@ -208,6 +213,9 @@ namespace ConferencePortal.Controllers.api
 
                 cart.TotalPrice += Price;// * VehicleCount;
                 cart.Transport.Add(TRCart);
+                TempData["ShoppingCart"] = cart;
+
+                return _conventionID;
             }
 
             else if (objModel.ItemType == "EX")
@@ -225,9 +233,13 @@ namespace ConferencePortal.Controllers.api
 
                 cart.TotalPrice += Price; // * AdultCount;
                 cart.Excursion.Add(Excursions);
-            }
 
-            return RedirectToAction("ViewCart", "Reservation", new { ConventionID = cart.ConventionID });
+                TempData["ShoppingCart"] = cart;
+
+                return _conventionID;
+            }
+            return 0;
+            //return RedirectToAction("ViewCart", "Reservation", new { ConventionID = cart.ConventionID });
         }
     }
 }

@@ -1,0 +1,67 @@
+﻿@model ConferencePortal.Models.ConfigModel
+@{
+    ViewBag.Title = "RoomManager";
+    Layout = "~/Views/Shared/_SystemLayout.cshtml";
+}
+
+
+<div class="container">
+    <div class="container" style="padding-bottom:20px;">
+        <input type="button" style="float:right;" class="btn btn-primary" value="Back" onclick="location.href='@Url.Action("Index", "Config")'" />
+
+        <input type="button" style="float:right; margin-right:10px;" class="btn btn-primary" value="Add Hotel" onclick="location.href='@Url.Action("ManageHotel", "Config", new { id = 0 })'" />
+
+
+    </div>
+
+    <table id="example" class="display nowrap" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Room ID</th>
+                <th>Room Name</th>
+                @*<th>Status</th>*@
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var items in Model.roomList)
+            {
+                <tr>
+                    <td>
+                        @items.RoomID
+                    </td>
+                    <td>
+                        @items.RoomName
+                    </td>
+                    @*<td>
+                        @if (items.IsActive)
+                {
+                            <i class="fa fa-check" style="color:lightgreen; padding-left:15px;"></i>
+                        }
+                        else
+                        {
+                            <i class="fa fa-times" style="color:red; padding-left:15px;"></i>
+                        }
+                    </td>*@
+                    <td>
+                        <a href="@Url.Action("ManageRoom","Config", new { id = items.RoomID })" style="margin-left:20px;">
+                            <i class="fa fa-pencil-square-o"></i>
+                        </a>
+
+                        <a href="@Url.Action("RoomManager","Config", new { id = items.RoomID })" style="margin-left:10px;">
+                            <i class="fa fa-home"></i>
+                        </a>
+
+                        <a href="@Url.Action("ManageRoomDescription","Config", new { id = items.RoomID })" style="margin-left:10px;">
+                            <i class="fa fa-book"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section scriptLocation{
+    <script src="~/js/Config/HotelManaager.js"></script>
+}
+

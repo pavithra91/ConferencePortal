@@ -53,7 +53,7 @@
 
                     <div class="form-group form-group-select-plus" style="padding-top:10px;">
 
-                        <select name="test" id="@items.TransportID" class="form-control" style="width:66px;" onchange="myFunction(@items.TransportID)">
+                        <select name="test" id="@items.TransportID" class="form-control" style="width:66px;" onchange="drpOnchange(@items.TransportID)">
                             @for (int i = 0; i < 6; i++)
                             {
                                 <option>@VehicleCount</option>
@@ -83,14 +83,46 @@
 
 @Html.Script(
     @<script>
-        function myFunction(a) {
+        function drpOnchange(a) {
             var x = document.getElementById(a).value;
             $("#VehicleCount").val(x);
         }
-
-        function AddtoCartFunc(TransportID, Rate) {
-            var VehicleCount = document.getElementById("VehicleCount").value;
-            window.location.href = '@Url.Action("AddtoCart", "Reservation")?ItemType=TR' + '&ItemID=' + TransportID + '&Rate=' + Rate + '&Count=' + VehicleCount;
-        }
     </script>
 )
+
+@Html.Script(
+    @<script>
+        function AddtoCartFunc(Vehicle, Rate) {
+            debugger;
+            var VehicleCount = document.getElementById("VehicleCount").value;
+            if (VehicleCount == 0) {
+               //$.notify("Please Enter at Least One Adult", { position: "right bottom", className: 'error' ,style: 'bootstrap' });
+               //Notify("Please Enter at Least One Adult", "danger");
+               alertify.error('Please Enter at Least One Adult');
+           }
+           else {
+                var model = { ItemType: 'TR', ItemID: Vehicle, Rate: Rate, Count: VehicleCount };
+
+               $.ajax({
+                   type: 'POST',
+                   url: "http://localhost:55185/Reservationapi/AddtoCart",
+                   data: JSON.stringify(model),
+                   contentType: "application/json; charset=utf-8",
+                   dataType: "json",
+                   success: function (result) {
+                       debugger;
+
+                       if (result > 0)
+                       {
+                           window.location.href = '@Url.Action("ViewCart", "Reservation")';
+                       }
+                   }
+               });
+           }
+       }
+    </script>
+)
+
+@section scriptLocation{
+    <script src="~/js/Alertify/alertify.min.js"></script>
+}

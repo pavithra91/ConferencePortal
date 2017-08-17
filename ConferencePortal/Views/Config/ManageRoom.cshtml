@@ -1,0 +1,62 @@
+﻿@model ConferencePortal.Models.ConfigModel
+@{
+    ViewBag.Title = "ManageRoom";
+    Layout = "~/Views/Shared/_SystemLayout.cshtml";
+}
+
+@using (Html.BeginForm("SaveRoom", "Config"))
+{
+
+    <div style="float:left; width:100%; height:auto; padding-top:10px; padding-bottom:60px;">
+        <section class="common_section">
+            <div class="container">
+
+                @Html.HiddenFor(m => Model._room.RoomID)
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class='input-container'>
+                            <label for="txtHotelName" class="labelcls">Hotel Name: </label>
+                            <div class="icon-ph"><i class="icon-envelope"></i></div>
+                                    @Html.TextBoxFor(m => Model._hotel.HotelName, new { @name = "txtHotelName", @placeholder = "Hotel Name", @class = "form-control", @id = "txtHotelName" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class='input-container'>
+                            <label for="txtRoomName" class="labelcls">Room Name: </label>
+                            <div class="icon-ph"><i class="icon-envelope"></i></div>
+                            <section class="col col-6">
+                                <span id="spryHotelCode">
+                                    @Html.TextBoxFor(m => Model._room.RoomName, new { @name = "txtRoomName", @placeholder = "Room Name", @class = "form-control", @id = "txtRoomName" })
+                                    <span class="selectRequiredMsg">Please select an item.</span>
+                                </span>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gap gap-small"></div>
+
+                @*<div class='input-container'>
+                    <div class="gap gap-small"></div>
+                    <div class="checkbox-inline">
+                        <label>
+                            Active:  @Html.CheckBoxFor(m => Model._hotel.IsActive, new { @name = "checkbox", @class = "i-check", @checked = "checked", @id = "checkbox3" })
+                        </label>
+                    </div>
+                </div>*@
+
+                <div class="container" style="padding-top:10px; padding-left:0px;">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                    <input type="button" class="btn btn-primary" value="Back" onclick="location.href='@Url.Action("RoomManager", "Config")'" />
+                </div>
+
+
+            </div>
+        </section>
+    </div>
+
+}
+

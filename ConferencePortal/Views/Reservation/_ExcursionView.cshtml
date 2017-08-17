@@ -36,9 +36,7 @@
                             </select>
                         </div>                       
 
-                        @*<a href="#" onclick="AddtoCartFunc(@items.ExcursionsID, @items.Price)" aria-controls="@items.ExcursionsID">*@
-                            <input type="button" onclick="AddtoCartFunc(@items.ExcursionsID, @items.Price)" aria-controls="@items.ExcursionsID" class="btn btn-primary" value="Book Now" />
-                        @*</a>*@                        
+                            <input type="button" onclick="AddtoCartFunc(@items.ExcursionsID, @items.Price)" aria-controls="@items.ExcursionsID" class="btn btn-primary" value="Book Now" />                   
                     </div>
                 </div>
         </li>
@@ -50,7 +48,8 @@
 
 @Html.Script(    
     @<script>
-       function AddtoCartFunc(Excursion, Rate) {
+        function AddtoCartFunc(Excursion, Rate) {
+            debugger;
            var AdultCount = document.getElementById("AdultCount").value;
            if (AdultCount == 0) {
                //$.notify("Please Enter at Least One Adult", { position: "right bottom", className: 'error' ,style: 'bootstrap' });
@@ -58,8 +57,6 @@
                alertify.error('Please Enter at Least One Adult');
            }
            else {
-               //window.location.href = '@Url.Action("AddtoCart", "Reservation")?ItemType=EX' + '&ItemID=' + Excursion + '&Rate=' + Rate + '&Count=' + AdultCount;
-
                var model = { ItemType: 'EX', ItemID: Excursion, Rate: Rate, Count: AdultCount };
 
                $.ajax({
@@ -70,17 +67,11 @@
                    dataType: "json",
                    success: function (result) {
                        debugger;
-                       var r = result;
 
-                       //if (result != null) {
-                       //    $.each(result, function () {
-                       //        $(".modal-body #txtShortDescription").val(this['shortdesc']);
-                       //        $(".modal-body #txtLongDescription").val(this['shortdesc']);
-                       //    });
-
-                       //} else {
-                       //    alert("fail");
-                       //}
+                       if (result > 0)
+                       {
+                           window.location.href = '@Url.Action("ViewCart", "Reservation")';
+                       }
                    }
                });
            }
@@ -101,4 +92,3 @@
 @section scriptLocation{
     <script src="~/js/Alertify/alertify.min.js"></script>
 }
-

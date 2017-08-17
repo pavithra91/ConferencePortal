@@ -1970,6 +1970,9 @@
     <Content Include="Views\Config\HotelManager.cshtml" />
     <Content Include="Views\Config\ManageHotel.cshtml" />
     <Content Include="Views\Config\ManageHotelDescription.cshtml" />
+    <Content Include="Views\Config\RoomManager.cshtml" />
+    <Content Include="Views\Config\ManageRoomDescription.cshtml" />
+    <Content Include="Views\Config\ManageRoom.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

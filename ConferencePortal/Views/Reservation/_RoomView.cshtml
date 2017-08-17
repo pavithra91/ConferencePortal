@@ -16,7 +16,6 @@
     @foreach (Room items in Model._room)
     {
         <li>
-            @*<a class="booking-item">*@
                 <div class="row">
                     <div class="col-md-3">
                         <img src="@items.RoomImage" alt="Image Alternative text" title="hotel 1" />
@@ -68,7 +67,7 @@
                         <br />
 
                         <div class="form-group form-group-select-plus" style="padding-top:10px;">
-                            <select name="test" id="@items.RoomID" class="form-control" style="width:66px;" onchange="myFunction(@items.RoomID)">                                
+                            <select name="test" id="@items.RoomID" class="form-control" style="width:66px;" onchange="drpOnchange(@items.RoomID)">                                
                                 @for (int i = 0; i < Model._roomAllotment.Where(w => w.RoomID == items.RoomID).Min(w => w.AvailableRooms); i++)
                                 {
                                     <option>@RoomCount</option>
@@ -91,7 +90,6 @@
         </div>
                     </div>
                 </div>
-            @*</a>*@
         </li>
         <hr style="border-color:#e27513;" />
     }
@@ -99,17 +97,46 @@
 
 @Html.Script(
     @<script>
-       function myFunction(a) {
-    var x = document.getElementById(a).value;
-    $("#roomCount").val(x);
-       }
-
-       function AddtoCartFunc(RoomID, RoomRate)
-       {
-           var RoomCount = document.getElementById("roomCount").value;
-           window.location.href = '@Url.Action("AddtoCart", "Reservation")?ItemType=AC' + '&ItemID=' + RoomID + '&Rate=' + RoomRate + '&Count=' + RoomCount;
+        function drpOnchange(countVal) {
+            var x = document.getElementById(countVal).value;
+            $("#roomCount").val(x);
        }
     </script>
 )
 
+@Html.Script(
+    @<script>
+        function AddtoCartFunc(Room, Rate) {
+            debugger;
+            var RoomCount = document.getElementById("roomCount").value;
+            if (RoomCount == 0) {
+               //$.notify("Please Enter at Least One Adult", { position: "right bottom", className: 'error' ,style: 'bootstrap' });
+               //Notify("Please Enter at Least One Adult", "danger");
+               alertify.error('Please Enter at Least One Adult');
+           }
+           else {
+                var model = { ItemType: 'AC', ItemID: Room, Rate: Rate, Count: RoomCount };
 
+               $.ajax({
+                   type: 'POST',
+                   url: "http://localhost:55185/Reservationapi/AddtoCart",
+                   data: JSON.stringify(model),
+                   contentType: "application/json; charset=utf-8",
+                   dataType: "json",
+                   success: function (result) {
+                       debugger;
+
+                       if (result > 0)
+                       {
+                           window.location.href = '@Url.Action("ViewCart", "Reservation")';
+                       }
+                   }
+               });
+           }
+       }
+    </script>
+)
+
+@section scriptLocation{
+    <script src="~/js/Alertify/alertify.min.js"></script>
+}

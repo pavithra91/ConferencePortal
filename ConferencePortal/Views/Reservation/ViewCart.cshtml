@@ -131,7 +131,12 @@
                                         <p class="booking-item-description">Velit ornare pulvinar integer dapibus imperdiet quisque class tortor vestibulum mollis diam</p>
                                     </div>
                                     <div class="col-md-3">
-                                        @*<span class="booking-item-price-from">Total Cost</span>*@<span class="booking-item-price">@TRRates.Currency.Currency1 @items.Price</span><span>/ @items.NoOfVehicles Vehicles</span>@*<span class="btn btn-primary">Add to Trip</span>*@
+                                        <span class="booking-item-price">@TRRates.Currency.Currency1 @items.Price</span>
+
+                                        <div>
+                                            <i class="fa fa-car"></i> No of Rooms : @items.NoOfVehicles
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             </a>
@@ -163,7 +168,11 @@
                         <p class="booking-item-description">@items.Excursion.ShortDescription</p>
                     </div>
                     <div class="col-md-3">
-                        @*<span class="booking-item-price-from">average</span>*@<span class="booking-item-price">@items.Excursion.Currency.Currency1 @items.Price</span><span>/@items.NoOfAdults person</span>@*<span class="btn btn-primary">Add to Trip</span>*@
+                        <span class="booking-item-price">@items.Excursion.Currency.Currency1 @items.Price</span>
+                        
+                        <div>
+                            <i class="fa fa-male"></i> No of Adults : @items.NoOfAdults
+                        </div>
                     </div>
                 </div>
             </a>

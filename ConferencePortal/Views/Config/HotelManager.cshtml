@@ -19,6 +19,7 @@
                 <th>Hotel Code</th>
                 <th>Hotel Name</th>
                 <th>Star Rating</th>
+                <th>Status</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -36,12 +37,26 @@
                 @items.StarRaing
             </td>
             <td>
+                @if (items.IsActive)
+                {
+                    <i class="fa fa-check" style="color:lightgreen; padding-left:15px;"></i>
+                }
+                else
+                {
+                    <i class="fa fa-times" style="color:red; padding-left:15px;"></i>
+                }
+            </td>
+            <td>
                 <a href="@Url.Action("ManageHotel","Config", new { id = items.HotelID })" style="margin-left:20px;">
                     <i class="fa fa-pencil-square-o"></i>
                 </a>
 
+                <a href="@Url.Action("RoomManager","Config", new { id = items.HotelID })" style="margin-left:10px;">
+                    <i class="fa fa-home"></i>
+                </a>
+
                 <a href="@Url.Action("ManageHotelDescription","Config", new { id = items.HotelID })" style="margin-left:10px;">
-                    <i class="fa fa-pencil-square-o"></i>
+                    <i class="fa fa-book"></i>
                 </a>                
             </td>
         </tr>
