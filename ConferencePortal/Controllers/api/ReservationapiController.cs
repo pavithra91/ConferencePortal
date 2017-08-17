@@ -1,4 +1,5 @@
-﻿using ConferencePortal.Models;
+﻿using ConferencePortal.App_Code;
+using ConferencePortal.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -154,6 +155,79 @@ namespace ConferencePortal.Controllers.api
             {
                 return 0;
             }
+        }
+
+        [HttpPost]
+        public ActionResult AddtoCart(ShoppingCart objModel)
+        {
+            ShoppingCart cart = TempData["ShoppingCart"] as ShoppingCart;
+
+            if (objModel.ItemType == "AC")
+            {
+                TempDate TempDates = TempData["TempDate"] as TempDate;
+
+                DateTime start = TempDates.StartDate;
+                DateTime end = TempDates.EndDate;
+
+                int roomCount = Convert.ToInt32(objModel.Count);
+                double RoomPrice = Convert.ToDouble(objModel.Rate);
+                Room room = _context.Rooms.Find(Convert.ToInt32(objModel.ItemID));
+                RoomsInCart rmCart = new RoomsInCart();
+                rmCart.room = room;
+                rmCart.Price = RoomPrice * roomCount;
+                rmCart.NoofRooms = roomCount;
+                rmCart.CheckInDate = start;
+                rmCart.CheckOutDate = end;
+
+                //cart.TotalPrice += RoomPrice * roomCount;
+                cart.Rooms.Add(rmCart);
+            }
+            else if (objModel.ItemType == "TR")
+            {
+                TempDate TempDates = TempData["TRTempDate"] as TempDate;
+
+                int VehicleCount = Convert.ToInt32(objModel.Count);
+                double Price = Convert.ToDouble(objModel.Rate);
+                TransportRate TR = _context.TransportRates.Find(Convert.ToInt32(objModel.ItemID));
+                TransportInCart TRCart = new TransportInCart();
+                TRCart.TR = TR;
+                TRCart.Price = Price;// * VehicleCount;
+                TRCart.NoOfVehicles = VehicleCount;
+                if (TR.Transport.Type == "A")
+                {
+                    TRCart.TransportType = "A";
+                    TRCart.PickUpDate = TempDates.StartDate.ToShortDateString();
+                    TRCart.PickUpTime = TempDates.PickUpTime;
+                }
+                else
+                {
+                    TRCart.TransportType = "D";
+                    TRCart.PickUpDate = TempDates.EndDate.ToShortDateString();
+                    TRCart.PickUpTime = TempDates.DropOffTime;
+                }
+
+                cart.TotalPrice += Price;// * VehicleCount;
+                cart.Transport.Add(TRCart);
+            }
+
+            else if (objModel.ItemType == "EX")
+            {
+                TempDate TempDates = TempData["EXTempDate"] as TempDate;
+
+                int AdultCount = Convert.ToInt32(objModel.Count);
+                double Price = Convert.ToDouble(objModel.Rate);
+                Excursion EX = _context.Excursions.Find(Convert.ToInt32(objModel.ItemID));
+                ExcursionsInCart Excursions = new ExcursionsInCart();
+                Excursions.ExcursionDate = TempDates.StartDate;
+                Excursions.Excursion = EX;
+                Excursions.Price = Price; // * AdultCount;
+                Excursions.NoOfAdults = AdultCount;
+
+                cart.TotalPrice += Price; // * AdultCount;
+                cart.Excursion.Add(Excursions);
+            }
+
+            return RedirectToAction("ViewCart", "Reservation", new { ConventionID = cart.ConventionID });
         }
     }
 }

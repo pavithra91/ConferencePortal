@@ -36,7 +36,6 @@
                             </select>
                         </div>                       
 
-
                         @*<a href="#" onclick="AddtoCartFunc(@items.ExcursionsID, @items.Price)" aria-controls="@items.ExcursionsID">*@
                             <input type="button" onclick="AddtoCartFunc(@items.ExcursionsID, @items.Price)" aria-controls="@items.ExcursionsID" class="btn btn-primary" value="Book Now" />
                         @*</a>*@                        
@@ -59,7 +58,31 @@
                alertify.error('Please Enter at Least One Adult');
            }
            else {
-               window.location.href = '@Url.Action("AddtoCart", "Reservation")?ItemType=EX' + '&ItemID=' + Excursion + '&Rate=' + Rate + '&Count=' + AdultCount;
+               //window.location.href = '@Url.Action("AddtoCart", "Reservation")?ItemType=EX' + '&ItemID=' + Excursion + '&Rate=' + Rate + '&Count=' + AdultCount;
+
+               var model = { ItemType: 'EX', ItemID: Excursion, Rate: Rate, Count: AdultCount };
+
+               $.ajax({
+                   type: 'POST',
+                   url: "http://localhost:55185/Reservationapi/AddtoCart",
+                   data: JSON.stringify(model),
+                   contentType: "application/json; charset=utf-8",
+                   dataType: "json",
+                   success: function (result) {
+                       debugger;
+                       var r = result;
+
+                       //if (result != null) {
+                       //    $.each(result, function () {
+                       //        $(".modal-body #txtShortDescription").val(this['shortdesc']);
+                       //        $(".modal-body #txtLongDescription").val(this['shortdesc']);
+                       //    });
+
+                       //} else {
+                       //    alert("fail");
+                       //}
+                   }
+               });
            }
        }
     </script>

@@ -16,6 +16,11 @@ namespace ConferencePortal.Models
         public List<TransportInCart> Transport = new List<TransportInCart>();
         public List<ExcursionsInCart> Excursion = new List<ExcursionsInCart>();
         public double TotalPrice { get; set; }
+
+        public string ItemType { get; set; }
+        public string ItemID { get; set; }
+        public string Rate { get; set; }
+        public string Count { get; set; }
     }
 
     public class RoomsInCart
