@@ -95,6 +95,9 @@ namespace ConferencePortal.Controllers
             {
                 ConfigModel objModel = new ConfigModel();
                 objModel.roomList = _rooms;
+                Hotel _hotel = _context.Hotels.Where(w => w.HotelID == id).FirstOrDefault();
+                TempData["Hotel"] = _hotel;
+                //objModel._hotel = _hotel;
                 return View(objModel);
             }
             return null;
@@ -107,6 +110,8 @@ namespace ConferencePortal.Controllers
             //    return RedirectToAction("Index", "Account");
             //}
 
+            Hotel _hotel = TempData["Hotel"] as Hotel;
+
             if (id > 0)
             {
                 Room _room = _context.Rooms.Where(m => m.RoomID == id).FirstOrDefault();
@@ -114,6 +119,7 @@ namespace ConferencePortal.Controllers
                 {
                     ConfigModel objModel = new ConfigModel();
                     objModel._room = _room;
+                    objModel._hotel = _hotel;
                     return View(objModel);
                 }
             }
@@ -121,6 +127,7 @@ namespace ConferencePortal.Controllers
             {
                 ConfigModel objModel = new ConfigModel();
                 objModel._room = new Room();
+                objModel._hotel = _hotel;
 
                 return View(objModel);
             }
@@ -129,18 +136,13 @@ namespace ConferencePortal.Controllers
 
         public ActionResult ManageRoomDescription(string id)
         {
+            Hotel _hotel = TempData["Hotel"] as Hotel;
             int _roomID = Convert.ToInt32(id);
             ConfigModel objModel = new ConfigModel();
+            objModel._hotel = _hotel;
             objModel._roomDescriptionList = new List<RoomDescription>();
             objModel._roomDescriptionList = _context.RoomDescriptions.Where(w => w.RoomID == _roomID).ToList();
             return View(objModel);
-        }
-
-
-        public ActionResult SaveDescription(FormCollection objModel)
-        {
-
-            return null;
         }
 
         [HttpPost]
@@ -178,14 +180,67 @@ namespace ConferencePortal.Controllers
             return null;
         }
 
+        public ActionResult TariffManager()
+        {
+            Session["ConventionID"] = "1";
+            if (Session["ConventionID"] == null)
+            {
+                return null;
+            }
+
+            ConfigModel objModel = new ConfigModel();
+            objModel.hotelList = _context.ConventionHotels.Where(w => w.ConventionID == 1).Select(w => w.Hotel).ToList();
+            return View(objModel);
+        }
+
         public ActionResult AllotmentManager()
         {
             return View();
         }
 
-        public ActionResult RateManager()
+        public ActionResult RateManager(int id)
         {
-            return View();
+            //if (Session["UserID"] == null)
+            //{
+            //    return RedirectToAction("Index", "Account");
+            //}
+
+            List<Room> _rooms = _context.Rooms.Where(m => m.HotelID == id).ToList();
+            List<Room> list = _context.RoomRates.Where(w => w.ConventionID == 1).Select(w=>w.Room).Distinct().ToList();
+
+            if (_rooms != null)
+            {
+                ConfigModel objModel = new ConfigModel();
+                objModel.roomList = _rooms;
+                Hotel _hotel = _context.Hotels.Where(w => w.HotelID == id).FirstOrDefault();
+                TempData["Hotel"] = _hotel;
+                objModel.RateAlreadyAssign = list;
+                return View(objModel);
+            }
+            return null;
+        }
+
+        public ActionResult ManageRoomTariff(int Id, bool? ShowDeleted)
+        {
+            Session["ConventionID"] = "1";
+            if (Session["ConventionID"] == null)
+            {
+                return null;
+            }
+
+            TariffModel objModel = new TariffModel();
+            objModel._room = _context.Rooms.Where(w => w.RoomID == Id).FirstOrDefault();
+            if (ShowDeleted == null || ShowDeleted == false)
+            {
+                objModel._roomRateList = _context.RoomRates.Where(w => w.RoomID == Id && w.Status == true).ToList();
+                objModel._showDeleted = false;
+            }
+            else
+            {
+                objModel._showDeleted = true;
+                objModel._roomRateList = _context.RoomRates.Where(w => w.RoomID == Id).ToList();
+            }
+            return View(objModel);
         }
 
         [HttpPost]

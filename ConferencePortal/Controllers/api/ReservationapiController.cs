@@ -132,9 +132,9 @@ namespace ConferencePortal.Controllers.api
                 if(objModel.DescID==0)
                 {
                     HotelDescription objHotelDesc = new HotelDescription();
-                    objHotelDesc.HotelID = objModel.HotelID;
+                    objHotelDesc.HotelID = objModel.ID;
                     objHotelDesc.ShortDescription = objModel.ShortDescription;
-                    objHotelDesc.LognDescription = objHotelDesc.LognDescription;
+                    objHotelDesc.LognDescription = objModel.LongDescription;
 
                     _context.HotelDescriptions.Add(objHotelDesc);
                     _context.SaveChanges();
@@ -144,12 +144,65 @@ namespace ConferencePortal.Controllers.api
                 {
                     HotelDescription objHotelDesc = _context.HotelDescriptions.Where(w=>w.DescID == objModel.DescID).FirstOrDefault();
                     objHotelDesc.ShortDescription = objModel.ShortDescription;
-                    objHotelDesc.LognDescription = objHotelDesc.LognDescription;
+                    objHotelDesc.LognDescription = objModel.LongDescription;
 
                     _context.Entry(objHotelDesc).State = System.Data.Entity.EntityState.Modified;
                     _context.SaveChanges();
                     return 1;
                 }                
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+        [HttpGet]
+        public virtual JsonResult GetRoomDescription(string DescriptionID)
+        {
+            try
+            {
+                int ID = Convert.ToInt32(DescriptionID);
+
+                return Json(
+                    _context.RoomDescriptions.Where(w => w.DescID == ID).Select(x => new
+                    {
+                        shortdesc = x.ShortDescription,
+                        longdesc = x.LognDescription
+                    }), JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        [HttpPost]
+        public virtual int SaveRoomDescription(ConfigModel objModel)
+        {
+            try
+            {
+                if (objModel.DescID == 0)
+                {
+                    RoomDescription objRoomDesc = new RoomDescription();
+                    objRoomDesc.RoomID = objModel.ID;
+                    objRoomDesc.ShortDescription = objModel.ShortDescription;
+                    objRoomDesc.LognDescription = objRoomDesc.LognDescription;
+
+                    _context.RoomDescriptions.Add(objRoomDesc);
+                    _context.SaveChanges();
+                    return 1;
+                }
+                else
+                {
+                    RoomDescription objRoomDesc = _context.RoomDescriptions.Where(w => w.DescID == objModel.DescID).FirstOrDefault();
+                    objRoomDesc.ShortDescription = objModel.ShortDescription;
+                    objRoomDesc.LognDescription = objRoomDesc.LognDescription;
+
+                    _context.Entry(objRoomDesc).State = System.Data.Entity.EntityState.Modified;
+                    _context.SaveChanges();
+                    return 1;
+                }
             }
             catch
             {
@@ -241,5 +294,68 @@ namespace ConferencePortal.Controllers.api
             return 0;
             //return RedirectToAction("ViewCart", "Reservation", new { ConventionID = cart.ConventionID });
         }
+        [HttpGet]
+        public virtual JsonResult GetRoomRate(string RateID)
+        {
+            try
+            {
+                int ID = Convert.ToInt32(RateID);
+
+                var test = _context.RoomRates.Where(w => w.RateID == ID).Select(w => new { w.RateDate, w.Rate, w.Allotment });
+                double rate = (double)test.FirstOrDefault().Rate;
+                int allotment = (int)test.FirstOrDefault().Allotment;
+                string date = test.FirstOrDefault().RateDate.ToShortDateString().ToString();
+                return Json(new { rateDate = date, roomRate = rate, allotment = allotment }, JsonRequestBehavior.AllowGet);
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
+        }
+
+        [HttpPost]
+        public virtual int SaveRoomRate(TariffModel objModel)
+        {
+            try
+            {
+                int ConventionID = Convert.ToInt32(Session["ConventionID"].ToString());
+                if (objModel.ID == 0)
+                {
+                    int noOfDays = (int)(objModel.EndDate - objModel.RateDate).TotalDays;
+                    for(int i=0; i<noOfDays; i++)
+                    {
+                        RoomRate objRoomRate = new RoomRate();
+                        objRoomRate.RoomID = objModel.RoomID;
+                        objRoomRate.RateDate = objModel.RateDate;
+                        objRoomRate.Rate = objModel.RoomRate;
+                        objRoomRate.Allotment = objModel.Allotment;
+                        objRoomRate.Status = true;
+                        objRoomRate.ConventionID = ConventionID;
+                        //objRoomRate.Occupancy = _context.Rooms.Where(w => w.RoomID == objModel.RoomID).FirstOrDefault().RoomOccupancy.OccupancyLevel;
+
+                        _context.RoomRates.Add(objRoomRate);
+                        _context.SaveChanges();
+                        objModel.RateDate = objModel.RateDate.AddDays(1);
+                    }
+                    return 1;
+                }
+                else
+                {
+                    RoomRate objRoomRate = _context.RoomRates.Where(w => w.RateID == objModel.ID).FirstOrDefault();
+                    objRoomRate.RateDate = objModel.RateDate;
+                    objRoomRate.Rate = objModel.RoomRate;
+                    objRoomRate.Allotment = objModel.Allotment;
+
+                    _context.Entry(objRoomRate).State = System.Data.Entity.EntityState.Modified;
+                    _context.SaveChanges();
+                    return 1;
+                }
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
     }
 }

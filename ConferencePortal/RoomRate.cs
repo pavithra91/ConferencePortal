@@ -22,12 +22,12 @@ namespace ConferencePortal
     
         public int RateID { get; set; }
         public Nullable<int> ConventionID { get; set; }
-        public Nullable<System.DateTime> RateDate { get; set; }
+        public System.DateTime RateDate { get; set; }
         public Nullable<int> RoomID { get; set; }
         public Nullable<int> Allotment { get; set; }
         public Nullable<int> Occupancy { get; set; }
         public Nullable<double> Rate { get; set; }
-        public Nullable<int> Status { get; set; }
+        public bool Status { get; set; }
     
         public virtual Configuration Configuration { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

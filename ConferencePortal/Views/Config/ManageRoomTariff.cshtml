@@ -1,0 +1,72 @@
+﻿@model ConferencePortal.Models.TariffModel
+@{
+    ViewBag.Title = "ManageRoomTariff";
+    Layout = "~/Views/Shared/_SystemLayout.cshtml";
+}
+
+<h2>@Model._room.RoomName</h2>
+
+<div class="global-wrap">
+    <div class="top-area show-onload" style="height: auto; padding-top: 20px; padding-bottom: 50px;">
+        <div class="bg-holder full">
+            <div class="bg-mask"></div>
+            <div class="bg-parallax" style=""></div>
+            <div class="bg-content">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-md-8">
+                            <div class="search-tabs search-tabs-bg mt50">
+                                <div class="tabbable" id="ttt">
+                                    <ul class="nav nav-tabs" id="myTab">
+                                        <li class="active">
+                                            <a href="#tab-1" data-toggle="tab"><i class="fa fa-building-o"></i> <span>Room Rates</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="#tab-4" data-toggle="tab"><i class="fa fa-car"></i> <span>Room Allotment</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="#tab-5" data-toggle="tab"><i class="fa fa-bolt"></i> <span>Room Facilities</span></a>
+                                        </li>
+                                    </ul>
+
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade in active" id="tab-1">
+                                            @Html.Partial("_AssignRoomRatesView", Model)
+                                        </div>
+
+                                        <div class="tab-pane fade" id="tab-4">
+                                            @*@Html.Partial("_ImageSettingsView")*@
+                                        </div>
+
+                                        <div class="tab-pane fade" id="tab-5">
+                                            @*@Html.Partial("_OtherSettingsView")*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scriptLocation{
+    <script>
+        $('input[type=checkbox]').change(function () {
+            if ($(this).prop("checked")) {
+                //do the stuff that you would do when 'checked'
+                location.href = '@Url.Action("ManageRoomTariff", "Config", new { id = 1, ShowDeleted = true })'               
+                return;
+            }
+            else
+            {
+                location.href = '@Url.Action("ManageRoomTariff", "Config", new { id = 1, ShowDeleted = false })'
+            }
+
+            //Here do the stuff you want to do when 'unchecked'
+        });
+    </script>
+}

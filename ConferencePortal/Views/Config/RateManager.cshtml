@@ -1,8 +1,9 @@
 ﻿@model ConferencePortal.Models.ConfigModel
 @{
-    ViewBag.Title = "RoomManager";
+    ViewBag.Title = "RateManager";
     Layout = "~/Views/Shared/_SystemLayout.cshtml";
 }
+
 
 
 <div class="container">
@@ -19,7 +20,7 @@
             <tr>
                 <th>Room ID</th>
                 <th>Room Name</th>
-                @*<th>Status</th>*@
+                <th>Rate Assign</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -33,26 +34,22 @@
                     <td>
                         @items.RoomName
                     </td>
-                    @*<td>
-                        @if (items.IsActive)
-                {
+                    <td>
+                        @if (Model.RateAlreadyAssign.Exists(w => w.RoomID == items.RoomID))
+                        {
                             <i class="fa fa-check" style="color:lightgreen; padding-left:15px;"></i>
                         }
                         else
                         {
                             <i class="fa fa-times" style="color:red; padding-left:15px;"></i>
                         }
-                    </td>*@
+                    </td>
                     <td>
-                        <a href="@Url.Action("ManageRoom","Config", new { id = items.RoomID })" style="margin-left:20px;">
-                            <i class="fa fa-pencil-square-o"></i>
+                        <a href="@Url.Action("ManageRoomTariff","Config", new { id = items.RoomID })" style="margin-left:20px;">
+                            <i class="fa fa-home"></i>
                         </a>
 
-                        @*<a href="@Url.Action("RoomManager","Config", new { id = items.RoomID })" style="margin-left:10px;">
-                            <i class="fa fa-home"></i>
-                        </a>*@
-
-                        <a href="@Url.Action("ManageRoomDescription","Config", new { id = items.RoomID })" style="margin-left:10px;">
+                        <a href="@Url.Action("ManageRoomAllotment","Config", new { id = items.RoomID })" style="margin-left:10px;">
                             <i class="fa fa-book"></i>
                         </a>
                     </td>
@@ -64,4 +61,8 @@
 @section scriptLocation{
     <script src="~/js/Config/HotelManaager.js"></script>
 }
+
+
+
+
 

@@ -5,30 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="conferencedbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="_GEM_Payment">
-          <Key>
-            <PropertyRef Name="AUTOID" />
-          </Key>
-          <Property Name="AUTOID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="BookingID" Type="varchar" MaxLength="20" />
-          <Property Name="ClientName" Type="nvarchar" MaxLength="500" />
-          <Property Name="Email" Type="nvarchar" MaxLength="200" />
-          <Property Name="MobileNo" Type="nvarchar" MaxLength="100" />
-          <Property Name="HotelName" Type="nvarchar" MaxLength="100" />
-          <Property Name="RoomCategory" Type="nvarchar" MaxLength="100" />
-          <Property Name="NoofRooms" Type="int" />
-          <Property Name="NoofNights" Type="int" />
-          <Property Name="TotalPrice" Type="float" />
-          <Property Name="Remarks" Type="nvarchar" MaxLength="500" />
-          <Property Name="TransportRequired" Type="bit" />
-          <Property Name="VehicleType" Type="nvarchar" MaxLength="50" />
-          <Property Name="FlightNo" Type="nvarchar" MaxLength="500" />
-          <Property Name="ArrivalDate" Type="date" />
-          <Property Name="ArrivalTime" Type="time" Precision="7" />
-          <Property Name="DepartureDate" Type="date" />
-          <Property Name="DepartureTime" Type="time" Precision="7" />
-          <Property Name="ConventionType" Type="nvarchar" MaxLength="500" />
-        </EntityType>
         <EntityType Name="Allotments">
           <Key>
             <PropertyRef Name="AllotmentID" />
@@ -292,12 +268,12 @@ warning 6002: The table/view 'conferencedb.dbo.Reservation' does not have a prim
           </Key>
           <Property Name="RateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ConventionID" Type="int" />
-          <Property Name="RateDate" Type="date" />
+          <Property Name="RateDate" Type="date" Nullable="false" />
           <Property Name="RoomID" Type="int" />
           <Property Name="Allotment" Type="int" />
           <Property Name="Occupancy" Type="int" />
           <Property Name="Rate" Type="float" />
-          <Property Name="Status" Type="int" />
+          <Property Name="Status" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="RoomReservation">
           <Key>
@@ -857,7 +833,6 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="conferencedbModelStoreContainer">
-          <EntitySet Name="_GEM_Payment" EntityType="Self._GEM_Payment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Allotments" EntityType="Self.Allotments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BookingConfig" EntityType="Self.BookingConfig" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
@@ -1060,7 +1035,6 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
     <edmx:ConceptualModels>
       <Schema Namespace="conferencedbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="conferencedbEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="C_GEM_Payment" EntityType="conferencedbModel.C_GEM_Payment" />
           <EntitySet Name="Allotments" EntityType="conferencedbModel.Allotment" />
           <EntitySet Name="BookingConfigs" EntityType="conferencedbModel.BookingConfig" />
           <EntitySet Name="Clients" EntityType="conferencedbModel.Client" />
@@ -1238,30 +1212,6 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
             <End Role="TransportRate" EntitySet="TransportRates" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="C_GEM_Payment">
-          <Key>
-            <PropertyRef Name="AUTOID" />
-          </Key>
-          <Property Name="AUTOID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BookingID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="ClientName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="MobileNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="HotelName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="RoomCategory" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="NoofRooms" Type="Int32" />
-          <Property Name="NoofNights" Type="Int32" />
-          <Property Name="TotalPrice" Type="Double" />
-          <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="TransportRequired" Type="Boolean" />
-          <Property Name="VehicleType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FlightNo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="ArrivalDate" Type="DateTime" Precision="0" />
-          <Property Name="ArrivalTime" Type="Time" Precision="7" />
-          <Property Name="DepartureDate" Type="DateTime" Precision="0" />
-          <Property Name="DepartureTime" Type="Time" Precision="7" />
-          <Property Name="ConventionType" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="Allotment">
           <Key>
             <PropertyRef Name="AllotmentID" />
@@ -1542,12 +1492,12 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
           </Key>
           <Property Name="RateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ConventionID" Type="Int32" />
-          <Property Name="RateDate" Type="DateTime" Precision="0" />
+          <Property Name="RateDate" Type="DateTime" Precision="0" Nullable="false" />
           <Property Name="RoomID" Type="Int32" />
           <Property Name="Allotment" Type="Int32" />
           <Property Name="Occupancy" Type="Int32" />
           <Property Name="Rate" Type="Double" />
-          <Property Name="Status" Type="Int32" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Configuration" Relationship="conferencedbModel.Convention_fk_RoomRates" FromRole="RoomRate" ToRole="Configuration" />
           <NavigationProperty Name="RoomAllotments" Relationship="conferencedbModel.RoomRate_fk" FromRole="RoomRate" ToRole="RoomAllotment" />
           <NavigationProperty Name="Room" Relationship="conferencedbModel.RoomID_fk_RoomRates" FromRole="RoomRate" ToRole="Room" />
@@ -2159,31 +2109,6 @@ warning 6035: The relationship 'BookingID_fk_Registration' has columns that are 
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="conferencedbModelStoreContainer" CdmEntityContainer="conferencedbEntities">
-          <EntitySetMapping Name="C_GEM_Payment">
-            <EntityTypeMapping TypeName="conferencedbModel.C_GEM_Payment">
-              <MappingFragment StoreEntitySet="_GEM_Payment">
-                <ScalarProperty Name="ConventionType" ColumnName="ConventionType" />
-                <ScalarProperty Name="DepartureTime" ColumnName="DepartureTime" />
-                <ScalarProperty Name="DepartureDate" ColumnName="DepartureDate" />
-                <ScalarProperty Name="ArrivalTime" ColumnName="ArrivalTime" />
-                <ScalarProperty Name="ArrivalDate" ColumnName="ArrivalDate" />
-                <ScalarProperty Name="FlightNo" ColumnName="FlightNo" />
-                <ScalarProperty Name="VehicleType" ColumnName="VehicleType" />
-                <ScalarProperty Name="TransportRequired" ColumnName="TransportRequired" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
-                <ScalarProperty Name="NoofNights" ColumnName="NoofNights" />
-                <ScalarProperty Name="NoofRooms" ColumnName="NoofRooms" />
-                <ScalarProperty Name="RoomCategory" ColumnName="RoomCategory" />
-                <ScalarProperty Name="HotelName" ColumnName="HotelName" />
-                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
-                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
-                <ScalarProperty Name="AUTOID" ColumnName="AUTOID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Allotments">
             <EntityTypeMapping TypeName="conferencedbModel.Allotment">
               <MappingFragment StoreEntitySet="Allotments">

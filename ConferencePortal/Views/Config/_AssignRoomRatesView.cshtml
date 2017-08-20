@@ -1,0 +1,251 @@
+﻿@model ConferencePortal.Models.TariffModel
+
+@Html.HiddenFor(m => Model._room.RoomID, new { @id = "RoomID" })
+<div class="container">
+    <div class="container" style="padding-bottom:20px;">
+        <input type="button" class="btn btn-primary" value="Back" onclick="location.href='@Url.Action("Index", "Config")'" />
+
+        <input type="button" class="open-AddBookDialog btn btn-primary" style="float:left; padding-right:10px;" value="Add New" data-toggle="modal" data-id="0" data-target="#myModal" />
+
+        @*<div class="checkbox-inline">
+            <label>
+                <input class="i-check" name="ShowExpired" id="ShowExpired" type="checkbox" /> Show Expired
+            </label>
+        </div>*@
+
+        <div class="form-check">
+            <label class="form-check-label">
+                @if (Model._showDeleted)
+                {
+                    <input type="checkbox" class="form-check-input" checked name="ShowExpired" id="ShowExpired">
+                }
+                else
+                {
+                    <input type="checkbox" class="form-check-input" name="ShowExpired" id="ShowExpired">
+                }
+                Show Expired
+            </label>
+        </div>
+    </div>
+
+    <table id="example" class="display nowrap" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Start Date</th>
+                <th>Occupancy</th>
+                <th>Rate</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var items in Model._roomRateList)
+            {
+                <tr>
+                    <td>
+                        @items.RateDate.ToShortDateString()
+                    </td>
+                    <td>
+                        @items.Occupancy
+                    </td>
+                    <td>
+                        @items.Rate
+                    </td>
+                    <td>
+                        @if (items.Status)
+                        {
+                            <i class="fa fa-check" style="color:lightgreen; padding-left:15px;"></i>
+                        }
+                        else
+                        {
+                            <i class="fa fa-times" style="color:red; padding-left:15px;"></i>
+                        }
+                    </td>
+                    <td>
+                        <a href="#" class="open-AddBookDialog" data-toggle="modal" data-id="@items.RateID" data-target="#myModal">
+                            <i class="fa fa-pencil-square-o"></i>
+                        </a>
+
+                        <a href="@Url.Action("RoomManager", "Config", new { id = items.RateID })" style="margin-left:10px;">
+                            <i class="fa fa-home"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="container">
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Room Rate</h4>
+                    </div>
+                    <div class="modal-body">
+                        @*@if (Model.ID == 0)
+                        {*@
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-daterange" data-date-format="M d, yyyy">
+                                        <div class="form-group form-group-icon-left">
+                                            <i class="fa fa-calendar input-icon input-icon-highlight"></i>
+                                            <label>Start Date</label>
+                                            @if (Model.ID == 0)
+                                            {
+                                                <input class="form-control" name="start" id="start" readonly="readonly" type="text" />
+                                            }
+                                            else
+                                            {
+                                                <input class="form-control" disabled name="start" id="start" readonly="readonly" type="text" />
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6" id="endDateDiv">
+                                    <div class="input-daterange" data-date-format="M d, yyyy">
+                                        <div class="form-group form-group-icon-left">
+                                            <i class="fa fa-calendar input-icon input-icon-highlight"></i>
+                                            <label>End Date</label>
+                                            @if (Model.ID == 0)
+                                            {
+                                                <input class="form-control" name="end" id="end" readonly="readonly" type="text" />
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                @Html.HiddenFor(m => Model.ID, new { @id = "RateID" })
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class='input-container'>
+                                        <label for="txtLongDescription" class="labelcls">Room Rate: </label>
+                                        <div class="icon-ph"><i class="icon-envelope"></i></div>
+                                        @Html.TextBoxFor(m => Model._roomRate.Rate, new { @name = "txtRoomRate", @placeholder = "Room Rate", @class = "form-control", @id = "txtRoomRate" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class='input-container'>
+                                        <label for="txtAllotment" class="labelcls">Room Allotment: </label>
+                                        <div class="icon-ph"><i class="icon-envelope"></i></div>
+                                        @Html.TextBoxFor(m => Model._roomRate.Allotment, new { @name = "txtAllotment", @placeholder = "Room Allotment", @class = "form-control", @id = "txtAllotment" })
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnSave" class="btn btn-primary" data-dismiss="modal">Save</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Script(
+    @<script>
+        $(document).on("click", ".open-AddBookDialog", function () {
+            var rateID = $(this).data('id');
+            debugger;
+            //$('#DescID').val(descID);
+            if (rateID == 0) {
+                $('#RateID').val("0");
+                $(".modal-body #start").val('');
+                $(".modal-body #txtRoomRate").val('');
+                $(".modal-body #txtAllotment").val('');
+                $(".modal-body #endDateDiv").show();
+            }
+            else {
+                $(".modal-body #endDateDiv").hide();
+                $.ajax({
+                    type: 'GET',
+                    url: "http://localhost:55185/Reservationapi/GetRoomRate?RateID=" + rateID,
+                    data: JSON.stringify({ "UnitTypeID": 1 }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        debugger;
+                        var r = result;
+                        if (result != null) {
+                            $(".modal-body #start").val(result.rateDate);
+                            $(".modal-body #txtRoomRate").val(result.roomRate);
+                            $(".modal-body #txtAllotment").val(result.allotment);
+                            $(".modal-body #RateID").val(rateID);
+                        } else {
+                            alert("fail");
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        debugger;
+                        alert("error");
+                    }
+                });
+            }
+        });
+
+        $("#btnSave").click(function () {
+            debugger;
+            var _roomID = $('#RoomID').val();
+            var _rateID = $('#RateID').val();
+            var _rateDate = $('#start').val();
+            var _endRateDate = $('#end').val();
+            var _roomRate = $('#txtRoomRate').val();
+            var _allotment = $('#txtAllotment').val();
+
+            var model = { ID: _rateID, RoomID: _roomID, RateDate: _rateDate, EndDate: _endRateDate, RoomRate: _roomRate, Allotment: _allotment };
+
+            $.ajax({
+                type: 'POST',
+                url: "http://localhost:55185/Reservationapi/SaveRoomRate",
+                data: JSON.stringify(model),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    debugger;
+
+                    if (result == 1) {
+                        alertify.success('Save Description Successfully');
+                    }
+                    else {
+                        alertify.error('Error Occurred while Saving Data');
+                    }
+
+                    location.reload();
+                }
+            });
+        });
+    </script>
+)
+
+
+@Html.Script(
+    @<script src="~/js/Alertify/alertify.min.js"></script>
+)
+
+@section scriptLocation{
+    <script src="~/js/Config/HotelManaager.js"></script>
+    
+<script>
+    $('#ShowExpired').change(function () {
+        debugger;
+        if ($(this).is(":checked")) {
+            alert('changed');
+            var _roomID = $('#RoomID').val();
+            location.href = '@Url.Action("ManageRoomTariff", "Config", new { id = 1, ShowDeleted = true })'
+            return;
+        }
+        location.href = '@Url.Action("ManageRoomTariff", "Config", new { id = 1, ShowDeleted = false })'
+    });
+
+    debugger;
+
+
+</script>
+}

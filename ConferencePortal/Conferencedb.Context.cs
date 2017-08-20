@@ -25,7 +25,6 @@ namespace ConferencePortal
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<C_GEM_Payment> C_GEM_Payment { get; set; }
         public virtual DbSet<Allotment> Allotments { get; set; }
         public virtual DbSet<BookingConfig> BookingConfigs { get; set; }
         public virtual DbSet<Client> Clients { get; set; }

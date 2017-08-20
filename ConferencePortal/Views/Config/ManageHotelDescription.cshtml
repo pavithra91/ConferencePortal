@@ -59,8 +59,6 @@
             <div class="modal-dialog">
                 <!-- Modal content-->
                 <div class="modal-content">
-@*@using (Html.BeginForm("SaveDescription", "Config"))
-{*@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Hotel Description</h4>
@@ -95,11 +93,9 @@
                         </div> 
                     </div>
                     <div class="modal-footer">
-                        @*<input type="button" class="btn btn-primary" value="Save" onclick="location.href='@Url.Action("SaveDescription", "Config")'" />*@
                         <button type="button" id="btnSave" class="btn btn-primary" data-dismiss="modal">Save</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
-@*}*@
                 </div>
 
             </div>
@@ -117,7 +113,7 @@
             var _shortDescription = $('#txtShortDescription').val();
             var _longDescription = $('#txtLongDescription').val();
             
-            var model = { HotelID: _hotelID, DescID: _descID, ShortDescription: _shortDescription, LongDescription: _longDescription };
+            var model = { ID: _hotelID, DescID: _descID, ShortDescription: _shortDescription, LongDescription: _longDescription };
 
             $.ajax({
                 type: 'POST',
@@ -127,17 +123,17 @@
                 dataType: "json",
                 success: function (result) {
                     debugger;
-                    var r = result;
 
-                    //if (result != null) {
-                    //    $.each(result, function () {
-                    //        $(".modal-body #txtShortDescription").val(this['shortdesc']);
-                    //        $(".modal-body #txtLongDescription").val(this['shortdesc']);
-                    //    });
+                    if(result == 1)
+                    {
+                        alertify.success('Save Description Successfully');
+                    }
+                    else
+                    {
+                        alertify.error('Error Occurred while Saving Data');
+                    }
 
-                    //} else {
-                    //    alert("fail");
-                    //}
+                    location.reload();
                 }
             });
         });
@@ -180,9 +176,6 @@
             });
 
 </script>
+
+<script src="~/js/Alertify/alertify.min.js"></script>
 }
-
-
-
-
-

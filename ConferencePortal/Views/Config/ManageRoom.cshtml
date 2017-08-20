@@ -18,7 +18,7 @@
                         <div class='input-container'>
                             <label for="txtHotelName" class="labelcls">Hotel Name: </label>
                             <div class="icon-ph"><i class="icon-envelope"></i></div>
-                                    @Html.TextBoxFor(m => Model._hotel.HotelName, new { @name = "txtHotelName", @placeholder = "Hotel Name", @class = "form-control", @id = "txtHotelName" })
+                                    @Html.TextBoxFor(m => Model._hotel.HotelName, new { @name = "txtHotelName", @placeholder = "Hotel Name", @disabled = "disabled",  @class = "form-control", @id = "txtHotelName" })
                         </div>
                     </div>
 
@@ -50,7 +50,7 @@
                 <div class="container" style="padding-top:10px; padding-left:0px;">
                     <button type="submit" class="btn btn-primary">Submit</button>
 
-                    <input type="button" class="btn btn-primary" value="Back" onclick="location.href='@Url.Action("RoomManager", "Config")'" />
+                    <input type="button" class="btn btn-primary" value="Back" onclick="location.href='@Url.Action("RoomManager", "Config", new { id = Model._hotel.HotelID })'" />
                 </div>
 
 
