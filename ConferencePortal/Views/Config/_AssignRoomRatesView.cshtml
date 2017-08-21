@@ -3,9 +3,10 @@
 @Html.HiddenFor(m => Model._room.RoomID, new { @id = "RoomID" })
 <div class="container">
     <div class="container" style="padding-bottom:20px;">
+
         <input type="button" class="btn btn-primary" value="Back" onclick="location.href='@Url.Action("Index", "Config")'" />
 
-        <input type="button" class="open-AddBookDialog btn btn-primary" style="float:left; padding-right:10px;" value="Add New" data-toggle="modal" data-id="0" data-target="#myModal" />
+        <input type="button" class="open-AddBookDialog btn btn-primary" style="float:right; padding-right:10px;" value="Add New" data-toggle="modal" data-id="0" data-target="#myModal" />
 
         @*<div class="checkbox-inline">
             <label>

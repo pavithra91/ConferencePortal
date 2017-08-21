@@ -56,6 +56,12 @@
                                                     </li>
                                                 }
                                             }
+                                            @if (config.PackagesRequired == "Y")
+                                            {
+                                                <li class="active">
+                                                    <a href="#tab-6" data-toggle="tab"><i class="fa fa-building-o"></i> <span>Packages</span></a>
+                                                </li>
+                                            }
                                         </ul>
 
                                         <div class="tab-content">
@@ -85,6 +91,13 @@
                                                 <div class="tab-pane fade" id="tab-5">
 
                                                     @Html.Partial("_ExcursionSearchView", Model._excursion)
+                                                </div>
+                                            }
+                                            @if (config.PackagesRequired == "Y")
+                                            {
+                                                <div class="tab-pane fade" id="tab-6">
+
+                                                    @Html.Partial("_PackageSearchView", Model._excursion)
                                                 </div>
                                             }
                                         </div>
